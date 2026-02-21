@@ -127,6 +127,31 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   <body>
     <a href="#main-content" class="skip-nav">Skip to main content</a>
     <slot />
+    <script is:inline>
+      (function () {
+        function initReveal() {
+          var observer = new IntersectionObserver(
+            function (entries) {
+              entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                  entry.target.classList.add('visible');
+                  observer.unobserve(entry.target);
+                }
+              });
+            },
+            { threshold: 0.08, rootMargin: '0px 0px -40px 0px' }
+          );
+          document.querySelectorAll('.reveal').forEach(function (el) {
+            observer.observe(el);
+          });
+        }
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', initReveal);
+        } else {
+          initReveal();
+        }
+      })();
+    </script>
   </body>
 </html>
 
@@ -250,5 +275,25 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   ::selection {
     background: rgba(102, 126, 234, 0.3);
     color: var(--text-primary);
+  }
+
+  /* Scroll reveal */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
   }
 </style>

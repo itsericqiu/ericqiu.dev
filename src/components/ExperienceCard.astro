@@ -8,12 +8,13 @@ interface Props {
   logoSrc?: string;
   icon: string;
   invertOnDark?: boolean;
+  animDelay?: number;
 }
 
-const { company, roles, description, href, logoAlt, logoSrc, icon, invertOnDark = false } = Astro.props;
+const { company, roles, description, href, logoAlt, logoSrc, icon, invertOnDark = false, animDelay = 0 } = Astro.props;
 ---
 
-<a href={href} target="_blank" rel="noopener noreferrer" class="card">
+<a href={href} target="_blank" rel="noopener noreferrer" class="card reveal" style={`transition-delay: ${animDelay}ms`}>
   <div class="card-top">
     <div class="icon-col">
       <span class="icon-button">

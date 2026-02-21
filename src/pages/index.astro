@@ -136,11 +136,11 @@ for (let i = 0; i < experiences.length; i += 2) {
     <!-- Work Experience -->
     <section class="section" id="work">
       <div class="section-inner">
-        <h2 class="section-title">My Work</h2>
+        <h2 class="section-title reveal">My Work</h2>
         {experienceRows.map((row) => (
           <div class="card-grid">
-            {row.map((exp) => (
-              <ExperienceCard {...exp} />
+            {row.map((exp, i) => (
+              <ExperienceCard {...exp} animDelay={i * 120} />
             ))}
           </div>
         ))}
@@ -155,14 +155,14 @@ for (let i = 0; i < experiences.length; i += 2) {
     <!-- Education -->
     <section class="section" id="education">
       <div class="section-inner">
-        <h2 class="section-title">My Studies</h2>
+        <h2 class="section-title reveal">My Studies</h2>
         {education.map((edu) => <EducationCard {...edu} />)}
       </div>
     </section>
 
     <!-- Skills -->
     <section class="section skills-section" id="skills">
-      <div class="section-inner skills-inner">
+      <div class="section-inner skills-inner reveal">
         <div class="skills-left">
           <h2 class="skills-title">5+ years of experience.</h2>
         </div>
@@ -177,7 +177,7 @@ for (let i = 0; i < experiences.length; i += 2) {
     <!-- CTA -->
     <section class="section cta-section" id="contact">
       <div class="section-inner">
-        <div class="cta-card">
+        <div class="cta-card reveal">
           <h3 class="cta-heading">Let's chat!</h3>
           <p class="cta-text">
             I'd love to talk to you! Find my contact details on the next page
