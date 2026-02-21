@@ -38,8 +38,14 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={new URL(ogImage, Astro.site)} />
 
-    <!-- Favicon -->
+    <!-- Favicon & Manifest -->
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- Theme Color -->
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#6968F7" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -51,6 +57,10 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
     <!-- Boxicons -->
     <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" />
+
+    <!-- DNS Prefetch for external domains -->
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+    <link rel="dns-prefetch" href="https://unpkg.com" />
 
     <!-- JSON-LD Structured Data -->
     <script type="application/ld+json" set:html={JSON.stringify({
@@ -115,6 +125,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     </script>
   </head>
   <body>
+    <a href="#main-content" class="skip-nav">Skip to main content</a>
     <slot />
   </body>
 </html>
@@ -213,6 +224,24 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     max-width: 100%;
     height: auto;
     display: block;
+  }
+
+  .skip-nav {
+    position: absolute;
+    top: -100%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0.5rem 1.5rem;
+    background: var(--accent);
+    color: #ffffff;
+    border-radius: 0 0 8px 8px;
+    font-size: 0.875rem;
+    z-index: 200;
+    transition: top 0.2s;
+  }
+
+  .skip-nav:focus {
+    top: 0;
   }
 
   ::selection {
