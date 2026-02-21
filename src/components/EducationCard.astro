@@ -1,0 +1,124 @@
+---
+interface Props {
+  school: string;
+  program: string;
+  department: string;
+  dates: string;
+  courses: string[];
+  href: string;
+  logoAlt: string;
+  logoSrc?: string;
+  invertOnDark?: boolean;
+}
+
+const { school, program, department, dates, courses, href, logoAlt, logoSrc, invertOnDark = false } = Astro.props;
+---
+
+<div class="edu-row">
+  <div class="logo-col">
+    {logoSrc && (
+      <a href={href} target="_blank" rel="noopener noreferrer">
+        <img src={logoSrc} alt={logoAlt} class:list={["school-logo", { "invert-on-dark": invertOnDark }]} loading="lazy" />
+      </a>
+    )}
+  </div>
+  <div class="text-col">
+    <p class="info-line">
+      <strong class="school-name">{school}</strong>
+      <br />
+      <span class="department">{department}</span>
+    </p>
+    <p class="program-line">
+      {program} <span class="dates">{dates}</span>
+    </p>
+    <ul class="courses">
+      {courses.map((course) => (
+        <li>{course}</li>
+      ))}
+    </ul>
+  </div>
+</div>
+
+<style>
+  .edu-row {
+    display: flex;
+    gap: 30px;
+    padding: 20px 0;
+    width: 100%;
+    max-width: var(--max-width);
+  }
+
+  .logo-col {
+    flex: 0 0 33%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .school-logo {
+    max-width: 200px;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+
+  .text-col {
+    flex: 1;
+  }
+
+  .info-line {
+    font-size: 1.125rem;
+    line-height: 1.4;
+    margin-bottom: 0.5rem;
+  }
+
+  .school-name {
+    color: var(--text-primary);
+    font-size: 1.125rem;
+  }
+
+  .department {
+    color: var(--text-secondary);
+    font-size: 1.125rem;
+  }
+
+  .program-line {
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+    color: var(--text-primary);
+  }
+
+  .dates {
+    color: var(--accent-dark);
+  }
+
+  .courses {
+    list-style: disc;
+    padding-left: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .courses li {
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    line-height: 1.5;
+  }
+
+  @media (max-width: 640px) {
+    .edu-row {
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .logo-col {
+      flex: none;
+      justify-content: flex-start;
+    }
+
+    .school-logo {
+      max-width: 150px;
+    }
+  }
+</style>

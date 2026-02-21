@@ -1,0 +1,159 @@
+---
+const socialLinks = [
+  { label: "LinkedIn", href: "https://linkedin.com/in/eric-qiu" },
+  { label: "Instagram", href: "https://instagram.com/itsericqiu" },
+  { label: "GitHub", href: "https://github.com/itsericqiu" },
+];
+
+const year = new Date().getFullYear();
+---
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-bio">
+        <div class="bio-row">
+          <div class="avatar-col">
+            <img
+              src="/profile.jpg"
+              alt="Eric Qiu"
+              class="profile-photo"
+              width="77"
+              height="77"
+              loading="lazy"
+            />
+          </div>
+          <div class="bio-text-col">
+            <p class="bio-name">Eric Qiu</p>
+            <p class="bio-description">
+              Hailing from Hamilton, Ontario, I'm a graduate of the University of
+              Waterloo now based in New York City. I am committed to building
+              high-quality and impactful software, and like to take photos in my free
+              time.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="footer-links">
+        {socialLinks.map((link) => (
+          <p>
+            <a
+              href={link.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="social-link"
+            >
+              {link.label}
+            </a>
+          </p>
+        ))}
+        <p class="email-text">hello[at]ericqiu[dot]io</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="copyright">Copyright &copy; {year} Eric Qiu. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  footer {
+    margin-top: 2rem;
+  }
+
+  .footer-inner {
+    max-width: var(--footer-width);
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+  }
+
+  .footer-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .footer-bio {
+    flex: 1;
+  }
+
+  .bio-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .avatar-col {
+    flex-shrink: 0;
+  }
+
+  .profile-photo {
+    width: 77px;
+    height: 77px;
+    border-radius: 100px;
+    object-fit: cover;
+  }
+
+  .bio-text-col {
+    flex: 1;
+  }
+
+  .bio-name {
+    font-family: var(--font-mono);
+    font-weight: 400;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .bio-description {
+    font-family: var(--font-heading);
+    font-size: 0.8125rem;
+    color: var(--text-primary);
+    line-height: 1.6;
+    max-width: 480px;
+  }
+
+  .footer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    flex-shrink: 0;
+  }
+
+  .social-link {
+    font-size: 0.8125rem;
+    color: var(--text-secondary);
+    transition: color var(--transition);
+  }
+
+  .social-link:hover {
+    color: var(--text-primary);
+  }
+
+  .email-text {
+    font-size: 0.8125rem;
+    color: var(--text-secondary);
+  }
+
+  .footer-bottom {
+    padding-top: 1rem;
+  }
+
+  .copyright {
+    font-size: 0.8125rem;
+    color: var(--text-secondary);
+  }
+
+  @media (max-width: 640px) {
+    .footer-top {
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .bio-row {
+      flex-direction: column;
+    }
+  }
+</style>

@@ -1,0 +1,168 @@
+---
+const links = [
+  { label: "Github", href: "https://github.com/itsericqiu" },
+  { label: "LinkedIn", href: "https://linkedin.com/in/eric-qiu" },
+  { label: "Instagram", href: "https://instagram.com/itsericqiu" },
+];
+---
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="logo" aria-label="Home">
+      <span class="logo-icon">☕</span>
+      <span class="logo-text">Eric Qiu</span>
+    </a>
+    <div class="nav-right">
+      <div class="nav-links">
+        {links.map((link) => (
+          <a href={link.href} target="_blank" rel="noopener noreferrer" class="nav-link">
+            {link.label}
+          </a>
+        ))}
+      </div>
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+        <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<script is:inline>
+  (function() {
+    var btn = document.getElementById('theme-toggle');
+    if (!btn) return;
+
+    function getEffectiveTheme() {
+      var explicit = document.documentElement.getAttribute('data-theme');
+      if (explicit === 'dark' || explicit === 'light') return explicit;
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+
+    function updateIcons() {
+      var isDark = getEffectiveTheme() === 'dark';
+      btn.querySelector('.icon-sun').style.display = isDark ? 'block' : 'none';
+      btn.querySelector('.icon-moon').style.display = isDark ? 'none' : 'block';
+    }
+
+    // Set initial icon state
+    updateIcons();
+
+    btn.addEventListener('click', function() {
+      var next = getEffectiveTheme() === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+      updateIcons();
+    });
+
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function() {
+      if (!localStorage.getItem('theme')) {
+        updateIcons();
+      }
+    });
+  })();
+</script>
+
+<style>
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    height: 60px;
+    max-height: 60px;
+    background: var(--bg-primary);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    transition: background var(--transition);
+  }
+
+  .nav-inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-weight: 400;
+    font-size: 1rem;
+    transition: opacity var(--transition);
+  }
+
+  .logo:hover {
+    opacity: 0.7;
+  }
+
+  .logo-icon {
+    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+    font-size: 28px;
+    line-height: 1;
+  }
+
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 1.75rem;
+  }
+
+  .nav-link {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    transition: color var(--transition);
+    font-weight: 400;
+  }
+
+  .nav-link:hover {
+    color: var(--text-primary);
+  }
+
+  .theme-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: none;
+    background: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: color var(--transition);
+    line-height: 1;
+  }
+
+  .theme-toggle:hover {
+    color: var(--text-primary);
+  }
+
+  /* JS controls icon visibility via inline style */
+  .icon-sun, .icon-moon {
+    display: none;
+  }
+
+  @media (max-width: 480px) {
+    .nav-links {
+      gap: 1rem;
+    }
+
+    .nav-link {
+      font-size: 0.8rem;
+    }
+
+    .logo-text {
+      display: none;
+    }
+  }
+</style>

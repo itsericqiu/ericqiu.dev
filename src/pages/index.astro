@@ -1,0 +1,382 @@
+---
+import Base from "../layouts/Base.astro";
+import Nav from "../components/Nav.astro";
+import Hero from "../components/Hero.astro";
+import ExperienceCard from "../components/ExperienceCard.astro";
+import EducationCard from "../components/EducationCard.astro";
+import Footer from "../components/Footer.astro";
+
+const experiences = [
+  {
+    company: "Bloomberg LP",
+    roles: [
+      { title: "Senior Software Engineer", dates: "Jun 2021 – Present" },
+      { title: "Software Engineering Co-op", dates: "Jan – Apr 2020" },
+    ],
+    description:
+      "Working in Software Infrastructure to architect and develop managed multi-tenant distributed DR-1 compliant cloud services in use by over 300 teams across all businesses and powering mission-critical applications at Bloomberg Engineering and Global Data.",
+    href: "https://www.bloomberg.com/company/values/tech-at-bloomberg/",
+    logoSrc: "/logos/bloomberg.png",
+    logoAlt: "Bloomberg LP logo",
+    icon: "bx bx-cloud",
+    invertOnDark: true,
+  },
+  {
+    company: "Addepar",
+    roles: [{ title: "Software Engineering Co-op", dates: "Sep – Dec 2020" }],
+    description:
+      "Designed and developed full-stack implementation of 2FA auditing and management tools for firm administrators within Addepar's portfolio analysis and financial graph product for Family Offices, Private Offices, and RIAs.",
+    href: "https://addepar.com",
+    logoSrc: "/logos/addepar.png",
+    logoAlt: "Addepar logo",
+    icon: "bx bx-lock-alt",
+    invertOnDark: true,
+  },
+  {
+    company: "Postmates",
+    roles: [{ title: "Software Engineering Co-op", dates: "May – Aug 2019" }],
+    description:
+      "Architected and led multi-developer team in tandem with Product Design to introduce automated self-service support workflows for Postmates Couriers including implementations in CRM, database, server job queue management in Kubernetes-based backend, and in-app/in-browser experience.",
+    href: "https://postmates.com",
+    logoSrc: "/logos/postmates.png",
+    logoAlt: "Postmates logo",
+    icon: "bx bx-support",
+    invertOnDark: true,
+  },
+  {
+    company: "Bloomberg LP",
+    roles: [
+      { title: "Software Engineering Co-op", dates: "Sep – Dec 2018" },
+    ],
+    description:
+      "Trained and productionized machine learning model along with accompanying data pipeline to serve a new hybrid higher-quality and lower-latency data source for implied equity options volatility surfaces in Terminal and for Enterprise Data clients. Optimized Derivatives Data applications for performance.",
+    href: "https://www.bloomberg.com/company/values/tech-at-bloomberg/",
+    logoSrc: "/logos/bloomberg.png",
+    logoAlt: "Bloomberg LP logo",
+    icon: "bx bx-line-chart",
+    invertOnDark: true,
+  },
+  {
+    company: "BMO Capital Markets",
+    roles: [
+      { title: "Quantitative Developer Co-op", dates: "Jan – Apr 2018" },
+    ],
+    description:
+      "Prototyped proof-of-concept for blockchain-based bond-issuance platform analogous to ICOs for the Fixed Income, Currencies & Commodities desk. Assisted Data Cognition desk in work on solutions for mining trade and transaction data from Bloomberg Terminal and Symphony messages.",
+    href: "https://capitalmarkets.bmo.com/en/",
+    logoSrc: "/logos/bmo.png",
+    logoAlt: "BMO Capital Markets logo",
+    icon: "bx bxs-bank",
+    invertOnDark: false,
+  },
+  {
+    company: "LCBO",
+    roles: [{ title: "Full Stack Developer Co-op", dates: "May – Aug 2017" }],
+    description:
+      "Worked on full-stack development of in-store 3D inventory and product mapping solution for customer and sales representatives. Visited retail locations piloting the solution to conduct user research. Prototyped solutions for technology-based KYC applications and age verification.",
+    href: "https://www.lcbonext.com",
+    logoSrc: "/logos/lcbo.png",
+    logoAlt: "LCBO logo",
+    icon: "bx bx-store",
+    invertOnDark: true,
+  },
+];
+
+const education = [
+  {
+    school: "University of Waterloo",
+    program: "Bachelor of Computer Science",
+    department: "David R. Cheriton School of Computer Science",
+    dates: "2016 – 2021",
+    courses: [
+      "Data-Intensive Distributed Systems",
+      "Human-Computer Interaction",
+      "Artificial Intelligence",
+      "Software Specification & Testing",
+    ],
+    href: "https://uwaterloo.ca",
+    logoSrc: "/logos/waterloo.png",
+    logoAlt: "University of Waterloo logo",
+    invertOnDark: false,
+  },
+  {
+    school: "Pohang University of Science & Technology (POSTECH)",
+    program: "International Exchange Student",
+    department: "Department of Computer Science & Engineering",
+    dates: "2019",
+    courses: ["Compilers", "Automata Theory", "Computer Vision"],
+    href: "https://postech.ac.kr/eng/",
+    logoSrc: "/logos/postech.png",
+    logoAlt: "POSTECH logo",
+    invertOnDark: false,
+  },
+];
+
+const skills = [
+  { name: "Distributed Systems Design", gradient: "unicorn" },
+  { name: "Full-Stack Systems Development", gradient: "melon" },
+  { name: "Human-Computer Interaction", gradient: "water" },
+];
+
+// Pair experiences into rows of 2
+const experienceRows: typeof experiences[] = [];
+for (let i = 0; i < experiences.length; i += 2) {
+  experienceRows.push(experiences.slice(i, i + 2));
+}
+---
+
+<Base
+  title="Eric Qiu — Senior Software Engineer"
+  description="Senior Software Engineer based in New York City at Bloomberg Engineering. University of Waterloo CS graduate specializing in distributed systems, full-stack development, and cloud infrastructure."
+>
+  <Nav />
+  <main>
+    <Hero />
+
+    <!-- Work Experience -->
+    <section class="section" id="work">
+      <div class="section-inner">
+        <h2 class="section-title">My Work</h2>
+        {experienceRows.map((row) => (
+          <div class="card-grid">
+            {row.map((exp) => (
+              <ExperienceCard {...exp} />
+            ))}
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Divider -->
+    <div class="divider-wrapper">
+      <hr class="divider" />
+    </div>
+
+    <!-- Education -->
+    <section class="section" id="education">
+      <div class="section-inner">
+        <h2 class="section-title">My Studies</h2>
+        {education.map((edu) => <EducationCard {...edu} />)}
+      </div>
+    </section>
+
+    <!-- Skills -->
+    <section class="section skills-section" id="skills">
+      <div class="section-inner skills-inner">
+        <div class="skills-left">
+          <h2 class="skills-title">5+ years of experience.</h2>
+        </div>
+        <div class="skills-right">
+          {skills.map((skill) => (
+            <p class={`skill-text gradient-${skill.gradient}`}>{skill.name}</p>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="section cta-section" id="contact">
+      <div class="section-inner">
+        <div class="cta-card">
+          <h3 class="cta-heading">Let's chat!</h3>
+          <p class="cta-text">
+            I'd love to talk to you! Find my contact details on the next page
+          </p>
+          <div class="cta-button-wrapper">
+            <a
+              href="https://ericqiu.io"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="cta-button"
+            >
+              💬 <span class="cta-button-text"><strong>Chat with me →</strong></span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .section {
+    padding: 20px 25px;
+  }
+
+  .section-inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+  }
+
+  .section-title {
+    font-family: var(--font-heading);
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    padding: 8px 0;
+  }
+
+  /* Work cards — 2-column grid */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    margin-bottom: 30px;
+  }
+
+  @media (max-width: 768px) {
+    .card-grid {
+      grid-template-columns: 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+  }
+
+  /* Divider */
+  .divider-wrapper {
+    max-width: var(--max-width);
+    margin: 1rem auto;
+    padding: 0 25px;
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  /* Skills — black bg, 2-column */
+  .skills-section {
+    background: #000000;
+    padding: 40px 25px;
+  }
+
+  .skills-inner {
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+  }
+
+  .skills-left {
+    flex: 1;
+  }
+
+  .skills-title {
+    font-family: var(--font-mono);
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #ffffff;
+    padding: 8px 0;
+  }
+
+  .skills-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .skill-text {
+    font-size: 1.5rem;
+    font-weight: 400;
+    line-height: 1.4;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .gradient-unicorn {
+    background: var(--gradient-unicorn);
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+
+  .gradient-melon {
+    background: var(--gradient-melon);
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+
+  .gradient-water {
+    background: var(--gradient-water);
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+
+  @media (max-width: 768px) {
+    .skills-inner {
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .skill-text {
+      font-size: 1.2rem;
+    }
+  }
+
+  /* CTA */
+  .cta-section {
+    padding: 20px 25px 40px;
+  }
+
+  .cta-card {
+    background: var(--gradient-water);
+    border-radius: 10px;
+    box-shadow: var(--card-shadow);
+    padding: 40px 30px;
+    text-align: center;
+    max-width: var(--max-width);
+    margin: 0 auto;
+  }
+
+  .cta-heading {
+    font-family: var(--font-heading);
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 0.5rem;
+  }
+
+  .cta-text {
+    font-family: var(--font-sans);
+    color: #ffffff;
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+  }
+
+  .cta-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.75rem 1.5rem;
+    background: var(--bg-primary);
+    color: #06C1FF;
+    border-radius: 999px;
+    font-size: 0.95rem;
+    box-shadow: var(--button-shadow);
+    transition: all var(--transition);
+  }
+
+  .cta-button-text {
+    font-family: var(--font-heading);
+  }
+
+  .cta-button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 14px 24px -10px #6E79D6;
+  }
+
+  @media (max-width: 640px) {
+    .section-title {
+      font-size: 1.4rem;
+    }
+
+    .cta-heading {
+      font-size: 1.5rem;
+    }
+
+    .cta-card {
+      padding: 30px 20px;
+    }
+  }
+</style>

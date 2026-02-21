@@ -1,0 +1,157 @@
+---
+interface Props {
+  company: string;
+  roles: { title: string; dates: string }[];
+  description: string;
+  href: string;
+  logoAlt: string;
+  logoSrc?: string;
+  icon: string;
+  invertOnDark?: boolean;
+}
+
+const { company, roles, description, href, logoAlt, logoSrc, icon, invertOnDark = false } = Astro.props;
+---
+
+<a href={href} target="_blank" rel="noopener noreferrer" class="card">
+  <div class="card-top">
+    <div class="icon-col">
+      <span class="icon-button">
+        <i class={icon}></i>
+      </span>
+    </div>
+    <div class="title-col">
+      <h3 class="company-name">{company}</h3>
+    </div>
+  </div>
+  <div class="roles">
+    {roles.map((role) => (
+      <p class="role-line">
+        <span class="role-title">{role.title}</span>
+        {" "}
+        <span class="role-dates">{role.dates}</span>
+      </p>
+    ))}
+  </div>
+  <p class="description">{description}</p>
+  {logoSrc && (
+    <div class="logo-wrapper">
+      <img src={logoSrc} alt={logoAlt} class:list={["company-logo", { "invert-on-dark": invertOnDark }]} loading="lazy" />
+    </div>
+  )}
+</a>
+
+<style>
+  .card {
+    display: block;
+    padding: 20px 25px;
+    background: var(--bg-card);
+    border-radius: 10px;
+    box-shadow: var(--card-shadow);
+    transition: all var(--transition);
+    min-height: 300px;
+  }
+
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0px 8px 12px -2px rgba(16,24,40,0.05), 0px 20px 24px -4px rgba(16,24,40,0.12);
+  }
+
+  .card-top {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .icon-col {
+    flex-shrink: 0;
+  }
+
+  .icon-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 999px;
+    background: var(--accent);
+    color: #ffffff;
+    font-size: 1.25rem;
+    box-shadow: var(--button-shadow);
+  }
+
+  .title-col {
+    flex: 1;
+  }
+
+  .company-name {
+    font-family: var(--font-mono);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .roles {
+    margin-bottom: 0.75rem;
+  }
+
+  .role-line {
+    font-size: 1.125rem;
+    line-height: 1.4;
+  }
+
+  .role-title {
+    color: var(--text-secondary);
+  }
+
+  .role-dates {
+    color: var(--accent-dark);
+  }
+
+  .description {
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    line-height: 1.65;
+    margin-bottom: 1rem;
+  }
+
+  .logo-wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 0.5rem 0;
+  }
+
+  .company-logo {
+    max-width: 280px;
+    width: 50%;
+    height: auto;
+    object-fit: contain;
+    opacity: 0.7;
+    transition: opacity var(--transition);
+  }
+
+  .card:hover .company-logo {
+    opacity: 0.9;
+  }
+
+  @media (max-width: 768px) {
+    .card {
+      min-height: auto;
+    }
+
+    .role-line {
+      font-size: 1rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .card {
+      padding: 16px 20px;
+    }
+
+    .company-logo {
+      max-width: 180px;
+    }
+  }
+</style>
