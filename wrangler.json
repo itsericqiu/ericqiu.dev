@@ -1,0 +1,11 @@
+{
+	"name": "ericqiu-dev",
+	"compatibility_date": "2025-02-21",
+	"compatibility_flags": ["nodejs_compat"],
+	"assets": {
+		"directory": "./dist"
+	},
+	"observability": {
+		"enabled": true
+	}
+}
