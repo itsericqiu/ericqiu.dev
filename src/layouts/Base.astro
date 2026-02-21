@@ -169,7 +169,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     --bg-secondary: #f9fafb;
     --bg-card: #f9fafb;
     --bg-card-hover: #f0f0f0;
-    --bg-nav: rgba(255, 255, 255, 0.85);
+    --bg-nav: rgba(255, 255, 255, 0.95);
     --text-primary: #111827;
     --text-secondary: #6b7280;
     --text-muted: #9ca3af;
@@ -257,19 +257,22 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   .skip-nav {
     position: absolute;
     top: -100%;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 0.5rem 1.5rem;
-    background: var(--accent);
-    color: #ffffff;
-    border-radius: 0 0 8px 8px;
-    font-size: 0.875rem;
+    left: 1rem;
+    padding: 0.4rem 0.75rem;
+    background: var(--bg-card);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-subtle);
+    border-radius: 6px;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
     z-index: 200;
-    transition: top 0.2s;
+    transition: top 0.15s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   }
 
   .skip-nav:focus {
-    top: 0;
+    top: 0.5rem;
+    outline: none;
   }
 
   ::selection {
