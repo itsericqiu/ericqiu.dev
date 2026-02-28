@@ -50,7 +50,7 @@ const year = new Date().getFullYear();
       </div>
     </div>
     <div class="footer-bottom">
-      <p class="copyright">Copyright &copy; {year} Eric Qiu. All rights reserved.</p>
+      <p class="copyright">&copy; {year} Eric Qiu</p>
     </div>
   </div>
 </footer>
@@ -100,10 +100,12 @@ const year = new Date().getFullYear();
   }
 
   .bio-name {
-    font-family: var(--font-mono);
-    font-weight: 400;
-    font-size: 1rem;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.125rem;
+    letter-spacing: -0.02em;
     margin-bottom: 0.5rem;
+    font-optical-sizing: auto;
   }
 
   .bio-description {
@@ -124,11 +126,16 @@ const year = new Date().getFullYear();
   .social-link {
     font-size: 0.8125rem;
     color: var(--text-secondary);
-    transition: color var(--transition);
+    background-image: linear-gradient(var(--accent), var(--accent));
+    background-repeat: no-repeat;
+    background-position: 0% 100%;
+    background-size: 0% 1px;
+    transition: color 0.3s var(--transition-reveal), background-size 0.3s var(--transition-reveal);
   }
 
   .social-link:hover {
     color: var(--text-primary);
+    background-size: 100% 1px;
   }
 
   .social-link:focus-visible {
@@ -139,16 +146,18 @@ const year = new Date().getFullYear();
 
   .email-text {
     font-size: 0.8125rem;
+    font-weight: 700;
     color: var(--text-secondary);
   }
 
   .footer-bottom {
-    padding-top: 1rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-subtle);
   }
 
   .copyright {
     font-size: 0.8125rem;
-    color: var(--text-secondary);
+    color: var(--text-muted);
   }
 
   @media (max-width: 640px) {

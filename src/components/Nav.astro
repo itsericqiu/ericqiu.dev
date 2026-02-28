@@ -88,19 +88,19 @@ const links = [
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    font-family: var(--font-mono);
-    font-weight: 700;
     font-size: 1.125rem;
-    transition: opacity var(--transition);
   }
 
-  .logo:hover {
-    opacity: 0.7;
+  .logo-text {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    font-optical-sizing: auto;
   }
 
   .logo-icon {
     font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
-    font-size: 30px;
+    font-size: 22px;
     line-height: 1;
     -webkit-font-smoothing: auto;
     font-variant-emoji: emoji;
@@ -119,14 +119,15 @@ const links = [
 
   .nav-link {
     font-family: var(--font-mono);
-    font-size: 1rem;
+    font-size: 0.875rem;
+    letter-spacing: 0.04em;
     color: var(--text-secondary);
     font-weight: 400;
     background-image: linear-gradient(var(--text-primary), var(--text-primary));
     background-repeat: no-repeat;
     background-position: 0% 100%;
     background-size: 0% 1px;
-    transition: color var(--transition), background-size 0.3s var(--transition-reveal);
+    transition: color 0.3s var(--transition-reveal), background-size 0.3s var(--transition-reveal);
   }
 
   .nav-link:hover {
@@ -155,12 +156,13 @@ const links = [
     background: none;
     color: var(--text-secondary);
     cursor: pointer;
-    transition: color var(--transition);
+    transition: color 0.3s var(--transition-reveal), transform 0.3s var(--transition-reveal);
     line-height: 1;
   }
 
   .theme-toggle:hover {
     color: var(--text-primary);
+    transform: rotate(20deg);
   }
 
   /* JS controls icon visibility via inline style */

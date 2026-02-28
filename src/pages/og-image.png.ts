@@ -8,6 +8,9 @@ export const GET: APIRoute = async () => {
   const frauncesData = fs.readFileSync(
     path.join(process.cwd(), "src/assets/fraunces-800.ttf")
   );
+  const frauncesItalicData = fs.readFileSync(
+    path.join(process.cwd(), "src/assets/fraunces-800-italic.ttf")
+  );
   const spaceMonoData = fs.readFileSync(
     path.join(process.cwd(), "src/assets/space-mono-400.ttf")
   );
@@ -93,6 +96,7 @@ export const GET: APIRoute = async () => {
                         props: {
                           style: {
                             fontFamily: "Fraunces",
+                            fontStyle: "italic",
                             fontSize: "96px",
                             fontWeight: 800,
                             color: "#F0EBE0",
@@ -134,6 +138,12 @@ export const GET: APIRoute = async () => {
           data: frauncesData,
           weight: 800,
           style: "normal",
+        },
+        {
+          name: "Fraunces",
+          data: frauncesItalicData,
+          weight: 800,
+          style: "italic",
         },
         {
           name: "Space Mono",

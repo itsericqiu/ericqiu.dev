@@ -52,11 +52,12 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=optional"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=optional"
       rel="stylesheet"
     />
 
-    <!-- DNS Prefetch for external domains -->
+    <!-- DNS Prefetch / Preconnect for external domains -->
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
     <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
 
     <!-- JSON-LD Structured Data -->
@@ -172,8 +173,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     --bg-card:       #EDEBE3;
     --bg-nav:        rgba(245, 240, 232, 0.72);
     --text-primary:  #111111;
-    --text-secondary:#5A5650;
-    --text-muted:    #6D6A62;
+    --text-secondary:#4A4642;
+    --text-muted:    #5E5B54;
     --accent:        #7E5F28;
     --accent-dark:   #6A5020;
     --border-subtle: #D8D4CC;
@@ -263,7 +264,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     background: var(--accent);
     z-index: 200;
     pointer-events: none;
-    transition: width 0.1s linear;
   }
 
   .skip-nav {
@@ -292,18 +292,15 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     color: var(--text-primary);
   }
 
-  /* Clip-path scroll reveal */
+  /* Scroll reveal */
   .reveal-entry {
-    clip-path: inset(0 0 100% 0);
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(12px);
     transition:
-      clip-path 0.6s var(--transition-reveal),
       opacity 0.6s var(--transition-reveal),
       transform 0.6s var(--transition-reveal);
   }
   .reveal-entry.visible {
-    clip-path: inset(0 0 0% 0);
     opacity: 1;
     transform: translateY(0);
   }
@@ -321,8 +318,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
   /* Hero line entrance */
   @keyframes line-reveal {
-    from { clip-path: inset(0 0 100% 0); opacity: 0; transform: translateY(10px); }
-    to   { clip-path: inset(0 0 0% 0);   opacity: 1; transform: translateY(0); }
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
   }
 
 
@@ -338,14 +335,12 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
   @media (prefers-reduced-motion: reduce) {
     .reveal-entry, .reveal {
-      clip-path: none;
       opacity: 1;
       transform: none;
       transition: none;
     }
     .hero-kicker, .hero-bio, .hero-cta, .hero-line {
       animation: none;
-      clip-path: none;
       opacity: 1;
       transform: none;
     }

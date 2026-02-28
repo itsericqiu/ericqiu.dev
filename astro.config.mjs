@@ -8,4 +8,10 @@ const site = process.env.CF_PAGES_BRANCH === "main"
 export default defineConfig({
   site,
   integrations: [sitemap()],
+  server: { host: true },
+  vite: {
+    server: {
+      allowedHosts: true,
+    },
+  },
 });
