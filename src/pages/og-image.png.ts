@@ -54,14 +54,14 @@ export const GET: APIRoute = async () => {
                   props: {
                     style: {
                       fontFamily: "Space Mono",
-                      fontSize: "20px",
+                      fontSize: "24px",
                       fontWeight: 400,
                       color: "#D4A574",
                       letterSpacing: "0.06em",
                       textTransform: "uppercase",
                       marginBottom: "32px",
                     },
-                    children: "Senior Software Engineer — New York City",
+                    children: "Senior Software Engineer // New York City",
                   },
                 },
                 // Name block
@@ -111,7 +111,7 @@ export const GET: APIRoute = async () => {
                   props: {
                     style: {
                       fontFamily: "Space Mono",
-                      fontSize: "18px",
+                      fontSize: "22px",
                       fontWeight: 400,
                       color: "#5A5650",
                       letterSpacing: "0.03em",
