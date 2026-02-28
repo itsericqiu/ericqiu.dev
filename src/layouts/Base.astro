@@ -325,9 +325,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     to   { clip-path: inset(0 0 0% 0);   opacity: 1; transform: translateY(0); }
   }
 
-  /* Page load fade */
-  @keyframes body-fadein { from { opacity: 0; } to { opacity: 1; } }
-  body { animation: body-fadein 0.3s ease forwards; }
 
   /* Animated link underline */
   .link-underline {
@@ -356,6 +353,5 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       background-size: 0% 1px;
       transition: none;
     }
-    body { animation: none; }
   }
 </style>
