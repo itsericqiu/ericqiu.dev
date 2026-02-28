@@ -112,16 +112,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       gtag('js', new Date());
       gtag('config', 'G-40921B4C5L');
     </script>
-    <!-- Theme initialization (runs before paint to prevent flash) -->
-    <script is:inline>
-      (function() {
-        var saved = localStorage.getItem('theme');
-        if (saved) {
-          document.documentElement.setAttribute('data-theme', saved);
-        }
-        // If no saved preference, the CSS prefers-color-scheme media query handles it
-      })();
-    </script>
   </head>
   <body>
     <div id="scroll-progress"></div>

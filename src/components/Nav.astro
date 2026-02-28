@@ -51,14 +51,11 @@ const links = [
     btn.addEventListener('click', function() {
       var next = getEffectiveTheme() === 'dark' ? 'light' : 'dark';
       document.documentElement.setAttribute('data-theme', next);
-      localStorage.setItem('theme', next);
       updateIcons();
     });
 
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function() {
-      if (!localStorage.getItem('theme')) {
-        updateIcons();
-      }
+      updateIcons();
     });
   })();
 </script>
