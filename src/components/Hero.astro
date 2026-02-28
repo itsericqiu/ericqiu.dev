@@ -121,18 +121,20 @@
   @media (max-width: 768px) {
     .hero-content {
       flex-direction: column;
-      text-align: center;
+      align-items: flex-start;
       gap: 16px;
       min-height: auto;
     }
 
     .hero-image {
       flex: none;
-      width: 60%;
+      width: 55%;
+      align-self: center;
     }
 
     .hero-text {
       flex: none;
+      width: 100%;
     }
 
     h1 {
@@ -141,6 +143,14 @@
 
     .subtitle {
       font-size: 1.35rem;
+    }
+
+    .cta-button {
+      display: flex;
+      width: 100%;
+      justify-content: center;
+      text-align: center;
+      box-sizing: border-box;
     }
   }
 </style>
