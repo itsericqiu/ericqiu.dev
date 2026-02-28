@@ -8,8 +8,8 @@
       <img
         src="/coffee-3d.png"
         alt="Eric Qiu — Software Engineer based in New York City"
-        width="348"
-        height="305"
+        width="480"
+        height="421"
       />
     </div>
     <div class="hero-text">
@@ -24,7 +24,8 @@
           rel="noopener noreferrer"
           class="cta-button"
         >
-          📷 <strong>I play with cameras in my spare time →</strong>
+          <span class="btn-text">📷 <strong>I play with cameras in my spare time</strong></span>
+          <span class="btn-arrow">→</span>
         </a>
       </div>
     </div>
@@ -42,8 +43,8 @@
     margin: 0 auto;
     display: flex;
     align-items: center;
-    gap: 30px;
-    min-height: 500px;
+    gap: 40px;
+    min-height: 560px;
   }
 
   .hero-image {
@@ -54,7 +55,7 @@
 
   .hero-image img {
     width: 100%;
-    max-width: 348px;
+    max-width: 480px;
     height: auto;
     object-fit: contain;
   }
@@ -65,7 +66,7 @@
 
   h1 {
     font-family: var(--font-sans);
-    font-size: 3.5rem;
+    font-size: 4.5rem;
     font-weight: 700;
     color: #ffffff;
     margin-bottom: 0.75rem;
@@ -74,7 +75,7 @@
 
   .subtitle {
     font-family: var(--font-heading);
-    font-size: 1.75rem;
+    font-size: 2.25rem;
     color: #ffffff;
     line-height: 1.4;
     margin-bottom: 2rem;
@@ -102,7 +103,7 @@
   .cta-button {
     display: inline-flex;
     align-items: center;
-    gap: 0.25rem;
+    gap: 0.75rem;
     padding: 0.75rem 1.5rem;
     background: #ffffff;
     color: #000000;
@@ -111,6 +112,15 @@
     font-size: 0.95rem;
     box-shadow: 0 10px 20px -10px #6E79D6;
     transition: all var(--transition);
+  }
+
+  .btn-text {
+    flex: 1;
+  }
+
+  .btn-arrow {
+    flex-shrink: 0;
+    line-height: 1;
   }
 
   .cta-button:hover {
@@ -128,7 +138,7 @@
 
     .hero-image {
       flex: none;
-      width: 55%;
+      width: 65%;
       align-self: center;
     }
 
@@ -138,18 +148,16 @@
     }
 
     h1 {
-      font-size: 2.25rem;
+      font-size: 2.75rem;
     }
 
     .subtitle {
-      font-size: 1.35rem;
+      font-size: 1.5rem;
     }
 
     .cta-button {
       display: flex;
       width: 100%;
-      justify-content: center;
-      text-align: center;
       box-sizing: border-box;
     }
   }
