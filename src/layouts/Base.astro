@@ -39,7 +39,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta name="twitter:image" content={new URL(ogImage, Astro.site)} />
 
     <!-- Favicon & Manifest -->
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.png" type="image/png" sizes="256x256" />
     <link rel="manifest" href="/manifest.json" />
 
     <!-- Theme Color -->
@@ -51,7 +51,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Libre+Caslon+Text:wght@400;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=optional"
       rel="stylesheet"
     />
 
@@ -91,6 +91,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         "https://linkedin.com/in/eric-qiu",
         "https://instagram.com/itsericqiu"
       ],
+      "description": "Senior Software Engineer at Bloomberg LP specializing in distributed systems and cloud infrastructure. University of Waterloo CS graduate based in New York City.",
+      "image": "https://ericqiu.dev/profile.jpg",
       "knowsAbout": [
         "Distributed Systems",
         "Full-Stack Development",
@@ -125,8 +127,21 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     </script>
   </head>
   <body>
+    <div id="scroll-progress"></div>
     <a href="#main-content" class="skip-nav">Skip to main content</a>
     <slot />
+    <script is:inline>
+      (function () {
+        var bar = document.getElementById('scroll-progress');
+        function updateProgress() {
+          var scrollTop = window.scrollY || document.documentElement.scrollTop;
+          var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+          bar.style.width = (docHeight > 0 ? (scrollTop / docHeight) * 100 : 0) + '%';
+        }
+        window.addEventListener('scroll', updateProgress, { passive: true });
+        updateProgress();
+      })();
+    </script>
     <script is:inline>
       (function () {
         function initReveal() {
@@ -169,7 +184,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     --bg-secondary: #f9fafb;
     --bg-card: #f9fafb;
     --bg-card-hover: #f0f0f0;
-    --bg-nav: rgba(255, 255, 255, 0.95);
+    --bg-nav: rgba(255, 255, 255, 0.80);
     --text-primary: #111827;
     --text-secondary: #6b7280;
     --text-muted: #9ca3af;
@@ -184,7 +199,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     --font-sans: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
     --font-mono: "Space Mono", monospace;
     --font-heading: "Quicksand", sans-serif;
-    --font-serif: "Libre Caslon Text", Georgia, serif;
     --max-width: 900px;
     --footer-width: 1100px;
     --transition: 0.2s ease;
@@ -252,6 +266,18 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     max-width: 100%;
     height: auto;
     display: block;
+  }
+
+  #scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    width: 0%;
+    background: var(--accent);
+    z-index: 200;
+    pointer-events: none;
+    transition: width 0.1s linear;
   }
 
   .skip-nav {

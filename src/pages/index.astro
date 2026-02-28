@@ -131,12 +131,13 @@ for (let i = 0; i < experiences.length; i += 2) {
 >
   <Nav />
   <main id="main-content">
+    <div class="nav-spacer"></div>
     <Hero />
 
     <!-- Work Experience -->
-    <section class="section" id="work">
+    <section class="section" id="work" aria-label="Work Experience">
       <div class="section-inner">
-        <h2 class="section-title reveal">My Work</h2>
+        <h2 class="section-title">My Work</h2>
         {experienceRows.map((row) => (
           <div class="card-grid">
             {row.map((exp, i) => (
@@ -153,16 +154,16 @@ for (let i = 0; i < experiences.length; i += 2) {
     </div>
 
     <!-- Education -->
-    <section class="section" id="education">
+    <section class="section" id="education" aria-label="Education">
       <div class="section-inner">
-        <h2 class="section-title reveal">My Studies</h2>
+        <h2 class="section-title">My Studies</h2>
         {education.map((edu) => <EducationCard {...edu} />)}
       </div>
     </section>
 
     <!-- Skills -->
-    <section class="section skills-section" id="skills">
-      <div class="section-inner skills-inner reveal">
+    <section class="section skills-section" id="skills" aria-label="Skills">
+      <div class="section-inner skills-inner">
         <div class="skills-left">
           <h2 class="skills-title">5+ years of experience.</h2>
         </div>
@@ -175,14 +176,22 @@ for (let i = 0; i < experiences.length; i += 2) {
     </section>
 
     <!-- CTA -->
-    <section class="section cta-section" id="contact">
+    <section class="section cta-section" id="contact" aria-label="Contact">
       <div class="section-inner">
-        <div class="cta-card reveal">
+        <div class="cta-card">
           <h3 class="cta-heading">Let's chat!</h3>
           <p class="cta-text">
-            I'd love to talk to you! Find my contact details on the next page
+            I'd love to connect — reach out directly or find me online.
           </p>
           <div class="cta-button-wrapper">
+            <a
+              href="https://linkedin.com/in/eric-qiu"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="cta-button cta-button-light"
+            >
+              💼 <span class="cta-button-text"><strong>LinkedIn</strong></span>
+            </a>
             <a
               href="https://ericqiu.io"
               target="_blank"
@@ -195,13 +204,30 @@ for (let i = 0; i < experiences.length; i += 2) {
         </div>
       </div>
     </section>
+    <!-- Photography callout -->
+    <div class="photo-callout">
+      <span class="photo-callout-text">📷 I also shoot photos.</span>
+      <a
+        href="https://photos.ericqiu.io"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="photo-callout-link"
+      >
+        See my photos →
+      </a>
+    </div>
   </main>
   <Footer />
 </Base>
 
 <style>
+  .nav-spacer {
+    height: 60px;
+    background: var(--bg-primary);
+  }
+
   .section {
-    padding: 20px 25px;
+    padding: 60px 25px;
   }
 
   .section-inner {
@@ -211,7 +237,7 @@ for (let i = 0; i < experiences.length; i += 2) {
 
   .section-title {
     font-family: var(--font-heading);
-    font-size: 1.75rem;
+    font-size: 2.25rem;
     font-weight: 700;
     margin-bottom: 1.5rem;
     padding: 8px 0;
@@ -248,7 +274,7 @@ for (let i = 0; i < experiences.length; i += 2) {
   /* Skills — black bg, 2-column */
   .skills-section {
     background: #000000;
-    padding: 40px 25px;
+    padding: 60px 25px;
   }
 
   .skills-inner {
@@ -263,7 +289,7 @@ for (let i = 0; i < experiences.length; i += 2) {
 
   .skills-title {
     font-family: var(--font-mono);
-    font-size: 1.75rem;
+    font-size: 2.25rem;
     font-weight: 700;
     color: #ffffff;
     padding: 8px 0;
@@ -316,22 +342,22 @@ for (let i = 0; i < experiences.length; i += 2) {
 
   /* CTA */
   .cta-section {
-    padding: 20px 25px 40px;
+    padding: 60px 25px;
   }
 
   .cta-card {
     background: var(--gradient-water);
     border-radius: 10px;
     box-shadow: var(--card-shadow);
-    padding: 40px 30px;
-    text-align: center;
+    padding: 40px 48px;
+    text-align: left;
     max-width: var(--max-width);
     margin: 0 auto;
   }
 
   .cta-heading {
     font-family: var(--font-heading);
-    font-size: 1.75rem;
+    font-size: 2.5rem;
     font-weight: 700;
     color: #ffffff;
     margin-bottom: 0.5rem;
@@ -342,6 +368,13 @@ for (let i = 0; i < experiences.length; i += 2) {
     color: #ffffff;
     margin-bottom: 1.5rem;
     font-size: 1rem;
+  }
+
+  .cta-button-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
   }
 
   .cta-button {
@@ -357,6 +390,17 @@ for (let i = 0; i < experiences.length; i += 2) {
     transition: all var(--transition);
   }
 
+  .cta-button-light {
+    background: #ffffff;
+    color: #000000;
+    box-shadow: none;
+  }
+
+  .cta-email {
+    cursor: default;
+    user-select: all;
+  }
+
   .cta-button-text {
     font-family: var(--font-heading);
   }
@@ -366,17 +410,52 @@ for (let i = 0; i < experiences.length; i += 2) {
     box-shadow: 0 14px 24px -10px #6E79D6;
   }
 
+  /* Photography callout */
+  .photo-callout {
+    background: #000000;
+    padding: 28px 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+  }
+
+  .photo-callout-text {
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    color: #a0a0a0;
+  }
+
+  .photo-callout-link {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5rem 1.25rem;
+    background: transparent;
+    color: #ffffff;
+    border: 1px solid #333333;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    font-family: var(--font-sans);
+    transition: all var(--transition);
+  }
+
+  .photo-callout-link:hover {
+    border-color: #666666;
+    color: #ffffff;
+  }
+
   @media (max-width: 640px) {
     .section-title {
-      font-size: 1.4rem;
+      font-size: 1.75rem;
     }
 
     .cta-heading {
-      font-size: 1.5rem;
+      font-size: 2rem;
     }
 
     .cta-card {
-      padding: 30px 20px;
+      padding: 30px 24px;
     }
   }
 </style>

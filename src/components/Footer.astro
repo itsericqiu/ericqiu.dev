@@ -1,8 +1,8 @@
 ---
 const socialLinks = [
-  { label: "LinkedIn", href: "https://linkedin.com/in/eric-qiu" },
-  { label: "Instagram", href: "https://instagram.com/itsericqiu" },
-  { label: "GitHub", href: "https://github.com/itsericqiu" },
+  { label: "LinkedIn", href: "https://linkedin.com/in/eric-qiu", me: true },
+  { label: "Instagram", href: "https://instagram.com/itsericqiu", me: true },
+  { label: "GitHub", href: "https://github.com/itsericqiu", me: true },
 ];
 
 const year = new Date().getFullYear();
@@ -40,7 +40,7 @@ const year = new Date().getFullYear();
             <a
               href={link.href}
               target="_blank"
-              rel="noopener noreferrer"
+              rel={link.me ? "me noopener noreferrer" : "noopener noreferrer"}
               class="social-link"
             >
               {link.label}
