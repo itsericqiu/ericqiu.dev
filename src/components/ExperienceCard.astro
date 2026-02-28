@@ -14,15 +14,17 @@ interface Props {
 const { company, roles, description, href, logoAlt, logoSrc, icon, invertOnDark = false, animDelay = 0 } = Astro.props;
 ---
 
-<a href={href} target="_blank" rel="noopener noreferrer" class="card reveal" style={`transition-delay: ${animDelay}ms`}>
+<div class="card reveal" style={`transition-delay: ${animDelay}ms`}>
   <div class="card-top">
     <div class="icon-col">
-      <span class="icon-button">
+      <a href={href} target="_blank" rel="noopener noreferrer" class="icon-button">
         <i class={icon}></i>
-      </span>
+      </a>
     </div>
     <div class="title-col">
-      <h3 class="company-name">{company}</h3>
+      <a href={href} target="_blank" rel="noopener noreferrer">
+        <h3 class="company-name">{company}</h3>
+      </a>
     </div>
   </div>
   <div class="roles">
@@ -37,14 +39,17 @@ const { company, roles, description, href, logoAlt, logoSrc, icon, invertOnDark 
   <p class="description">{description}</p>
   {logoSrc && (
     <div class="logo-wrapper">
-      <img src={logoSrc} alt={logoAlt} class:list={["company-logo", { "invert-on-dark": invertOnDark }]} loading="lazy" />
+      <a href={href} target="_blank" rel="noopener noreferrer">
+        <img src={logoSrc} alt={logoAlt} class:list={["company-logo", { "invert-on-dark": invertOnDark }]} loading="lazy" />
+      </a>
     </div>
   )}
-</a>
+</div>
 
 <style>
   .card {
-    display: block;
+    display: flex;
+    flex-direction: column;
     padding: 28px 32px;
     background: var(--bg-card);
     border-radius: 10px;
@@ -79,10 +84,15 @@ const { company, roles, description, href, logoAlt, logoSrc, icon, invertOnDark 
     color: #ffffff;
     font-size: 1.25rem;
     box-shadow: var(--button-shadow);
+    text-decoration: none;
   }
 
   .title-col {
     flex: 1;
+  }
+
+  .title-col a {
+    text-decoration: none;
   }
 
   .company-name {
@@ -120,6 +130,11 @@ const { company, roles, description, href, logoAlt, logoSrc, icon, invertOnDark 
     display: flex;
     justify-content: center;
     padding: 1rem 0 0.5rem;
+  }
+
+  .logo-wrapper a {
+    display: flex;
+    justify-content: center;
   }
 
   .company-logo {
