@@ -118,7 +118,6 @@ const techStack = [
 >
   <Nav />
   <main id="main-content">
-    <div class="nav-spacer"></div>
     <Hero />
 
     <!-- Work Experience -->
@@ -128,8 +127,8 @@ const techStack = [
         <div class="experience-list">
           {experiences.map((exp, i) => (
             <article class="experience-entry reveal-entry" style={`transition-delay: ${i * 60}ms`}>
-              <div class="entry-header">
-                <div class="entry-header-left">
+              <div class="entry-body">
+                <div class="entry-header">
                   <h3 class="entry-company">
                     <a href={exp.href} target="_blank" rel="noopener noreferrer" class="link-underline">{exp.company}</a>
                   </h3>
@@ -142,17 +141,17 @@ const techStack = [
                     ))}
                   </div>
                 </div>
-                {exp.logoSrc && (
-                  <div class="entry-logo">
-                    <a href={exp.href} target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
-                      <img src={exp.logoSrc} alt={exp.logoAlt}
-                        class:list={["entry-logo-img", { "invert-on-dark": exp.invertOnDark }]}
-                        loading="lazy" />
-                    </a>
-                  </div>
-                )}
+                <p class="entry-description">{exp.description}</p>
               </div>
-              <p class="entry-description">{exp.description}</p>
+              {exp.logoSrc && (
+                <div class="entry-logo">
+                  <a href={exp.href} target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
+                    <img src={exp.logoSrc} alt={exp.logoAlt}
+                      class:list={["entry-logo-img", { "invert-on-dark": exp.invertOnDark }]}
+                      loading="lazy" />
+                  </a>
+                </div>
+              )}
             </article>
           ))}
         </div>
@@ -189,7 +188,7 @@ const techStack = [
     <section class="section" id="contact" aria-label="Contact">
       <div class="section-inner">
         <h2 class="section-title">Get in touch</h2>
-        <p class="cta-tagline">Open to discussing infrastructure, system design, specialty coffee, or film photography.</p>
+        <p class="cta-tagline">Open to discussing infrastructure, system design, specialty coffee, or photography.</p>
         <div class="cta-links">
           <a href="https://linkedin.com/in/eric-qiu" target="_blank" rel="noopener noreferrer" class="cta-text-link link-underline">LinkedIn →</a>
           <a href="https://ericqiu.io" target="_blank" rel="noopener noreferrer" class="cta-text-link link-underline">Chat with me →</a>
@@ -206,7 +205,7 @@ const techStack = [
         rel="noopener noreferrer"
         class="photo-callout-link link-underline"
       >
-        See my work →
+        See my photos →
       </a>
     </div>
   </main>
@@ -214,11 +213,6 @@ const techStack = [
 </Base>
 
 <style>
-  .nav-spacer {
-    height: 60px;
-    background: var(--bg-primary);
-  }
-
   .section {
     padding: 60px 25px;
   }
@@ -245,9 +239,17 @@ const techStack = [
   }
 
   .experience-entry {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
     padding: 2.5rem 0;
     border-top: 1px solid var(--border-subtle);
     position: relative;
+  }
+
+  .entry-body {
+    flex: 1;
+    min-width: 0;
   }
 
   .experience-entry:last-child {
@@ -270,15 +272,7 @@ const techStack = [
   }
 
   .entry-header {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 1rem;
     margin-bottom: 1rem;
-  }
-
-  .entry-header-left {
-    flex: 1;
   }
 
   .entry-company {
@@ -322,10 +316,10 @@ const techStack = [
 
   .entry-logo {
     flex-shrink: 0;
-    width: 160px;
-    height: 52px;
+    width: 180px;
     display: flex;
     align-items: center;
+    align-self: center;
     justify-content: flex-end;
   }
 
@@ -335,12 +329,12 @@ const techStack = [
     width: auto;
     height: auto;
     object-fit: contain;
-    opacity: 0.65;
+    opacity: 0.8;
     transition: opacity 0.25s ease;
   }
 
   .experience-entry:hover .entry-logo-img {
-    opacity: 0.95;
+    opacity: 1;
   }
 
   .entry-description {
@@ -449,23 +443,23 @@ const techStack = [
   }
 
   @media (max-width: 640px) {
-    .entry-header {
-      flex-direction: column-reverse;
-      gap: 0.75rem;
+    .experience-entry {
+      flex-direction: column;
+      gap: 1rem;
     }
 
     .entry-logo {
-      order: -1;
+      align-self: flex-start;
       justify-content: flex-start;
-      width: 100%;
-      height: auto;
+      width: auto;
     }
 
     .entry-logo-img {
       height: 36px;
       width: auto;
-      max-width: 150px;
+      max-width: 140px;
       max-height: none;
+      opacity: 1;
     }
 
     .entry-company {

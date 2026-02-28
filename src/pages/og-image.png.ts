@@ -4,33 +4,13 @@ import fs from "fs";
 import path from "path";
 import type { APIRoute } from "astro";
 
-// Convert emoji character(s) to Twemoji filename (e.g. 👋 → "1f44b")
-function emojiToTwemojiFile(emoji: string): string {
-  return [...emoji]
-    .map((c) => c.codePointAt(0)!.toString(16))
-    .filter((hex) => hex !== "fe0f") // strip variation selector
-    .join("-");
-}
-
 export const GET: APIRoute = async () => {
-  // Load bundled Inter Bold font (TTF — woff2 not supported by satori's opentype.js)
-  const fontData = fs.readFileSync(
-    path.join(process.cwd(), "src/assets/inter-bold.ttf")
+  const frauncesData = fs.readFileSync(
+    path.join(process.cwd(), "src/assets/fraunces-800.ttf")
   );
-
-  // Load coffee illustration as base64 data URL
-  const coffeeBuffer = fs.readFileSync(
-    path.join(process.cwd(), "public/coffee-3d.png")
+  const spaceMonoData = fs.readFileSync(
+    path.join(process.cwd(), "src/assets/space-mono-400.ttf")
   );
-  const coffeeDataUrl = `data:image/png;base64,${coffeeBuffer.toString("base64")}`;
-
-  // Pre-fetch Twemoji SVG for 👋 so loadAdditionalAsset doesn't block per-call
-  const waveFile = emojiToTwemojiFile("👋");
-  const waveRes = await fetch(
-    `https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/${waveFile}.svg`
-  );
-  const waveSvg = await waveRes.text();
-  const waveDataUrl = `data:image/svg+xml;base64,${Buffer.from(waveSvg).toString("base64")}`;
 
   const svg = await satori(
     {
@@ -38,13 +18,25 @@ export const GET: APIRoute = async () => {
       props: {
         style: {
           display: "flex",
+          flexDirection: "row",
           width: "1200px",
           height: "630px",
-          background: "#000000",
-          fontFamily: "Inter",
+          background: "#0D0D0B",
         },
         children: [
-          // Left half — text
+          // Amber accent stripe
+          {
+            type: "div",
+            props: {
+              style: {
+                width: "12px",
+                height: "630px",
+                background: "#D4A574",
+                flexShrink: 0,
+              },
+            },
+          },
+          // Content column
           {
             type: "div",
             props: {
@@ -53,87 +45,78 @@ export const GET: APIRoute = async () => {
                 flexDirection: "column",
                 justifyContent: "center",
                 flex: 1,
-                padding: "60px 50px 60px 72px",
+                padding: "80px 100px",
               },
               children: [
-                // Hi greeting — emoji rendered as inline img via loadAdditionalAsset
+                // Kicker
+                {
+                  type: "span",
+                  props: {
+                    style: {
+                      fontFamily: "Space Mono",
+                      fontSize: "20px",
+                      fontWeight: 400,
+                      color: "#D4A574",
+                      letterSpacing: "0.06em",
+                      textTransform: "uppercase",
+                      marginBottom: "32px",
+                    },
+                    children: "Senior Software Engineer — New York City",
+                  },
+                },
+                // Name block
                 {
                   type: "div",
                   props: {
                     style: {
                       display: "flex",
-                      alignItems: "center",
-                      gap: "16px",
-                      fontSize: "72px",
-                      fontWeight: 700,
-                      color: "#ffffff",
-                      lineHeight: 1.1,
-                      marginBottom: "16px",
+                      flexDirection: "column",
+                      marginBottom: "48px",
                     },
                     children: [
-                      { type: "span", props: { children: "Hi, I'm Eric" } },
                       {
-                        type: "img",
+                        type: "span",
                         props: {
-                          src: waveDataUrl,
-                          style: { width: "72px", height: "72px" },
+                          style: {
+                            fontFamily: "Fraunces",
+                            fontSize: "96px",
+                            fontWeight: 800,
+                            color: "#F0EBE0",
+                            lineHeight: 1.05,
+                            letterSpacing: "-0.02em",
+                          },
+                          children: "Eric",
+                        },
+                      },
+                      {
+                        type: "span",
+                        props: {
+                          style: {
+                            fontFamily: "Fraunces",
+                            fontSize: "96px",
+                            fontWeight: 800,
+                            color: "#F0EBE0",
+                            lineHeight: 1.05,
+                            letterSpacing: "-0.02em",
+                          },
+                          children: "Qiu.",
                         },
                       },
                     ],
                   },
                 },
-                // Subtitle — water gradient (#2F80ED → #B2FFDA)
+                // Domain
                 {
-                  type: "div",
+                  type: "span",
                   props: {
                     style: {
-                      fontSize: "34px",
-                      fontWeight: 700,
-                      backgroundImage: "linear-gradient(90deg, #2F80ED 0%, #B2FFDA 100%)",
-                      backgroundClip: "text",
-                      color: "transparent",
-                      lineHeight: 1.3,
-                      marginBottom: "32px",
-                    },
-                    children: "Software Engineer & Coffee Addict",
-                  },
-                },
-                // Domain label
-                {
-                  type: "div",
-                  props: {
-                    style: {
-                      fontSize: "28px",
+                      fontFamily: "Space Mono",
+                      fontSize: "18px",
                       fontWeight: 400,
-                      color: "#666666",
-                      letterSpacing: "0.05em",
+                      color: "#5A5650",
+                      letterSpacing: "0.03em",
                     },
                     children: "ericqiu.dev",
-                  },
-                },
-              ],
-            },
-          },
-          // Right half — coffee illustration
-          {
-            type: "div",
-            props: {
-              style: {
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                width: "480px",
-                padding: "40px 40px 40px 0",
-              },
-              children: [
-                {
-                  type: "img",
-                  props: {
-                    src: coffeeDataUrl,
-                    style: {
-                      width: "380px",
-                      height: "333px",
-                    },
                   },
                 },
               ],
@@ -147,9 +130,15 @@ export const GET: APIRoute = async () => {
       height: 630,
       fonts: [
         {
-          name: "Inter",
-          data: fontData,
-          weight: 700,
+          name: "Fraunces",
+          data: frauncesData,
+          weight: 800,
+          style: "normal",
+        },
+        {
+          name: "Space Mono",
+          data: spaceMonoData,
+          weight: 400,
           style: "normal",
         },
       ],
