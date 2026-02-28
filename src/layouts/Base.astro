@@ -44,23 +44,19 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
     <!-- Theme Color -->
     <meta name="color-scheme" content="light dark" />
-    <meta name="theme-color" content="#6968F7" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#F5F0E8" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0D0D0B" media="(prefers-color-scheme: dark)" />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=optional"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=optional"
       rel="stylesheet"
     />
 
-    <!-- Boxicons -->
-    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" />
-
     <!-- DNS Prefetch for external domains -->
     <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
-    <link rel="dns-prefetch" href="https://unpkg.com" />
 
     <!-- JSON-LD Structured Data -->
     <script type="application/ld+json" set:html={JSON.stringify({
@@ -154,9 +150,9 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
                 }
               });
             },
-            { threshold: 0.08, rootMargin: '0px 0px -40px 0px' }
+            { threshold: 0.05, rootMargin: '0px 0px -60px 0px' }
           );
-          document.querySelectorAll('.reveal').forEach(function (el) {
+          document.querySelectorAll('.reveal, .reveal-entry').forEach(function (el) {
             observer.observe(el);
           });
         }
@@ -180,56 +176,55 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   }
 
   :root {
-    --bg-primary: #ffffff;
-    --bg-secondary: #f9fafb;
-    --bg-card: #f9fafb;
-    --bg-card-hover: #f0f0f0;
-    --bg-nav: rgba(255, 255, 255, 0.65);
-    --text-primary: #111827;
-    --text-secondary: #6b7280;
-    --text-muted: #9ca3af;
-    --accent: #6968F7;
-    --accent-dark: #5E5DF0;
-    --gradient-water: linear-gradient(135deg, #2F80ED 0%, #B2FFDA 100%);
-    --gradient-unicorn: linear-gradient(135deg, #FFCC33 0%, #E233FF 100%);
-    --gradient-melon: linear-gradient(135deg, #D6FF7F 0%, #00B3CC 100%);
-    --border-subtle: #e5e7eb;
-    --card-shadow: 0px 4px 6px -2px rgba(16,24,40,0.03), 0px 12px 16px -4px rgba(16,24,40,0.08);
-    --button-shadow: 0 10px 20px -10px #6E79D6;
-    --font-sans: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
-    --font-mono: "Space Mono", monospace;
-    --font-heading: "Quicksand", sans-serif;
-    --max-width: 900px;
-    --footer-width: 1100px;
-    --transition: 0.2s ease;
+    --bg-primary:    #F5F0E8;
+    --bg-secondary:  #EDE8DF;
+    --bg-card:       #EDEBE3;
+    --bg-nav:        rgba(245, 240, 232, 0.72);
+    --text-primary:  #111111;
+    --text-secondary:#5A5650;
+    --text-muted:    #6D6A62;
+    --accent:        #7E5F28;
+    --accent-dark:   #6A5020;
+    --border-subtle: #D8D4CC;
+    --card-shadow:   0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.06);
+    --button-shadow: none;
+    --font-sans:     "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono:     "Space Mono", monospace;
+    --font-display:  "Fraunces", Georgia, serif;
+    --max-width:     900px;
+    --footer-width:  1100px;
+    --transition:    0.3s ease;
+    --transition-reveal: cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
-      --bg-primary: #000000;
-      --bg-secondary: #111111;
-      --bg-card: #1a1a1a;
-      --bg-card-hover: #222222;
-      --bg-nav: rgba(0, 0, 0, 0.70);
-      --text-primary: #ffffff;
-      --text-secondary: #a0a0a0;
-      --text-muted: #666666;
-      --border-subtle: #222222;
-      --card-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+      --bg-primary:    #0D0D0B;
+      --bg-secondary:  #161614;
+      --bg-card:       #161614;
+      --bg-nav:        rgba(13, 13, 11, 0.75);
+      --text-primary:  #F0EBE0;
+      --text-secondary:#9A9289;
+      --text-muted:    #5A5650;
+      --accent:        #D4A574;
+      --accent-dark:   #B8915A;
+      --border-subtle: #2A2A26;
+      --card-shadow:   0 1px 3px rgba(0,0,0,0.3), 0 4px 16px rgba(0,0,0,0.5);
     }
   }
 
   [data-theme="dark"] {
-    --bg-primary: #000000;
-    --bg-secondary: #111111;
-    --bg-card: #1a1a1a;
-    --bg-card-hover: #222222;
-    --bg-nav: rgba(0, 0, 0, 0.85);
-    --text-primary: #ffffff;
-    --text-secondary: #a0a0a0;
-    --text-muted: #666666;
-    --border-subtle: #222222;
-    --card-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+    --bg-primary:    #0D0D0B;
+    --bg-secondary:  #161614;
+    --bg-card:       #161614;
+    --bg-nav:        rgba(13, 13, 11, 0.75);
+    --text-primary:  #F0EBE0;
+    --text-secondary:#9A9289;
+    --text-muted:    #5A5650;
+    --accent:        #D4A574;
+    --accent-dark:   #B8915A;
+    --border-subtle: #2A2A26;
+    --card-shadow:   0 1px 3px rgba(0,0,0,0.3), 0 4px 16px rgba(0,0,0,0.5);
   }
 
   /* Invert only grayscale logos in dark mode */
@@ -302,27 +297,74 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   }
 
   ::selection {
-    background: rgba(102, 126, 234, 0.3);
+    background: rgba(184, 145, 90, 0.25);
     color: var(--text-primary);
   }
 
-  /* Scroll reveal */
-  .reveal {
+  /* Clip-path scroll reveal */
+  .reveal-entry {
+    clip-path: inset(0 0 100% 0);
     opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.55s ease, transform 0.55s ease;
+    transform: translateY(8px);
+    transition:
+      clip-path 0.6s var(--transition-reveal),
+      opacity 0.6s var(--transition-reveal),
+      transform 0.6s var(--transition-reveal);
+  }
+  .reveal-entry.visible {
+    clip-path: inset(0 0 0% 0);
+    opacity: 1;
+    transform: translateY(0);
   }
 
+  /* Legacy reveal (kept for compatibility) */
+  .reveal {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+  }
   .reveal.visible {
     opacity: 1;
     transform: translateY(0);
   }
 
+  /* Hero line entrance */
+  @keyframes line-reveal {
+    from { clip-path: inset(0 0 100% 0); opacity: 0; transform: translateY(10px); }
+    to   { clip-path: inset(0 0 0% 0);   opacity: 1; transform: translateY(0); }
+  }
+
+  /* Page load fade */
+  @keyframes body-fadein { from { opacity: 0; } to { opacity: 1; } }
+  body { animation: body-fadein 0.3s ease forwards; }
+
+  /* Animated link underline */
+  .link-underline {
+    background-image: linear-gradient(var(--accent), var(--accent));
+    background-repeat: no-repeat;
+    background-position: 0% 100%;
+    background-size: 0% 1px;
+    transition: background-size 0.35s var(--transition-reveal);
+  }
+  .link-underline:hover { background-size: 100% 1px; }
+
   @media (prefers-reduced-motion: reduce) {
-    .reveal {
+    .reveal-entry, .reveal {
+      clip-path: none;
       opacity: 1;
       transform: none;
       transition: none;
     }
+    .hero-kicker, .hero-bio, .hero-cta, .hero-line {
+      animation: none;
+      clip-path: none;
+      opacity: 1;
+      transform: none;
+    }
+    .link-underline {
+      background-size: 0% 1px;
+      transition: none;
+    }
+    body { animation: none; }
   }
 </style>

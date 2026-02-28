@@ -43,7 +43,7 @@ const { school, program, department, dates, courses, href, logoAlt, logoSrc, inv
   .edu-row {
     display: flex;
     gap: 30px;
-    padding: 20px 0;
+    padding: 28px 0;
     width: 100%;
     max-width: var(--max-width);
   }
@@ -67,19 +67,22 @@ const { school, program, department, dates, courses, href, logoAlt, logoSrc, inv
   }
 
   .info-line {
-    font-size: 1.375rem;
+    font-size: 1rem;
     line-height: 1.4;
     margin-bottom: 0.5rem;
   }
 
   .school-name {
     color: var(--text-primary);
-    font-size: 1.375rem;
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 600;
+    font-optical-sizing: auto;
   }
 
   .department {
     color: var(--text-secondary);
-    font-size: 1.375rem;
+    font-size: 0.9rem;
   }
 
   .program-line {
@@ -89,7 +92,7 @@ const { school, program, department, dates, courses, href, logoAlt, logoSrc, inv
   }
 
   .dates {
-    color: var(--accent-dark);
+    color: var(--accent);
   }
 
   .courses {

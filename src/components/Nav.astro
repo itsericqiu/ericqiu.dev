@@ -75,7 +75,7 @@ const links = [
     background: var(--bg-nav);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    border-bottom: 1px solid var(--border-subtle);
     transition: background var(--transition);
   }
 
@@ -124,12 +124,29 @@ const links = [
     font-family: var(--font-mono);
     font-size: 1rem;
     color: var(--text-secondary);
-    transition: color var(--transition);
     font-weight: 400;
+    background-image: linear-gradient(var(--text-primary), var(--text-primary));
+    background-repeat: no-repeat;
+    background-position: 0% 100%;
+    background-size: 0% 1px;
+    transition: color var(--transition), background-size 0.3s var(--transition-reveal);
   }
 
   .nav-link:hover {
     color: var(--text-primary);
+    background-size: 100% 1px;
+  }
+
+  .nav-link:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 4px;
+    border-radius: 2px;
+  }
+
+  .theme-toggle:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 4px;
+    border-radius: 2px;
   }
 
   .theme-toggle {

@@ -3,176 +3,102 @@
 ---
 
 <section class="hero" id="top">
-  <div class="hero-content">
-    <div class="hero-image">
-      <img
-        src="/coffee-3d.png"
-        alt="Eric Qiu — Software Engineer based in New York City"
-        width="480"
-        height="421"
-      />
+  <div class="hero-inner">
+    <div class="hero-kicker">
+      <span class="kicker-line">Senior Software Engineer — New York City</span>
     </div>
-    <div class="hero-text">
-      <h1>Hi, I'm Eric <span class="wave">👋</span></h1>
-      <p class="subtitle">
-        a <span class="gradient-text"><strong>Software Engineer &amp; Coffee Addict</strong></span> based in New York City, currently working in Cloud Storage Infrastructure at Bloomberg.
-      </p>
-      <div class="cta-wrapper">
-        <a
-          href="https://photos.ericqiu.io"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="cta-button"
-        >
-          <span class="btn-emoji">📷</span>
-          <span class="btn-text"><strong>I play with cameras in my spare time →</strong></span>
-        </a>
-      </div>
+    <h1 class="hero-name">
+      <span class="hero-line" style="animation-delay: 0.1s">Eric</span>
+      <span class="hero-line" style="animation-delay: 0.3s">Qiu.</span>
+    </h1>
+    <p class="hero-bio">
+      I build distributed systems and cloud infrastructure at Bloomberg.
+      University of Waterloo CS. Previously at Addepar, Postmates, and BMO Capital Markets.
+    </p>
+    <div class="hero-cta">
+      <a href="https://photos.ericqiu.io" target="_blank" rel="noopener noreferrer"
+         class="hero-link link-underline">I also shoot photos →</a>
     </div>
   </div>
 </section>
 
 <style>
   .hero {
-    padding: 20px 25px 40px;
-    background: #000000;
-  }
-
-  .hero-content {
-    max-width: 1200px;
-    margin: 0 auto;
+    padding: 80px 25px 100px;
+    background: var(--bg-primary);
+    min-height: 65vh;
     display: flex;
     align-items: center;
-    gap: 40px;
-    min-height: 560px;
   }
 
-  .hero-image {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-  }
-
-  .hero-image img {
+  .hero-inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
     width: 100%;
-    max-width: 440px;
-    height: auto;
-    object-fit: contain;
   }
 
-  .hero-text {
-    flex: 1.5;
+  .hero-kicker {
+    margin-bottom: 1.5rem;
+    animation: line-reveal 0.5s var(--transition-reveal) 0s both;
   }
 
-  h1 {
-    font-family: var(--font-sans);
-    font-size: 4rem;
-    font-weight: 900;
-    color: #ffffff;
-    margin-bottom: 0.75rem;
-    line-height: 1.2;
-    letter-spacing: -0.04em;
+  .kicker-line {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
   }
 
-  .subtitle {
-    font-family: var(--font-heading);
-    font-size: 1.5rem;
-    color: #ffffff;
-    line-height: 1.4;
+  .hero-name {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
     margin-bottom: 2rem;
-    letter-spacing: -0.01em;
+    padding-bottom: 0.05em;
+    display: flex;
+    flex-direction: column;
+    font-optical-sizing: auto;
+    font-feature-settings: "liga" 1, "dlig" 1;
   }
 
-  .wave {
-    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
-    font-style: normal;
-    font-weight: normal;
-    -webkit-font-smoothing: auto;
-    font-variant-emoji: emoji;
+  .hero-line {
+    display: block;
+    animation: line-reveal 0.6s var(--transition-reveal) both;
   }
 
-  .gradient-text {
-    background: var(--gradient-water);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+  .hero-bio {
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    line-height: 1.75;
+    color: var(--text-secondary);
+    max-width: 520px;
+    margin-bottom: 2rem;
+    animation: line-reveal 0.6s var(--transition-reveal) 0.35s both;
   }
 
-  .cta-wrapper {
-    margin-top: 1rem;
+  .hero-cta {
+    animation: line-reveal 0.5s var(--transition-reveal) 0.5s both;
   }
 
-  .cta-button {
-    display: inline-flex;
-    align-items: flex-start;
-    gap: 0.75rem;
-    padding: 0.75rem 1.5rem;
-    background: #ffffff;
-    color: #000000;
-    border-radius: 999px;
-    font-family: var(--font-heading);
-    font-size: 0.95rem;
-    text-align: left;
-    box-shadow: 0 10px 20px -10px #6E79D6;
-    transition: all var(--transition);
+  .hero-link {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    letter-spacing: 0.04em;
+    color: var(--accent);
+    text-decoration: none;
   }
 
-  .btn-emoji {
-    flex-shrink: 0;
-    line-height: 1.4;
-  }
-
-  .btn-text {
-    flex: 1;
-  }
-
-  .cta-button:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 14px 24px -10px #6E79D6;
-  }
-
-  @media (max-width: 768px) {
+  @media (max-width: 640px) {
     .hero {
-      padding: 40px 25px 60px;
+      padding: 60px 25px 80px;
     }
 
-    .hero-content {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 28px;
-      min-height: auto;
-    }
-
-    .hero-image {
-      flex: none;
-      width: 80%;
-      align-self: center;
-    }
-
-    .hero-text {
-      flex: none;
-      width: 100%;
-    }
-
-    h1 {
-      font-size: 2.5rem;
-    }
-
-    .subtitle {
-      font-size: 1.25rem;
-    }
-
-    .cta-button {
-      display: flex;
-      width: 100%;
-      box-sizing: border-box;
-      align-items: center;
-      text-align: center;
-      justify-content: center;
-    }
-
-    .btn-text {
-      text-align: center;
+    .hero-name {
+      font-size: clamp(2.75rem, 16vw, 4rem);
     }
   }
 </style>

@@ -2,7 +2,6 @@
 import Base from "../layouts/Base.astro";
 import Nav from "../components/Nav.astro";
 import Hero from "../components/Hero.astro";
-import ExperienceCard from "../components/ExperienceCard.astro";
 import EducationCard from "../components/EducationCard.astro";
 import Footer from "../components/Footer.astro";
 
@@ -18,7 +17,6 @@ const experiences = [
     href: "https://www.bloomberg.com/company/values/tech-at-bloomberg/",
     logoSrc: "/logos/bloomberg.png",
     logoAlt: "Bloomberg LP logo",
-    icon: "bx bx-cloud",
     invertOnDark: true,
   },
   {
@@ -29,7 +27,6 @@ const experiences = [
     href: "https://addepar.com",
     logoSrc: "/logos/addepar.png",
     logoAlt: "Addepar logo",
-    icon: "bx bx-lock-alt",
     invertOnDark: true,
   },
   {
@@ -40,7 +37,6 @@ const experiences = [
     href: "https://postmates.com",
     logoSrc: "/logos/postmates.png",
     logoAlt: "Postmates logo",
-    icon: "bx bx-support",
     invertOnDark: true,
   },
   {
@@ -53,7 +49,6 @@ const experiences = [
     href: "https://www.bloomberg.com/company/values/tech-at-bloomberg/",
     logoSrc: "/logos/bloomberg.png",
     logoAlt: "Bloomberg LP logo",
-    icon: "bx bx-line-chart",
     invertOnDark: true,
   },
   {
@@ -66,7 +61,6 @@ const experiences = [
     href: "https://capitalmarkets.bmo.com/en/",
     logoSrc: "/logos/bmo.png",
     logoAlt: "BMO Capital Markets logo",
-    icon: "bx bxs-bank",
     invertOnDark: false,
   },
   {
@@ -77,7 +71,6 @@ const experiences = [
     href: "https://www.lcbonext.com",
     logoSrc: "/logos/lcbo.png",
     logoAlt: "LCBO logo",
-    icon: "bx bx-store",
     invertOnDark: true,
   },
 ];
@@ -112,17 +105,11 @@ const education = [
   },
 ];
 
-const skills = [
-  { name: "Distributed Systems Design", gradient: "unicorn" },
-  { name: "Full-Stack Systems Development", gradient: "melon" },
-  { name: "Human-Computer Interaction", gradient: "water" },
+const techStack = [
+  { category: "Languages", items: ["Go", "Python", "Java", "TypeScript"] },
+  { category: "Infrastructure", items: ["Kubernetes", "AWS", "Distributed Systems", "DR-1 Compliance"] },
+  { category: "Specialties", items: ["Full-Stack Development", "Human-Computer Interaction", "Cloud Infrastructure"] },
 ];
-
-// Pair experiences into rows of 2
-const experienceRows: typeof experiences[] = [];
-for (let i = 0; i < experiences.length; i += 2) {
-  experienceRows.push(experiences.slice(i, i + 2));
-}
 ---
 
 <Base
@@ -137,83 +124,89 @@ for (let i = 0; i < experiences.length; i += 2) {
     <!-- Work Experience -->
     <section class="section" id="work" aria-label="Work Experience">
       <div class="section-inner">
-        <h2 class="section-title">My Work</h2>
-        {experienceRows.map((row) => (
-          <div class="card-grid">
-            {row.map((exp, i) => (
-              <ExperienceCard {...exp} animDelay={i * 120} />
-            ))}
-          </div>
-        ))}
+        <h2 class="section-title">Work</h2>
+        <div class="experience-list">
+          {experiences.map((exp, i) => (
+            <article class="experience-entry reveal-entry" style={`transition-delay: ${i * 60}ms`}>
+              <div class="entry-header">
+                <div class="entry-header-left">
+                  <h3 class="entry-company">
+                    <a href={exp.href} target="_blank" rel="noopener noreferrer" class="link-underline">{exp.company}</a>
+                  </h3>
+                  <div class="entry-roles">
+                    {exp.roles.map(role => (
+                      <p class="entry-role-line">
+                        <span class="entry-role-title">{role.title}</span>
+                        <span class="entry-dates">{role.dates}</span>
+                      </p>
+                    ))}
+                  </div>
+                </div>
+                {exp.logoSrc && (
+                  <div class="entry-logo">
+                    <a href={exp.href} target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
+                      <img src={exp.logoSrc} alt={exp.logoAlt}
+                        class:list={["entry-logo-img", { "invert-on-dark": exp.invertOnDark }]}
+                        loading="lazy" />
+                    </a>
+                  </div>
+                )}
+              </div>
+              <p class="entry-description">{exp.description}</p>
+            </article>
+          ))}
+        </div>
       </div>
     </section>
-
-    <!-- Divider -->
-    <div class="divider-wrapper">
-      <hr class="divider" />
-    </div>
 
     <!-- Education -->
     <section class="section" id="education" aria-label="Education">
       <div class="section-inner">
-        <h2 class="section-title">My Studies</h2>
+        <h2 class="section-title">Education</h2>
         {education.map((edu) => <EducationCard {...edu} />)}
       </div>
     </section>
 
     <!-- Skills -->
-    <section class="section skills-section" id="skills" aria-label="Skills">
-      <div class="section-inner skills-inner">
-        <div class="skills-left">
-          <h2 class="skills-title">5+ years of experience.</h2>
-        </div>
-        <div class="skills-right">
-          {skills.map((skill) => (
-            <p class={`skill-text gradient-${skill.gradient}`}>{skill.name}</p>
+    <section class="section" id="skills" aria-label="Skills">
+      <div class="section-inner">
+        <h2 class="section-title">What I Do</h2>
+        <p class="skills-statement">
+          Distributed systems, full-stack development, and human-computer interaction.
+        </p>
+        <div class="tech-stack">
+          {techStack.map(group => (
+            <div class="tech-group">
+              <span class="tech-category">{group.category}</span>
+              <span class="tech-items">{group.items.join(" · ")}</span>
+            </div>
           ))}
         </div>
       </div>
     </section>
 
     <!-- CTA -->
-    <section class="section cta-section" id="contact" aria-label="Contact">
+    <section class="section" id="contact" aria-label="Contact">
       <div class="section-inner">
-        <div class="cta-card">
-          <h3 class="cta-heading">Let's chat!</h3>
-          <p class="cta-text">
-            I'd love to connect — reach out directly or find me online.
-          </p>
-          <div class="cta-button-wrapper">
-            <a
-              href="https://linkedin.com/in/eric-qiu"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="cta-button cta-button-light"
-            >
-              💼 <span class="cta-button-text"><strong>LinkedIn</strong></span>
-            </a>
-            <a
-              href="https://ericqiu.io"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="cta-button"
-            >
-              💬 <span class="cta-button-text"><strong>Chat with me →</strong></span>
-            </a>
-          </div>
+        <h2 class="section-title">Get in touch</h2>
+        <p class="cta-tagline">Open to discussing infrastructure, system design, specialty coffee, or film photography.</p>
+        <div class="cta-links">
+          <a href="https://linkedin.com/in/eric-qiu" target="_blank" rel="noopener noreferrer" class="cta-text-link link-underline">LinkedIn →</a>
+          <a href="https://ericqiu.io" target="_blank" rel="noopener noreferrer" class="cta-text-link link-underline">Chat with me →</a>
         </div>
       </div>
     </section>
+
     <!-- Photography callout -->
     <div class="photo-callout">
-      <span class="photo-callout-text">📷 I also shoot photos.</span>
+      <span class="photo-callout-text">I also shoot photos.</span>
       <a
         href="https://photos.ericqiu.io"
         target="_blank"
         rel="noopener noreferrer"
-        class="photo-callout-link"
+        class="photo-callout-link link-underline"
       >
-        See my photos →
+        See my work →
       </a>
     </div>
   </main>
@@ -236,226 +229,262 @@ for (let i = 0; i < experiences.length; i += 2) {
   }
 
   .section-title {
-    font-family: var(--font-heading);
-    font-size: 2.25rem;
-    font-weight: 700;
-    margin-bottom: 1.5rem;
-    padding: 8px 0;
-  }
-
-  /* Work cards — 2-column grid */
-  .card-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 30px;
-    margin-bottom: 30px;
-  }
-
-  @media (max-width: 768px) {
-    .card-grid {
-      grid-template-columns: 1fr;
-      gap: 16px;
-      margin-bottom: 16px;
-    }
-  }
-
-  /* Divider */
-  .divider-wrapper {
-    max-width: var(--max-width);
-    margin: 1rem auto;
-    padding: 0 25px;
-  }
-
-  .divider {
-    border: none;
-    border-top: 1px solid var(--border-subtle);
-  }
-
-  /* Skills — black bg, 2-column */
-  .skills-section {
-    background: #000000;
-    padding: 60px 25px;
-  }
-
-  .skills-inner {
-    display: flex;
-    gap: 30px;
-    align-items: flex-start;
-  }
-
-  .skills-left {
-    flex: 1;
-  }
-
-  .skills-title {
     font-family: var(--font-mono);
-    font-size: 2.25rem;
+    font-size: 0.8125rem;
     font-weight: 700;
-    color: #ffffff;
-    padding: 8px 0;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 3rem;
   }
 
-  .skills-right {
-    flex: 1;
+  /* Experience list */
+  .experience-list {
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
   }
 
-  .skill-text {
-    font-size: 1.5rem;
-    font-weight: 400;
+  .experience-entry {
+    padding: 2.5rem 0;
+    border-top: 1px solid var(--border-subtle);
+    position: relative;
+  }
+
+  .experience-entry:last-child {
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .experience-entry::before {
+    content: '';
+    position: absolute;
+    left: -25px;
+    top: 0;
+    bottom: 0;
+    width: 0;
+    background: var(--accent);
+    transition: width 0.35s var(--transition-reveal);
+  }
+
+  .experience-entry:hover::before {
+    width: 3px;
+  }
+
+  .entry-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .entry-header-left {
+    flex: 1;
+  }
+
+  .entry-company {
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1.15;
+    margin-bottom: 0.5rem;
+    font-optical-sizing: auto;
+    font-feature-settings: "liga" 1;
+  }
+
+  .entry-company a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .entry-roles {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .entry-role-line {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .entry-role-title {
+    color: var(--text-secondary);
+  }
+
+  .entry-dates {
+    color: var(--accent);
+    letter-spacing: 0.04em;
+  }
+
+  .entry-logo {
+    flex-shrink: 0;
+    width: 160px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  .entry-logo-img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    opacity: 0.65;
+    transition: opacity 0.25s ease;
+  }
+
+  .experience-entry:hover .entry-logo-img {
+    opacity: 0.95;
+  }
+
+  .entry-description {
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    color: var(--text-secondary);
+    line-height: 1.75;
+    max-width: 680px;
+  }
+
+  /* Skills */
+  .skills-statement {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 3.5vw, 2.25rem);
+    font-weight: 300;
+    color: var(--text-primary);
     line-height: 1.4;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    letter-spacing: -0.01em;
+    max-width: 700px;
+    margin-bottom: 2.5rem;
+    font-optical-sizing: auto;
   }
 
-  .gradient-unicorn {
-    background: var(--gradient-unicorn);
-    -webkit-background-clip: text;
-    background-clip: text;
+  .tech-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
   }
 
-  .gradient-melon {
-    background: var(--gradient-melon);
-    -webkit-background-clip: text;
-    background-clip: text;
+  .tech-group {
+    display: flex;
+    gap: 1rem;
+    align-items: baseline;
+    flex-wrap: wrap;
   }
 
-  .gradient-water {
-    background: var(--gradient-water);
-    -webkit-background-clip: text;
-    background-clip: text;
+  .tech-category {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    flex-shrink: 0;
+    min-width: 100px;
   }
 
-  @media (max-width: 768px) {
-    .skills-inner {
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .skill-text {
-      font-size: 1.2rem;
-    }
+  .tech-items {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    letter-spacing: 0.02em;
   }
 
   /* CTA */
-  .cta-section {
-    padding: 60px 25px;
+  .cta-tagline {
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 4vw, 3rem);
+    font-weight: 600;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+    margin-bottom: 2rem;
+    line-height: 1.2;
+    font-optical-sizing: auto;
   }
 
-  .cta-card {
-    background: var(--gradient-water);
-    border-radius: 10px;
-    box-shadow: var(--card-shadow);
-    padding: 40px 48px;
-    text-align: left;
-    max-width: var(--max-width);
-    margin: 0 auto;
-  }
-
-  .cta-heading {
-    font-family: var(--font-heading);
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: #ffffff;
-    margin-bottom: 0.5rem;
-  }
-
-  .cta-text {
-    font-family: var(--font-sans);
-    color: #ffffff;
-    margin-bottom: 1.5rem;
-    font-size: 1rem;
-  }
-
-  .cta-button-wrapper {
+  .cta-links {
     display: flex;
+    gap: 2.5rem;
     flex-wrap: wrap;
-    gap: 0.75rem;
-    align-items: center;
   }
 
-  .cta-button {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.25rem;
-    padding: 0.75rem 1.5rem;
-    background: #000000;
-    color: #ffffff;
-    border-radius: 999px;
-    font-size: 0.95rem;
-    box-shadow: var(--button-shadow);
-    transition: all var(--transition);
+  .cta-text-link {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    letter-spacing: 0.06em;
+    color: var(--accent);
+    text-decoration: none;
   }
 
-  .cta-button-light {
-    background: #ffffff;
-    color: #000000;
-    box-shadow: none;
-  }
-
-  .cta-email {
-    cursor: default;
-    user-select: all;
-  }
-
-  .cta-button-text {
-    font-family: var(--font-heading);
-  }
-
-  .cta-button:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 14px 24px -10px #6E79D6;
-  }
-
-  /* Photography callout */
+  /* Photo callout */
   .photo-callout {
-    background: #000000;
-    padding: 28px 25px;
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--border-subtle);
+    padding: 24px 25px;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 1.25rem;
+    gap: 1.5rem;
     flex-wrap: wrap;
   }
 
   .photo-callout-text {
-    font-family: var(--font-sans);
-    font-size: 1rem;
-    color: #a0a0a0;
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
   }
 
   .photo-callout-link {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.5rem 1.25rem;
-    background: transparent;
-    color: #ffffff;
-    border: 1px solid #333333;
-    border-radius: 999px;
-    font-size: 0.9rem;
-    font-family: var(--font-sans);
-    transition: all var(--transition);
-  }
-
-  .photo-callout-link:hover {
-    border-color: #666666;
-    color: #ffffff;
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    letter-spacing: 0.06em;
+    color: var(--accent);
+    text-decoration: none;
   }
 
   @media (max-width: 640px) {
-    .section-title {
-      font-size: 1.75rem;
+    .entry-header {
+      flex-direction: column-reverse;
+      gap: 0.75rem;
     }
 
-    .cta-heading {
-      font-size: 2rem;
+    .entry-logo {
+      order: -1;
+      justify-content: flex-start;
+      width: 100%;
+      height: auto;
     }
 
-    .cta-card {
-      padding: 30px 24px;
+    .entry-logo-img {
+      height: 36px;
+      width: auto;
+      max-width: 150px;
+      max-height: none;
+    }
+
+    .entry-company {
+      font-size: 1.375rem;
+    }
+
+    .tech-group {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .tech-category {
+      min-width: unset;
+    }
+
+    .photo-callout {
+      flex-direction: column;
+      padding: 32px 25px;
+      gap: 0.75rem;
     }
   }
 </style>

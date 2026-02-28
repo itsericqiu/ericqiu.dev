@@ -26,10 +26,9 @@ const year = new Date().getFullYear();
           <div class="bio-text-col">
             <p class="bio-name">Eric Qiu</p>
             <p class="bio-description">
-              Hailing from Hamilton, Ontario, I'm a graduate of the University of
-              Waterloo now based in New York City. I am committed to building
-              high-quality and impactful software, and like to take photos in my free
-              time.
+              From Hamilton, Ontario — University of Waterloo CS grad, now based in
+              New York City. I build distributed systems at Bloomberg and spend my
+              evenings with a camera or hunting the perfect espresso.
             </p>
           </div>
         </div>
@@ -47,7 +46,7 @@ const year = new Date().getFullYear();
             </a>
           </p>
         ))}
-        <p class="email-text">hello[at]ericqiu[dot]io</p>
+<p class="email-text">hello[at]ericqiu[dot]io</p>
       </div>
     </div>
     <div class="footer-bottom">
@@ -58,7 +57,7 @@ const year = new Date().getFullYear();
 
 <style>
   footer {
-    margin-top: 2rem;
+    border-top: 1px solid var(--border-subtle);
   }
 
   .footer-inner {
@@ -108,7 +107,7 @@ const year = new Date().getFullYear();
   }
 
   .bio-description {
-    font-family: var(--font-heading);
+    font-family: var(--font-sans);
     font-size: 0.8125rem;
     color: var(--text-secondary);
     line-height: 1.6;
@@ -130,6 +129,12 @@ const year = new Date().getFullYear();
 
   .social-link:hover {
     color: var(--text-primary);
+  }
+
+  .social-link:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: 2px;
   }
 
   .email-text {
