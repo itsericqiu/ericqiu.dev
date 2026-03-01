@@ -1,0 +1,412 @@
+/*
+ * _lab.css — Shared chrome for all lab pages (ericqiu.dev)
+ *
+ * Included by: palette-preview.html, palette-multicolour.html,
+ *              palette-sections.html, hero-anim.html, _lab.html
+ *
+ * Sections:
+ *   1. Reset & base
+ *   2. Font variables
+ *   3. Nav strip  (sticky dark nav bar with collapsible links)
+ *   4. Floating toggle pill  (px-toggle bottom-right, → bottom bar on mobile)
+ *   5. Palette section layout  (.palette / .palette-header / .sim-*)
+ *   6. Section divider  (.palette-divider)
+ *   7. Mobile overrides
+ */
+
+/* ══════════════════════════════════════════
+   1. RESET & BASE
+══════════════════════════════════════════ */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: var(--font-sans, "Instrument Sans", sans-serif);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ══════════════════════════════════════════
+   2. FONT VARIABLES
+══════════════════════════════════════════ */
+:root {
+  --font-display: "Fraunces", Georgia, serif;
+  --font-sans:    "Instrument Sans", sans-serif;
+  --font-mono:    "Space Mono", monospace;
+}
+
+/* ══════════════════════════════════════════
+   3. NAV STRIP
+   Sticky dark bar at the top of each lab page.
+   Usage:
+     <nav class="nav-strip" id="nav-strip">
+       <button class="nav-toggle" id="nav-toggle" …>
+         <em class="nav-toggle-arrow">▾</em> Page Nav
+       </button>
+       <div class="nav-links" id="nav-links">
+         <a href="_lab.html" class="nav-back">← Lab</a>
+         <span class="nav-group-label">Section</span>
+         <a href="#anchor">Link</a>
+         …
+       </div>
+     </nav>
+══════════════════════════════════════════ */
+.nav-strip {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(10,10,10,0.95);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+/* Collapsed trigger (hidden on desktop) */
+.nav-toggle {
+  display: none;
+  width: 100%;
+  padding: 11px 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.65);
+  text-align: left;
+  align-items: center;
+  gap: 10px;
+}
+
+.nav-toggle-arrow {
+  display: inline-block;
+  transition: transform 0.2s;
+  font-style: normal;
+}
+
+/* Link tray */
+.nav-links {
+  padding: 9px 32px 11px;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-wrap: wrap;
+}
+
+.nav-links a {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.45);
+  text-decoration: none;
+  padding: 4px 9px;
+  border-radius: 3px;
+  white-space: nowrap;
+  transition: color 0.15s, background 0.15s;
+}
+
+.nav-links a:hover { color: #fff; background: rgba(255,255,255,0.08); }
+.nav-links .current { color: #D4A574; }
+
+/* Back-to-lab link (amber accent) */
+.nav-back {
+  color: #D4A574 !important;
+  margin-right: 4px;
+}
+.nav-back:hover { color: #fff !important; }
+
+/* Cross-page nav links */
+.nav-xlink {
+  color: rgba(255,255,255,0.28) !important;
+  font-size: 0.6rem !important;
+  letter-spacing: 0.12em !important;
+}
+.nav-xlink:hover { color: rgba(255,255,255,0.7) !important; }
+
+/* Inline section heading within the link tray */
+.nav-group-label {
+  font-family: var(--font-mono);
+  font-size: 0.5rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.18);
+  padding: 4px 6px 4px 10px;
+  white-space: nowrap;
+  user-select: none;
+  pointer-events: none;
+  margin-left: 4px;
+}
+
+/* First group label sits flush */
+.nav-links > .nav-group-label:first-child { margin-left: 0; padding-left: 4px; }
+
+/* ══════════════════════════════════════════
+   4. FLOATING TOGGLE PILL
+   Fixed bottom-right pill; morphs to a full-width
+   scrollable bar on mobile.
+   Usage:
+     <div class="px-toggle">
+       <button class="px-btn active" data-…>Label</button>
+       <span class="px-sep"></span>
+       <button class="px-btn" data-…>Label</button>
+     </div>
+══════════════════════════════════════════ */
+.px-toggle {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 200;
+  display: flex;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 28px rgba(0,0,0,0.7);
+  border: 1px solid rgba(255,255,255,0.1);
+  backdrop-filter: blur(10px);
+}
+
+.px-btn {
+  background: rgba(12,12,12,0.97);
+  border: none;
+  border-left: 1px solid rgba(255,255,255,0.07);
+  padding: 11px 15px;
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.32);
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  transition: color 0.15s, background 0.15s;
+  white-space: nowrap;
+}
+
+.px-btn:first-child { border-left: none; }
+.px-btn:hover { color: rgba(255,255,255,0.72); background: rgba(28,28,28,0.97); }
+.px-btn.active { color: #D4A574; background: rgba(36,26,10,0.97); }
+
+.px-sep {
+  display: block;
+  width: 1px;
+  align-self: stretch;
+  background: rgba(255,255,255,0.1);
+  flex-shrink: 0;
+}
+
+/* ══════════════════════════════════════════
+   5. PALETTE SECTION LAYOUT
+   Used by palette-preview and palette-multicolour.
+   Each palette = one full-height section.
+══════════════════════════════════════════ */
+.palette {
+  padding: 72px 40px 80px;
+  min-height: 100vh;
+}
+
+.palette-header {
+  max-width: 900px;
+  margin: 0 auto 56px;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 2rem;
+  flex-wrap: wrap;
+  border-bottom: 1px solid;
+  padding-bottom: 20px;
+}
+
+.palette-name {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.palette-swatches {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.swatch {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  outline: 1px solid rgba(128,128,128,0.2);
+}
+
+.palette-inner {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* ── Simulated hero content (opacity-based, for class-driven palette pages) ── */
+.sim-kicker {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.sim-name {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 8vw, 5.5rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin-bottom: 2rem;
+  font-optical-sizing: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.sim-name em { font-style: italic; }
+
+.sim-bio {
+  font-size: 1rem;
+  line-height: 1.75;
+  max-width: 520px;
+  margin-bottom: 0.75rem;
+  opacity: 0.82;
+}
+
+.sim-bio-aside {
+  font-size: 0.9375rem;
+  line-height: 1.75;
+  max-width: 520px;
+  margin-bottom: 2.5rem;
+  opacity: 0.65;
+}
+
+.sim-section-label {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin-bottom: 2.5rem;
+  margin-top: 3.5rem;
+  padding-top: 3.5rem;
+  border-top: 1px solid;
+}
+
+.sim-entry {
+  padding: 2rem 0;
+  border-top: 1px solid;
+}
+
+.sim-company {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 600;
+  line-height: 1.15;
+  margin-bottom: 6px;
+  font-optical-sizing: auto;
+}
+
+.sim-role {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  margin-bottom: 14px;
+  opacity: 0.72;
+}
+
+.sim-role span { opacity: 1; }
+
+.sim-desc {
+  font-size: 1rem;
+  line-height: 1.75;
+  opacity: 0.82;
+  max-width: 640px;
+}
+
+/* ══════════════════════════════════════════
+   6. SECTION DIVIDER
+   Dark interstitial used to separate palette groups.
+   Set --divider-accent to control the border + heading colour.
+   Usage:
+     <div class="palette-divider" style="--divider-accent:#D4A574">
+       <h2>Group name</h2>
+       <p>Description…</p>
+     </div>
+══════════════════════════════════════════ */
+.palette-divider {
+  background: #0A0A0A;
+  color: #fff;
+  padding: 48px 40px 44px;
+  border-top: 4px solid var(--divider-accent, #D4A574);
+}
+
+.palette-divider h2 {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--divider-accent, #D4A574);
+  margin-bottom: 10px;
+}
+
+.palette-divider p {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.6);
+  max-width: 640px;
+}
+
+/* ══════════════════════════════════════════
+   7. MOBILE
+══════════════════════════════════════════ */
+@media (max-width: 640px) {
+
+  /* Nav: collapse to a toggle */
+  .nav-toggle { display: flex; }
+
+  .nav-links {
+    padding: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.25s ease, padding 0.25s ease;
+  }
+
+  .nav-links.open {
+    max-height: 480px;
+    padding: 6px 16px 14px;
+  }
+
+  .nav-strip.open .nav-toggle-arrow { transform: rotate(180deg); }
+
+  /* Palette sections: tighter on narrow viewports */
+  .palette { padding: 48px 20px 56px; }
+  .palette-header { margin-bottom: 36px; }
+  .palette-divider { padding: 32px 20px 28px; }
+
+  /* Floating pill → full-width scrollable bottom bar */
+  .px-toggle {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+    border-top: 1px solid rgba(255,255,255,0.12);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    flex-wrap: nowrap;
+  }
+
+  .px-toggle::-webkit-scrollbar { display: none; }
+
+  .px-btn {
+    flex: 0 0 auto;
+    white-space: nowrap;
+    padding: 14px 14px;
+    font-size: 0.58rem;
+  }
+
+  body { padding-bottom: 52px; }
+}
