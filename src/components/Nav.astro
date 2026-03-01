@@ -9,8 +9,10 @@ const links = [
 <nav>
   <div class="nav-inner">
     <a href="/" class="logo" aria-label="Home">
-      <span class="logo-icon">☕</span>
-      <span class="logo-text">Eric Qiu</span>
+      <!-- Full name: desktop -->
+      <span class="logo-text">Eric <em>Qiu.</em></span>
+      <!-- Compact mark: mobile -->
+      <span class="logo-mark" aria-hidden="true">E<em>Q</em>.</span>
     </a>
     <div class="nav-right">
       <div class="nav-links">
@@ -45,7 +47,6 @@ const links = [
       btn.querySelector('.icon-moon').style.display = isDark ? 'none' : 'block';
     }
 
-    // Set initial icon state
     updateIcons();
 
     btn.addEventListener('click', function() {
@@ -87,23 +88,37 @@ const links = [
   .logo {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    font-size: 1.125rem;
+    color: var(--text-primary);
   }
 
+  /* Desktop: full name */
   .logo-text {
+    display: inline;
     font-family: var(--font-display);
+    font-size: 1.375rem;
     font-weight: 600;
     letter-spacing: -0.02em;
     font-optical-sizing: auto;
+    line-height: 1;
   }
 
-  .logo-icon {
-    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
-    font-size: 22px;
+  .logo-text em {
+    font-style: italic;
+  }
+
+  /* Mobile: EQ. mark */
+  .logo-mark {
+    display: none;
+    font-family: var(--font-display);
+    font-size: 1.375rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    font-optical-sizing: auto;
     line-height: 1;
-    -webkit-font-smoothing: auto;
-    font-variant-emoji: emoji;
+  }
+
+  .logo-mark em {
+    font-style: italic;
   }
 
   .nav-right {
@@ -118,11 +133,11 @@ const links = [
   }
 
   .nav-link {
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: 0.875rem;
-    letter-spacing: 0.04em;
+    font-weight: 500;
+    letter-spacing: 0.02em;
     color: var(--text-secondary);
-    font-weight: 400;
     background-image: linear-gradient(var(--text-primary), var(--text-primary));
     background-repeat: no-repeat;
     background-position: 0% 100%;
@@ -136,12 +151,6 @@ const links = [
   }
 
   .nav-link:focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 4px;
-    border-radius: 2px;
-  }
-
-  .theme-toggle:focus-visible {
     outline: 2px solid var(--accent);
     outline-offset: 4px;
     border-radius: 2px;
@@ -165,22 +174,37 @@ const links = [
     transform: rotate(20deg);
   }
 
+  .theme-toggle:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 4px;
+    border-radius: 2px;
+  }
+
   /* JS controls icon visibility via inline style */
   .icon-sun, .icon-moon {
     display: none;
   }
 
   @media (max-width: 480px) {
+    .nav-inner {
+      padding: 0 1.25rem;
+    }
+
     .nav-links {
       gap: 1rem;
     }
 
     .nav-link {
-      font-size: 0.8rem;
+      font-size: 0.8125rem;
     }
 
+    /* Swap: hide full name, show compact mark */
     .logo-text {
       display: none;
+    }
+
+    .logo-mark {
+      display: inline;
     }
   }
 </style>
