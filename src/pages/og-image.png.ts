@@ -3,7 +3,7 @@ import { Resvg } from "@resvg/resvg-js";
 import fs from "fs";
 import path from "path";
 import type { APIRoute } from "astro";
-import { dark } from "../palette";
+import { light } from "../palette";
 import { site } from "../site";
 
 export const GET: APIRoute = async () => {
@@ -26,7 +26,7 @@ export const GET: APIRoute = async () => {
           flexDirection: "row",
           width: "1200px",
           height: "630px",
-          background: dark.bgPrimary,
+          background: light.bgPrimary,
         },
         children: [
           // Amber accent stripe
@@ -36,7 +36,7 @@ export const GET: APIRoute = async () => {
               style: {
                 width: "12px",
                 height: "630px",
-                background: dark.accent,
+                background: light.accent,
                 flexShrink: 0,
               },
             },
@@ -61,7 +61,7 @@ export const GET: APIRoute = async () => {
                       fontFamily: "Space Mono",
                       fontSize: "24px",
                       fontWeight: 400,
-                      color: dark.accent,
+                      color: light.accent,
                       letterSpacing: "0.06em",
                       textTransform: "uppercase",
                       marginBottom: "32px",
@@ -86,7 +86,7 @@ export const GET: APIRoute = async () => {
                             fontFamily: "Fraunces",
                             fontSize: "96px",
                             fontWeight: 800,
-                            color: dark.textPrimary,
+                            color: light.textPrimary,
                             lineHeight: 1.05,
                             letterSpacing: "-0.02em",
                           },
@@ -101,7 +101,7 @@ export const GET: APIRoute = async () => {
                             fontStyle: "italic",
                             fontSize: "96px",
                             fontWeight: 800,
-                            color: dark.textPrimary,
+                            color: light.textPrimary,
                             lineHeight: 1.05,
                             letterSpacing: "-0.02em",
                           },
@@ -119,7 +119,7 @@ export const GET: APIRoute = async () => {
                       fontFamily: "Space Mono",
                       fontSize: "22px",
                       fontWeight: 400,
-                      color: dark.textMuted,
+                      color: light.textMuted,
                       letterSpacing: "0.03em",
                     },
                     children: site.domain,
