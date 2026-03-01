@@ -519,22 +519,259 @@
       background: transparent;
     }
 
-    /* ── Parallax modes ── */
+    /* ── Design element modes ── */
 
-    /* Color Bleed: bg panels overflow section edges, colors bleed at transitions */
-    body[data-parallax="bleed"] .scene,
-    body[data-parallax="diagonal"] .scene {
-      overflow: visible;
+    /* Letter-Seg: independent overlay toggle (body.letter-seg class) */
+    body.letter-seg .sim-name {
+      padding-bottom: 0.18em;
+      margin-bottom: calc(2rem - 0.18em); /* cancel extra padding so layout doesn't shift */
+      background: linear-gradient(
+        to bottom,
+        var(--a, #7E5F28) 0%,
+        var(--a, #7E5F28) 46%,
+        var(--t, #111111) 54%,
+        var(--t, #111111) 100%
+      );
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
-    body[data-parallax="bleed"] .scene-bg,
-    body[data-parallax="diagonal"] .scene-bg {
-      top: -180px;
-      bottom: -180px;
+
+    /* Scroll-Morph: sections become transparent; body bg morphs via JS */
+    body[data-mode="scroll-morph"] {
+      transition: background-color 0.5s ease;
     }
-    /* Diagonal: angled wedge clip on bg panels */
-    body[data-parallax="diagonal"] .scene-bg {
-      clip-path: polygon(0 14%, 100% 0%, 100% 86%, 0 100%);
+    body[data-mode="scroll-morph"] .palette {
+      background: transparent !important;
     }
+    body[data-mode="scroll-morph"] .scene-bg {
+      display: none;
+    }
+
+    /* ── Light / dark view filter ── */
+    /* Light view: show only light-bg variants */
+    body[data-view="light"] .palette[class*="-dark"] { display: none; }
+    body[data-view="light"] .scene:not(:has(.palette[class*="-light"])) { display: none; }
+    /* Dark view: show only dark-bg variants */
+    body[data-view="dark"] .palette[class*="-light"] { display: none; }
+    body[data-view="dark"] .palette:is(.p-amber, .p-forest, .p-ink, .p-clay, .p-slate, .p-burgundy) { display: none; }
+    body[data-view="dark"] .palette[class*="sig-"] { display: none; }
+    body[data-view="dark"] .additive-divider { display: none; }
+
+    /* ── Per-palette CSS vars (for letter-seg gradient) ── */
+    .p-amber          { --a: #7E5F28; --t: #111111; }
+    .p-amber-dark     { --a: #D4A574; --t: #F0EBE0; }
+    .p-forest         { --a: #2D5A27; --t: #0F1A0C; }
+    .p-forest-dark    { --a: #6AAE5A; --t: #E8EDE6; }
+    .p-ink            { --a: #1B4080; --t: #0A1628; }
+    .p-ink-dark       { --a: #5B8DB5; --t: #E8EDF5; }
+    .p-clay           { --a: #8B3A2A; --t: #1A0A06; }
+    .p-clay-dark      { --a: #C4664A; --t: #F0E6E0; }
+    .p-slate          { --a: #4A5568; --t: #141418; }
+    .p-slate-dark     { --a: #8A9AB8; --t: #EEEEF2; }
+    .p-burgundy       { --a: #7A1E30; --t: #140608; }
+    .p-burgundy-dark  { --a: #C45A6E; --t: #F0E8EA; }
+    .p-bottle         { --a: #7DC87A; --t: #E4EDE6; }
+    .p-ultra          { --a: #90B4E8; --t: #E8ECF8; }
+    .p-teal           { --a: #5AC8D8; --t: #DCF0F4; }
+    .p-amber-wash     { --a: #D4A574; --t: #F5EAD8; }
+    .p-terra-wash     { --a: #E8906A; --t: #F5E4DE; }
+    .p-olive          { --a: #A8C86A; --t: #EAECB8; }
+    .p-burg-wash      { --a: #E87888; --t: #F5E0E4; }
+    .p-cobalt         { --a: #80AAFF; --t: #E0E8FF; }
+    .p-bottle-light   { --a: #2D6B35; --t: #0F2412; }
+    .p-ultra-light    { --a: #1E3FA8; --t: #060F3A; }
+    .p-teal-light     { --a: #0A5A6E; --t: #051820; }
+    .p-amber-wash-light { --a: #8B5E20; --t: #2A1A06; }
+    .p-terra-wash-light { --a: #8B3A20; --t: #200A08; }
+    .p-olive-light    { --a: #5A6A28; --t: #161C0A; }
+    .p-burg-wash-light { --a: #8B2A3A; --t: #200810; }
+    .p-cobalt-light   { --a: #1E3FCC; --t: #000A40; }
+
+    /* ── Additive signature colour variants ── */
+    /* Base: amber/cream. Only identity touchpoints change: kicker, icon. */
+    .sig-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Fraunces", Georgia, serif;
+      font-weight: 800;
+      font-style: italic;
+      font-size: 0.65rem;
+      width: 26px;
+      height: 26px;
+      border-radius: 4px;
+      margin-right: 0.625rem;
+      vertical-align: middle;
+      letter-spacing: -0.01em;
+      position: relative;
+      top: -1px;
+      flex-shrink: 0;
+    }
+
+    .p-sig-verdigris, .p-sig-forest, .p-sig-navy,
+    .p-sig-oxide, .p-sig-steel {
+      background: #F5F0E8;
+      color: #111111;
+    }
+    .p-sig-verdigris .palette-header,
+    .p-sig-forest .palette-header,
+    .p-sig-navy .palette-header,
+    .p-sig-oxide .palette-header,
+    .p-sig-steel .palette-header { border-color: #D8D4CC; }
+
+    .p-sig-verdigris .palette-name { color: #111111; }
+    .p-sig-verdigris .sim-kicker   { color: #2A6B5E; }
+    .p-sig-verdigris .sim-section-label { color: #7E5F28; border-color: #D8D4CC; }
+    .p-sig-verdigris .sim-section-label span { color: #828078; font-weight: 400; }
+    .p-sig-verdigris .sim-entry    { border-color: #D8D4CC; }
+    .p-sig-verdigris .sim-role span { color: #7E5F28; }
+    .p-sig-verdigris { --a: #2A6B5E; --t: #111111; }
+
+    .p-sig-forest .palette-name   { color: #111111; }
+    .p-sig-forest .sim-kicker     { color: #2D4A3E; }
+    .p-sig-forest .sim-section-label { color: #7E5F28; border-color: #D8D4CC; }
+    .p-sig-forest .sim-section-label span { color: #828078; font-weight: 400; }
+    .p-sig-forest .sim-entry      { border-color: #D8D4CC; }
+    .p-sig-forest .sim-role span  { color: #7E5F28; }
+    .p-sig-forest { --a: #2D4A3E; --t: #111111; }
+
+    .p-sig-navy .palette-name     { color: #111111; }
+    .p-sig-navy .sim-kicker       { color: #1B2D45; }
+    .p-sig-navy .sim-section-label { color: #7E5F28; border-color: #D8D4CC; }
+    .p-sig-navy .sim-section-label span { color: #828078; font-weight: 400; }
+    .p-sig-navy .sim-entry        { border-color: #D8D4CC; }
+    .p-sig-navy .sim-role span    { color: #7E5F28; }
+    .p-sig-navy { --a: #1B2D45; --t: #111111; }
+
+    .p-sig-oxide .palette-name    { color: #111111; }
+    .p-sig-oxide .sim-kicker      { color: #8B3A2A; }
+    .p-sig-oxide .sim-section-label { color: #7E5F28; border-color: #D8D4CC; }
+    .p-sig-oxide .sim-section-label span { color: #828078; font-weight: 400; }
+    .p-sig-oxide .sim-entry       { border-color: #D8D4CC; }
+    .p-sig-oxide .sim-role span   { color: #7E5F28; }
+    .p-sig-oxide { --a: #8B3A2A; --t: #111111; }
+
+    .p-sig-steel .palette-name    { color: #111111; }
+    .p-sig-steel .sim-kicker      { color: #4A6580; }
+    .p-sig-steel .sim-section-label { color: #7E5F28; border-color: #D8D4CC; }
+    .p-sig-steel .sim-section-label span { color: #828078; font-weight: 400; }
+    .p-sig-steel .sim-entry       { border-color: #D8D4CC; }
+    .p-sig-steel .sim-role span   { color: #7E5F28; }
+    .p-sig-steel { --a: #4A6580; --t: #111111; }
+
+    /* ── Additional additive signature variants ── */
+    .p-sig-prussian, .p-sig-slate-teal, .p-sig-plum,
+    .p-sig-bronze, .p-sig-indigo {
+      background: #F5F0E8;
+      color: #111111;
+    }
+    .p-sig-prussian .palette-header,
+    .p-sig-slate-teal .palette-header,
+    .p-sig-plum .palette-header,
+    .p-sig-bronze .palette-header,
+    .p-sig-indigo .palette-header { border-color: #D8D4CC; }
+
+    .p-sig-prussian .palette-name  { color: #111111; }
+    .p-sig-prussian .sim-kicker    { color: #0F3A5A; }
+    .p-sig-prussian .sim-section-label { color: #7E5F28; border-color: #D8D4CC; }
+    .p-sig-prussian .sim-section-label span { color: #828078; font-weight: 400; }
+    .p-sig-prussian .sim-entry     { border-color: #D8D4CC; }
+    .p-sig-prussian .sim-role span { color: #7E5F28; }
+    .p-sig-prussian { --a: #0F3A5A; --t: #111111; }
+
+    .p-sig-slate-teal .palette-name  { color: #111111; }
+    .p-sig-slate-teal .sim-kicker    { color: #2A5055; }
+    .p-sig-slate-teal .sim-section-label { color: #7E5F28; border-color: #D8D4CC; }
+    .p-sig-slate-teal .sim-section-label span { color: #828078; font-weight: 400; }
+    .p-sig-slate-teal .sim-entry     { border-color: #D8D4CC; }
+    .p-sig-slate-teal .sim-role span { color: #7E5F28; }
+    .p-sig-slate-teal { --a: #2A5055; --t: #111111; }
+
+    .p-sig-plum .palette-name  { color: #111111; }
+    .p-sig-plum .sim-kicker    { color: #5A2A4A; }
+    .p-sig-plum .sim-section-label { color: #7E5F28; border-color: #D8D4CC; }
+    .p-sig-plum .sim-section-label span { color: #828078; font-weight: 400; }
+    .p-sig-plum .sim-entry     { border-color: #D8D4CC; }
+    .p-sig-plum .sim-role span { color: #7E5F28; }
+    .p-sig-plum { --a: #5A2A4A; --t: #111111; }
+
+    .p-sig-bronze .palette-name  { color: #111111; }
+    .p-sig-bronze .sim-kicker    { color: #7A4A18; }
+    .p-sig-bronze .sim-section-label { color: #7E5F28; border-color: #D8D4CC; }
+    .p-sig-bronze .sim-section-label span { color: #828078; font-weight: 400; }
+    .p-sig-bronze .sim-entry     { border-color: #D8D4CC; }
+    .p-sig-bronze .sim-role span { color: #7E5F28; }
+    .p-sig-bronze { --a: #7A4A18; --t: #111111; }
+
+    .p-sig-indigo .palette-name  { color: #111111; }
+    .p-sig-indigo .sim-kicker    { color: #2A2870; }
+    .p-sig-indigo .sim-section-label { color: #7E5F28; border-color: #D8D4CC; }
+    .p-sig-indigo .sim-section-label span { color: #828078; font-weight: 400; }
+    .p-sig-indigo .sim-entry     { border-color: #D8D4CC; }
+    .p-sig-indigo .sim-role span { color: #7E5F28; }
+    .p-sig-indigo { --a: #2A2870; --t: #111111; }
+
+    /* ── Extended additive: greens + new hues ── */
+    .p-sig-hunter, .p-sig-sage, .p-sig-malachite,
+    .p-sig-fern, .p-sig-cobalt, .p-sig-mauve {
+      background: #F5F0E8;
+      color: #111111;
+    }
+    .p-sig-hunter .palette-header,
+    .p-sig-sage .palette-header,
+    .p-sig-malachite .palette-header,
+    .p-sig-fern .palette-header,
+    .p-sig-cobalt .palette-header,
+    .p-sig-mauve .palette-header { border-color: #D8D4CC; }
+
+    .p-sig-hunter .palette-name  { color: #111111; }
+    .p-sig-hunter .sim-kicker    { color: #2B5235; }
+    .p-sig-hunter .sim-section-label { color: #7E5F28; border-color: #D8D4CC; }
+    .p-sig-hunter .sim-section-label span { color: #828078; font-weight: 400; }
+    .p-sig-hunter .sim-entry     { border-color: #D8D4CC; }
+    .p-sig-hunter .sim-role span { color: #7E5F28; }
+    .p-sig-hunter { --a: #2B5235; --t: #111111; }
+
+    .p-sig-sage .palette-name  { color: #111111; }
+    .p-sig-sage .sim-kicker    { color: #4E6A55; }
+    .p-sig-sage .sim-section-label { color: #7E5F28; border-color: #D8D4CC; }
+    .p-sig-sage .sim-section-label span { color: #828078; font-weight: 400; }
+    .p-sig-sage .sim-entry     { border-color: #D8D4CC; }
+    .p-sig-sage .sim-role span { color: #7E5F28; }
+    .p-sig-sage { --a: #4E6A55; --t: #111111; }
+
+    .p-sig-malachite .palette-name  { color: #111111; }
+    .p-sig-malachite .sim-kicker    { color: #1A7A56; }
+    .p-sig-malachite .sim-section-label { color: #7E5F28; border-color: #D8D4CC; }
+    .p-sig-malachite .sim-section-label span { color: #828078; font-weight: 400; }
+    .p-sig-malachite .sim-entry     { border-color: #D8D4CC; }
+    .p-sig-malachite .sim-role span { color: #7E5F28; }
+    .p-sig-malachite { --a: #1A7A56; --t: #111111; }
+
+    .p-sig-fern .palette-name  { color: #111111; }
+    .p-sig-fern .sim-kicker    { color: #4D6B3C; }
+    .p-sig-fern .sim-section-label { color: #7E5F28; border-color: #D8D4CC; }
+    .p-sig-fern .sim-section-label span { color: #828078; font-weight: 400; }
+    .p-sig-fern .sim-entry     { border-color: #D8D4CC; }
+    .p-sig-fern .sim-role span { color: #7E5F28; }
+    .p-sig-fern { --a: #4D6B3C; --t: #111111; }
+
+    .p-sig-cobalt .palette-name  { color: #111111; }
+    .p-sig-cobalt .sim-kicker    { color: #1C3A82; }
+    .p-sig-cobalt .sim-section-label { color: #7E5F28; border-color: #D8D4CC; }
+    .p-sig-cobalt .sim-section-label span { color: #828078; font-weight: 400; }
+    .p-sig-cobalt .sim-entry     { border-color: #D8D4CC; }
+    .p-sig-cobalt .sim-role span { color: #7E5F28; }
+    .p-sig-cobalt { --a: #1C3A82; --t: #111111; }
+
+    .p-sig-mauve .palette-name  { color: #111111; }
+    .p-sig-mauve .sim-kicker    { color: #7A4A68; }
+    .p-sig-mauve .sim-section-label { color: #7E5F28; border-color: #D8D4CC; }
+    .p-sig-mauve .sim-section-label span { color: #828078; font-weight: 400; }
+    .p-sig-mauve .sim-entry     { border-color: #D8D4CC; }
+    .p-sig-mauve .sim-role span { color: #7E5F28; }
+    .p-sig-mauve { --a: #7A4A68; --t: #111111; }
 
     /* ── Floating toggle pill ── */
     .px-toggle {
@@ -565,6 +802,7 @@
     .px-btn:first-child { border-left: none; }
     .px-btn:hover { color: rgba(255,255,255,0.72); background: rgba(28,28,28,0.97); }
     .px-btn.active { color: #D4A574; background: rgba(36,26,10,0.97); }
+    .px-sep { display: block; width: 1px; align-self: stretch; background: rgba(255,255,255,0.1); }
 
     /* Scene background colors */
     .bg-bottle      { background: #1C3A24; }
@@ -674,12 +912,31 @@
     <em class="nav-toggle-arrow">▾</em> Palette Nav
   </button>
   <div class="nav-links" id="nav-links" role="navigation">
-    <a href="#amber" class="current">Amber</a>
+    <a href="_lab.html" style="color:#D4A574;margin-right:8px">← Lab</a>
+    <a href="#amber" style="color:rgba(255,255,255,0.3);margin-right:4px">—</a>
+    <a href="#amber">Amber</a>
     <a href="#forest">Forest</a>
     <a href="#ink">Ink Blue</a>
     <a href="#clay">Clay</a>
     <a href="#slate">Slate</a>
     <a href="#burgundy">Burgundy</a>
+    <a href="#additive" style="color:rgba(255,255,255,0.3);margin-left:12px">—</a>
+    <a href="#additive">Additive: Verdigris</a>
+    <a href="#additive-forest">Additive: Forest</a>
+    <a href="#additive-navy">Additive: Navy</a>
+    <a href="#additive-oxide">Additive: Oxide</a>
+    <a href="#additive-steel">Additive: Steel</a>
+    <a href="#additive-prussian">Additive: Prussian</a>
+    <a href="#additive-slate-teal">Additive: Slate Teal</a>
+    <a href="#additive-plum">Additive: Plum</a>
+    <a href="#additive-bronze">Additive: Bronze</a>
+    <a href="#additive-indigo">Additive: Indigo</a>
+    <a href="#additive-hunter">Additive: Hunter</a>
+    <a href="#additive-sage">Additive: Sage</a>
+    <a href="#additive-malachite">Additive: Malachite</a>
+    <a href="#additive-fern">Additive: Fern</a>
+    <a href="#additive-cobalt">Additive: Cobalt</a>
+    <a href="#additive-mauve">Additive: Mauve</a>
     <a href="#bold" style="color:rgba(255,255,255,0.3);margin-left:12px">—</a>
     <a href="#bottle">Bold: Bottle Green</a>
     <a href="#ultra">Bold: Ultramarine</a>
@@ -991,6 +1248,446 @@
   </div>
 </section>
 </div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- ADDITIVE: SIGNATURE COLOUR -->
+<!-- ═══════════════════════════════════════════════ -->
+<div id="additive" class="bold-divider additive-divider">
+  <h2>Additive — Signature Colour</h2>
+  <p>Amber/cream stays intact across the entire site. One signature colour is applied only to identity touchpoints: the icon/favicon, hero kicker, scroll progress bar, and OG image stripe. Amber remains the editorial accent for dates, labels, and links. The kicker and EQ. chip below show the signature colour; everything else is unchanged.</p>
+</div>
+
+<section class="palette p-sig-verdigris" id="additive">
+  <div class="palette-header">
+    <span class="palette-name">
+      <span class="sig-icon" style="background:#2A6B5E;color:#F0EBE0">EQ.</span>
+      Amber + Verdigris &nbsp;·&nbsp; <em style="font-style:normal;opacity:0.55">#2A6B5E — Top candidate</em>
+    </span>
+    <div class="palette-swatches">
+      <div class="swatch" style="background:#F5F0E8" title="Site bg"></div>
+      <div class="swatch" style="background:#7E5F28" title="Amber (dates, labels)"></div>
+      <div class="swatch" style="background:#2A6B5E" title="Signature: icon, kicker, progress"></div>
+      <div class="swatch" style="background:#111111" title="Text"></div>
+    </div>
+  </div>
+  <div class="palette-inner">
+    <p class="sim-kicker">Software Engineer // Coffee Addict // New York City</p>
+    <h1 class="sim-name"><span>Eric</span><em>Qiu.</em></h1>
+    <p class="sim-bio">I build distributed systems and cloud infrastructure at Bloomberg. University of Waterloo CS. Previously at Addepar, Postmates, and BMO Capital Markets.</p>
+    <p class="sim-bio-aside">Outside work: pour over coffee, a Fujifilm X100VI, and whatever book is currently face-down on my desk.</p>
+    <p class="sim-section-label"><span>01</span>&nbsp;&nbsp;Work</p>
+    <div class="sim-entry">
+      <p class="sim-company">Bloomberg LP</p>
+      <p class="sim-role">Senior Software Engineer &nbsp;<span>Jun 2021 – Present</span></p>
+      <p class="sim-desc">Working in Software Infrastructure to architect and develop managed multi-tenant distributed services in use by over 300 teams across all businesses and powering mission-critical applications.</p>
+    </div>
+  </div>
+</section>
+
+<section class="palette p-sig-forest" id="additive-forest">
+  <div class="palette-header">
+    <span class="palette-name">
+      <span class="sig-icon" style="background:#2D4A3E;color:#F0EBE0">EQ.</span>
+      Amber + Forest Green &nbsp;·&nbsp; <em style="font-style:normal;opacity:0.55">#2D4A3E — Understated</em>
+    </span>
+    <div class="palette-swatches">
+      <div class="swatch" style="background:#F5F0E8"></div>
+      <div class="swatch" style="background:#7E5F28"></div>
+      <div class="swatch" style="background:#2D4A3E"></div>
+      <div class="swatch" style="background:#111111"></div>
+    </div>
+  </div>
+  <div class="palette-inner">
+    <p class="sim-kicker">Software Engineer // Coffee Addict // New York City</p>
+    <h1 class="sim-name"><span>Eric</span><em>Qiu.</em></h1>
+    <p class="sim-bio">I build distributed systems and cloud infrastructure at Bloomberg. University of Waterloo CS. Previously at Addepar, Postmates, and BMO Capital Markets.</p>
+    <p class="sim-bio-aside">Outside work: pour over coffee, a Fujifilm X100VI, and whatever book is currently face-down on my desk.</p>
+    <p class="sim-section-label"><span>01</span>&nbsp;&nbsp;Work</p>
+    <div class="sim-entry">
+      <p class="sim-company">Bloomberg LP</p>
+      <p class="sim-role">Senior Software Engineer &nbsp;<span>Jun 2021 – Present</span></p>
+      <p class="sim-desc">Working in Software Infrastructure to architect and develop managed multi-tenant distributed services in use by over 300 teams across all businesses and powering mission-critical applications.</p>
+    </div>
+  </div>
+</section>
+
+<section class="palette p-sig-navy" id="additive-navy">
+  <div class="palette-header">
+    <span class="palette-name">
+      <span class="sig-icon" style="background:#1B2D45;color:#F0EBE0">EQ.</span>
+      Amber + Ink Navy &nbsp;·&nbsp; <em style="font-style:normal;opacity:0.55">#1B2D45 — Authoritative</em>
+    </span>
+    <div class="palette-swatches">
+      <div class="swatch" style="background:#F5F0E8"></div>
+      <div class="swatch" style="background:#7E5F28"></div>
+      <div class="swatch" style="background:#1B2D45"></div>
+      <div class="swatch" style="background:#111111"></div>
+    </div>
+  </div>
+  <div class="palette-inner">
+    <p class="sim-kicker">Software Engineer // Coffee Addict // New York City</p>
+    <h1 class="sim-name"><span>Eric</span><em>Qiu.</em></h1>
+    <p class="sim-bio">I build distributed systems and cloud infrastructure at Bloomberg. University of Waterloo CS. Previously at Addepar, Postmates, and BMO Capital Markets.</p>
+    <p class="sim-bio-aside">Outside work: pour over coffee, a Fujifilm X100VI, and whatever book is currently face-down on my desk.</p>
+    <p class="sim-section-label"><span>01</span>&nbsp;&nbsp;Work</p>
+    <div class="sim-entry">
+      <p class="sim-company">Bloomberg LP</p>
+      <p class="sim-role">Senior Software Engineer &nbsp;<span>Jun 2021 – Present</span></p>
+      <p class="sim-desc">Working in Software Infrastructure to architect and develop managed multi-tenant distributed services in use by over 300 teams across all businesses and powering mission-critical applications.</p>
+    </div>
+  </div>
+</section>
+
+<section class="palette p-sig-oxide" id="additive-oxide">
+  <div class="palette-header">
+    <span class="palette-name">
+      <span class="sig-icon" style="background:#8B3A2A;color:#F0EBE0">EQ.</span>
+      Amber + Warm Oxide &nbsp;·&nbsp; <em style="font-style:normal;opacity:0.55">#8B3A2A — Analog/darkroom</em>
+    </span>
+    <div class="palette-swatches">
+      <div class="swatch" style="background:#F5F0E8"></div>
+      <div class="swatch" style="background:#7E5F28"></div>
+      <div class="swatch" style="background:#8B3A2A"></div>
+      <div class="swatch" style="background:#111111"></div>
+    </div>
+  </div>
+  <div class="palette-inner">
+    <p class="sim-kicker">Software Engineer // Coffee Addict // New York City</p>
+    <h1 class="sim-name"><span>Eric</span><em>Qiu.</em></h1>
+    <p class="sim-bio">I build distributed systems and cloud infrastructure at Bloomberg. University of Waterloo CS. Previously at Addepar, Postmates, and BMO Capital Markets.</p>
+    <p class="sim-bio-aside">Outside work: pour over coffee, a Fujifilm X100VI, and whatever book is currently face-down on my desk.</p>
+    <p class="sim-section-label"><span>01</span>&nbsp;&nbsp;Work</p>
+    <div class="sim-entry">
+      <p class="sim-company">Bloomberg LP</p>
+      <p class="sim-role">Senior Software Engineer &nbsp;<span>Jun 2021 – Present</span></p>
+      <p class="sim-desc">Working in Software Infrastructure to architect and develop managed multi-tenant distributed services in use by over 300 teams across all businesses and powering mission-critical applications.</p>
+    </div>
+  </div>
+</section>
+
+<section class="palette p-sig-steel" id="additive-steel">
+  <div class="palette-header">
+    <span class="palette-name">
+      <span class="sig-icon" style="background:#4A6580;color:#F0EBE0">EQ.</span>
+      Amber + Muted Steel &nbsp;·&nbsp; <em style="font-style:normal;opacity:0.55">#4A6580 — Engineering precision</em>
+    </span>
+    <div class="palette-swatches">
+      <div class="swatch" style="background:#F5F0E8"></div>
+      <div class="swatch" style="background:#7E5F28"></div>
+      <div class="swatch" style="background:#4A6580"></div>
+      <div class="swatch" style="background:#111111"></div>
+    </div>
+  </div>
+  <div class="palette-inner">
+    <p class="sim-kicker">Software Engineer // Coffee Addict // New York City</p>
+    <h1 class="sim-name"><span>Eric</span><em>Qiu.</em></h1>
+    <p class="sim-bio">I build distributed systems and cloud infrastructure at Bloomberg. University of Waterloo CS. Previously at Addepar, Postmates, and BMO Capital Markets.</p>
+    <p class="sim-bio-aside">Outside work: pour over coffee, a Fujifilm X100VI, and whatever book is currently face-down on my desk.</p>
+    <p class="sim-section-label"><span>01</span>&nbsp;&nbsp;Work</p>
+    <div class="sim-entry">
+      <p class="sim-company">Bloomberg LP</p>
+      <p class="sim-role">Senior Software Engineer &nbsp;<span>Jun 2021 – Present</span></p>
+      <p class="sim-desc">Working in Software Infrastructure to architect and develop managed multi-tenant distributed services in use by over 300 teams across all businesses and powering mission-critical applications.</p>
+    </div>
+  </div>
+</section>
+
+<section class="palette p-sig-prussian" id="additive-prussian">
+  <div class="palette-header">
+    <span class="palette-name">
+      <span class="sig-icon" style="background:#0F3A5A;color:#F0EBE0">EQ.</span>
+      Amber + Prussian Blue &nbsp;·&nbsp; <em style="font-style:normal;opacity:0.55">#0F3A5A — Deep naval</em>
+    </span>
+    <div class="palette-swatches">
+      <div class="swatch" style="background:#F5F0E8"></div>
+      <div class="swatch" style="background:#7E5F28"></div>
+      <div class="swatch" style="background:#0F3A5A"></div>
+      <div class="swatch" style="background:#111111"></div>
+    </div>
+  </div>
+  <div class="palette-inner">
+    <p class="sim-kicker">Software Engineer // Coffee Addict // New York City</p>
+    <h1 class="sim-name"><span>Eric</span><em>Qiu.</em></h1>
+    <p class="sim-bio">I build distributed systems and cloud infrastructure at Bloomberg. University of Waterloo CS. Previously at Addepar, Postmates, and BMO Capital Markets.</p>
+    <p class="sim-bio-aside">Outside work: pour over coffee, a Fujifilm X100VI, and whatever book is currently face-down on my desk.</p>
+    <p class="sim-section-label"><span>01</span>&nbsp;&nbsp;Work</p>
+    <div class="sim-entry">
+      <p class="sim-company">Bloomberg LP</p>
+      <p class="sim-role">Senior Software Engineer &nbsp;<span>Jun 2021 – Present</span></p>
+      <p class="sim-desc">Working in Software Infrastructure to architect and develop managed multi-tenant distributed services in use by over 300 teams across all businesses and powering mission-critical applications.</p>
+    </div>
+  </div>
+</section>
+
+<section class="palette p-sig-slate-teal" id="additive-slate-teal">
+  <div class="palette-header">
+    <span class="palette-name">
+      <span class="sig-icon" style="background:#2A5055;color:#F0EBE0">EQ.</span>
+      Amber + Slate Teal &nbsp;·&nbsp; <em style="font-style:normal;opacity:0.55">#2A5055 — Muted blue-teal</em>
+    </span>
+    <div class="palette-swatches">
+      <div class="swatch" style="background:#F5F0E8"></div>
+      <div class="swatch" style="background:#7E5F28"></div>
+      <div class="swatch" style="background:#2A5055"></div>
+      <div class="swatch" style="background:#111111"></div>
+    </div>
+  </div>
+  <div class="palette-inner">
+    <p class="sim-kicker">Software Engineer // Coffee Addict // New York City</p>
+    <h1 class="sim-name"><span>Eric</span><em>Qiu.</em></h1>
+    <p class="sim-bio">I build distributed systems and cloud infrastructure at Bloomberg. University of Waterloo CS. Previously at Addepar, Postmates, and BMO Capital Markets.</p>
+    <p class="sim-bio-aside">Outside work: pour over coffee, a Fujifilm X100VI, and whatever book is currently face-down on my desk.</p>
+    <p class="sim-section-label"><span>01</span>&nbsp;&nbsp;Work</p>
+    <div class="sim-entry">
+      <p class="sim-company">Bloomberg LP</p>
+      <p class="sim-role">Senior Software Engineer &nbsp;<span>Jun 2021 – Present</span></p>
+      <p class="sim-desc">Working in Software Infrastructure to architect and develop managed multi-tenant distributed services in use by over 300 teams across all businesses and powering mission-critical applications.</p>
+    </div>
+  </div>
+</section>
+
+<section class="palette p-sig-plum" id="additive-plum">
+  <div class="palette-header">
+    <span class="palette-name">
+      <span class="sig-icon" style="background:#5A2A4A;color:#F0EBE0">EQ.</span>
+      Amber + Deep Plum &nbsp;·&nbsp; <em style="font-style:normal;opacity:0.55">#5A2A4A — Moody, editorial</em>
+    </span>
+    <div class="palette-swatches">
+      <div class="swatch" style="background:#F5F0E8"></div>
+      <div class="swatch" style="background:#7E5F28"></div>
+      <div class="swatch" style="background:#5A2A4A"></div>
+      <div class="swatch" style="background:#111111"></div>
+    </div>
+  </div>
+  <div class="palette-inner">
+    <p class="sim-kicker">Software Engineer // Coffee Addict // New York City</p>
+    <h1 class="sim-name"><span>Eric</span><em>Qiu.</em></h1>
+    <p class="sim-bio">I build distributed systems and cloud infrastructure at Bloomberg. University of Waterloo CS. Previously at Addepar, Postmates, and BMO Capital Markets.</p>
+    <p class="sim-bio-aside">Outside work: pour over coffee, a Fujifilm X100VI, and whatever book is currently face-down on my desk.</p>
+    <p class="sim-section-label"><span>01</span>&nbsp;&nbsp;Work</p>
+    <div class="sim-entry">
+      <p class="sim-company">Bloomberg LP</p>
+      <p class="sim-role">Senior Software Engineer &nbsp;<span>Jun 2021 – Present</span></p>
+      <p class="sim-desc">Working in Software Infrastructure to architect and develop managed multi-tenant distributed services in use by over 300 teams across all businesses and powering mission-critical applications.</p>
+    </div>
+  </div>
+</section>
+
+<section class="palette p-sig-bronze" id="additive-bronze">
+  <div class="palette-header">
+    <span class="palette-name">
+      <span class="sig-icon" style="background:#7A4A18;color:#F0EBE0">EQ.</span>
+      Amber + Warm Bronze &nbsp;·&nbsp; <em style="font-style:normal;opacity:0.55">#7A4A18 — Darkroom warmth</em>
+    </span>
+    <div class="palette-swatches">
+      <div class="swatch" style="background:#F5F0E8"></div>
+      <div class="swatch" style="background:#7E5F28"></div>
+      <div class="swatch" style="background:#7A4A18"></div>
+      <div class="swatch" style="background:#111111"></div>
+    </div>
+  </div>
+  <div class="palette-inner">
+    <p class="sim-kicker">Software Engineer // Coffee Addict // New York City</p>
+    <h1 class="sim-name"><span>Eric</span><em>Qiu.</em></h1>
+    <p class="sim-bio">I build distributed systems and cloud infrastructure at Bloomberg. University of Waterloo CS. Previously at Addepar, Postmates, and BMO Capital Markets.</p>
+    <p class="sim-bio-aside">Outside work: pour over coffee, a Fujifilm X100VI, and whatever book is currently face-down on my desk.</p>
+    <p class="sim-section-label"><span>01</span>&nbsp;&nbsp;Work</p>
+    <div class="sim-entry">
+      <p class="sim-company">Bloomberg LP</p>
+      <p class="sim-role">Senior Software Engineer &nbsp;<span>Jun 2021 – Present</span></p>
+      <p class="sim-desc">Working in Software Infrastructure to architect and develop managed multi-tenant distributed services in use by over 300 teams across all businesses and powering mission-critical applications.</p>
+    </div>
+  </div>
+</section>
+
+<section class="palette p-sig-indigo" id="additive-indigo">
+  <div class="palette-header">
+    <span class="palette-name">
+      <span class="sig-icon" style="background:#2A2870;color:#F0EBE0">EQ.</span>
+      Amber + Indigo &nbsp;·&nbsp; <em style="font-style:normal;opacity:0.55">#2A2870 — Deep violet-blue</em>
+    </span>
+    <div class="palette-swatches">
+      <div class="swatch" style="background:#F5F0E8"></div>
+      <div class="swatch" style="background:#7E5F28"></div>
+      <div class="swatch" style="background:#2A2870"></div>
+      <div class="swatch" style="background:#111111"></div>
+    </div>
+  </div>
+  <div class="palette-inner">
+    <p class="sim-kicker">Software Engineer // Coffee Addict // New York City</p>
+    <h1 class="sim-name"><span>Eric</span><em>Qiu.</em></h1>
+    <p class="sim-bio">I build distributed systems and cloud infrastructure at Bloomberg. University of Waterloo CS. Previously at Addepar, Postmates, and BMO Capital Markets.</p>
+    <p class="sim-bio-aside">Outside work: pour over coffee, a Fujifilm X100VI, and whatever book is currently face-down on my desk.</p>
+    <p class="sim-section-label"><span>01</span>&nbsp;&nbsp;Work</p>
+    <div class="sim-entry">
+      <p class="sim-company">Bloomberg LP</p>
+      <p class="sim-role">Senior Software Engineer &nbsp;<span>Jun 2021 – Present</span></p>
+      <p class="sim-desc">Working in Software Infrastructure to architect and develop managed multi-tenant distributed services in use by over 300 teams across all businesses and powering mission-critical applications.</p>
+    </div>
+  </div>
+</section>
+
+<section class="palette p-sig-hunter" id="additive-hunter">
+  <div class="palette-header">
+    <span class="palette-name">
+      <span class="sig-icon" style="background:#2B5235;color:#F0EBE0">EQ.</span>
+      Amber + Hunter &nbsp;·&nbsp; <em style="font-style:normal;opacity:0.55">#2B5235 — Deep hunter green</em>
+    </span>
+    <div class="palette-swatches">
+      <div class="swatch" style="background:#F5F0E8"></div>
+      <div class="swatch" style="background:#7E5F28"></div>
+      <div class="swatch" style="background:#2B5235"></div>
+      <div class="swatch" style="background:#111111"></div>
+    </div>
+  </div>
+  <div class="palette-inner">
+    <p class="sim-kicker">Software Engineer // Coffee Addict // New York City</p>
+    <h1 class="sim-name"><span>Eric</span><em>Qiu.</em></h1>
+    <p class="sim-bio">I build distributed systems and cloud infrastructure at Bloomberg. University of Waterloo CS. Previously at Addepar, Postmates, and BMO Capital Markets.</p>
+    <p class="sim-bio-aside">Outside work: pour over coffee, a Fujifilm X100VI, and whatever book is currently face-down on my desk.</p>
+    <p class="sim-section-label"><span>01</span>&nbsp;&nbsp;Work</p>
+    <div class="sim-entry">
+      <p class="sim-company">Bloomberg LP</p>
+      <p class="sim-role">Senior Software Engineer &nbsp;<span>Jun 2021 – Present</span></p>
+      <p class="sim-desc">Working in Software Infrastructure to architect and develop managed multi-tenant distributed services in use by over 300 teams across all businesses and powering mission-critical applications.</p>
+    </div>
+  </div>
+</section>
+
+<section class="palette p-sig-sage" id="additive-sage">
+  <div class="palette-header">
+    <span class="palette-name">
+      <span class="sig-icon" style="background:#4E6A55;color:#F0EBE0">EQ.</span>
+      Amber + Sage &nbsp;·&nbsp; <em style="font-style:normal;opacity:0.55">#4E6A55 — Muted sage green</em>
+    </span>
+    <div class="palette-swatches">
+      <div class="swatch" style="background:#F5F0E8"></div>
+      <div class="swatch" style="background:#7E5F28"></div>
+      <div class="swatch" style="background:#4E6A55"></div>
+      <div class="swatch" style="background:#111111"></div>
+    </div>
+  </div>
+  <div class="palette-inner">
+    <p class="sim-kicker">Software Engineer // Coffee Addict // New York City</p>
+    <h1 class="sim-name"><span>Eric</span><em>Qiu.</em></h1>
+    <p class="sim-bio">I build distributed systems and cloud infrastructure at Bloomberg. University of Waterloo CS. Previously at Addepar, Postmates, and BMO Capital Markets.</p>
+    <p class="sim-bio-aside">Outside work: pour over coffee, a Fujifilm X100VI, and whatever book is currently face-down on my desk.</p>
+    <p class="sim-section-label"><span>01</span>&nbsp;&nbsp;Work</p>
+    <div class="sim-entry">
+      <p class="sim-company">Bloomberg LP</p>
+      <p class="sim-role">Senior Software Engineer &nbsp;<span>Jun 2021 – Present</span></p>
+      <p class="sim-desc">Working in Software Infrastructure to architect and develop managed multi-tenant distributed services in use by over 300 teams across all businesses and powering mission-critical applications.</p>
+    </div>
+  </div>
+</section>
+
+<section class="palette p-sig-malachite" id="additive-malachite">
+  <div class="palette-header">
+    <span class="palette-name">
+      <span class="sig-icon" style="background:#1A7A56;color:#F0EBE0">EQ.</span>
+      Amber + Malachite &nbsp;·&nbsp; <em style="font-style:normal;opacity:0.55">#1A7A56 — Bright malachite</em>
+    </span>
+    <div class="palette-swatches">
+      <div class="swatch" style="background:#F5F0E8"></div>
+      <div class="swatch" style="background:#7E5F28"></div>
+      <div class="swatch" style="background:#1A7A56"></div>
+      <div class="swatch" style="background:#111111"></div>
+    </div>
+  </div>
+  <div class="palette-inner">
+    <p class="sim-kicker">Software Engineer // Coffee Addict // New York City</p>
+    <h1 class="sim-name"><span>Eric</span><em>Qiu.</em></h1>
+    <p class="sim-bio">I build distributed systems and cloud infrastructure at Bloomberg. University of Waterloo CS. Previously at Addepar, Postmates, and BMO Capital Markets.</p>
+    <p class="sim-bio-aside">Outside work: pour over coffee, a Fujifilm X100VI, and whatever book is currently face-down on my desk.</p>
+    <p class="sim-section-label"><span>01</span>&nbsp;&nbsp;Work</p>
+    <div class="sim-entry">
+      <p class="sim-company">Bloomberg LP</p>
+      <p class="sim-role">Senior Software Engineer &nbsp;<span>Jun 2021 – Present</span></p>
+      <p class="sim-desc">Working in Software Infrastructure to architect and develop managed multi-tenant distributed services in use by over 300 teams across all businesses and powering mission-critical applications.</p>
+    </div>
+  </div>
+</section>
+
+<section class="palette p-sig-fern" id="additive-fern">
+  <div class="palette-header">
+    <span class="palette-name">
+      <span class="sig-icon" style="background:#4D6B3C;color:#F0EBE0">EQ.</span>
+      Amber + Fern &nbsp;·&nbsp; <em style="font-style:normal;opacity:0.55">#4D6B3C — Warm fern green</em>
+    </span>
+    <div class="palette-swatches">
+      <div class="swatch" style="background:#F5F0E8"></div>
+      <div class="swatch" style="background:#7E5F28"></div>
+      <div class="swatch" style="background:#4D6B3C"></div>
+      <div class="swatch" style="background:#111111"></div>
+    </div>
+  </div>
+  <div class="palette-inner">
+    <p class="sim-kicker">Software Engineer // Coffee Addict // New York City</p>
+    <h1 class="sim-name"><span>Eric</span><em>Qiu.</em></h1>
+    <p class="sim-bio">I build distributed systems and cloud infrastructure at Bloomberg. University of Waterloo CS. Previously at Addepar, Postmates, and BMO Capital Markets.</p>
+    <p class="sim-bio-aside">Outside work: pour over coffee, a Fujifilm X100VI, and whatever book is currently face-down on my desk.</p>
+    <p class="sim-section-label"><span>01</span>&nbsp;&nbsp;Work</p>
+    <div class="sim-entry">
+      <p class="sim-company">Bloomberg LP</p>
+      <p class="sim-role">Senior Software Engineer &nbsp;<span>Jun 2021 – Present</span></p>
+      <p class="sim-desc">Working in Software Infrastructure to architect and develop managed multi-tenant distributed services in use by over 300 teams across all businesses and powering mission-critical applications.</p>
+    </div>
+  </div>
+</section>
+
+<section class="palette p-sig-cobalt" id="additive-cobalt">
+  <div class="palette-header">
+    <span class="palette-name">
+      <span class="sig-icon" style="background:#1C3A82;color:#F0EBE0">EQ.</span>
+      Amber + Cobalt &nbsp;·&nbsp; <em style="font-style:normal;opacity:0.55">#1C3A82 — Cobalt blue</em>
+    </span>
+    <div class="palette-swatches">
+      <div class="swatch" style="background:#F5F0E8"></div>
+      <div class="swatch" style="background:#7E5F28"></div>
+      <div class="swatch" style="background:#1C3A82"></div>
+      <div class="swatch" style="background:#111111"></div>
+    </div>
+  </div>
+  <div class="palette-inner">
+    <p class="sim-kicker">Software Engineer // Coffee Addict // New York City</p>
+    <h1 class="sim-name"><span>Eric</span><em>Qiu.</em></h1>
+    <p class="sim-bio">I build distributed systems and cloud infrastructure at Bloomberg. University of Waterloo CS. Previously at Addepar, Postmates, and BMO Capital Markets.</p>
+    <p class="sim-bio-aside">Outside work: pour over coffee, a Fujifilm X100VI, and whatever book is currently face-down on my desk.</p>
+    <p class="sim-section-label"><span>01</span>&nbsp;&nbsp;Work</p>
+    <div class="sim-entry">
+      <p class="sim-company">Bloomberg LP</p>
+      <p class="sim-role">Senior Software Engineer &nbsp;<span>Jun 2021 – Present</span></p>
+      <p class="sim-desc">Working in Software Infrastructure to architect and develop managed multi-tenant distributed services in use by over 300 teams across all businesses and powering mission-critical applications.</p>
+    </div>
+  </div>
+</section>
+
+<section class="palette p-sig-mauve" id="additive-mauve">
+  <div class="palette-header">
+    <span class="palette-name">
+      <span class="sig-icon" style="background:#7A4A68;color:#F0EBE0">EQ.</span>
+      Amber + Mauve &nbsp;·&nbsp; <em style="font-style:normal;opacity:0.55">#7A4A68 — Dusty mauve</em>
+    </span>
+    <div class="palette-swatches">
+      <div class="swatch" style="background:#F5F0E8"></div>
+      <div class="swatch" style="background:#7E5F28"></div>
+      <div class="swatch" style="background:#7A4A68"></div>
+      <div class="swatch" style="background:#111111"></div>
+    </div>
+  </div>
+  <div class="palette-inner">
+    <p class="sim-kicker">Software Engineer // Coffee Addict // New York City</p>
+    <h1 class="sim-name"><span>Eric</span><em>Qiu.</em></h1>
+    <p class="sim-bio">I build distributed systems and cloud infrastructure at Bloomberg. University of Waterloo CS. Previously at Addepar, Postmates, and BMO Capital Markets.</p>
+    <p class="sim-bio-aside">Outside work: pour over coffee, a Fujifilm X100VI, and whatever book is currently face-down on my desk.</p>
+    <p class="sim-section-label"><span>01</span>&nbsp;&nbsp;Work</p>
+    <div class="sim-entry">
+      <p class="sim-company">Bloomberg LP</p>
+      <p class="sim-role">Senior Software Engineer &nbsp;<span>Jun 2021 – Present</span></p>
+      <p class="sim-desc">Working in Software Infrastructure to architect and develop managed multi-tenant distributed services in use by over 300 teams across all businesses and powering mission-critical applications.</p>
+    </div>
+  </div>
+</section>
 
 <!-- ═══════════════════════════════════════════════ -->
 <!-- BOLD: COLOR AS BACKGROUND -->
@@ -1448,47 +2145,99 @@
   </div>
 </div>
 
-<div class="px-toggle" role="group" aria-label="Parallax mode">
-  <button class="px-btn active" data-mode="standard">Standard</button>
-  <button class="px-btn" data-mode="bleed">Color Bleed</button>
-  <button class="px-btn" data-mode="diagonal">Diagonal</button>
+<div class="px-toggle">
+  <button class="px-btn active" data-mode="standard">Flat</button>
+  <button class="px-btn" data-mode="scroll-morph">Scroll-Morph</button>
+  <span class="px-sep"></span>
+  <button class="px-btn" data-toggle="letter-seg">Letter-Seg</button>
+  <span class="px-sep"></span>
+  <button class="px-btn active" data-view="all">All</button>
+  <button class="px-btn" data-view="light">Light</button>
+  <button class="px-btn" data-view="dark">Dark</button>
 </div>
 
 <script>
   (function () {
-    // ── Parallax ──
-    var bgs = document.querySelectorAll('.scene-bg');
-    document.body.dataset.parallax = 'standard';
+    var palettes = document.querySelectorAll('.palette');
+    document.body.dataset.mode = 'standard';
 
-    function tick() {
-      var mode = document.body.dataset.parallax;
-      var scrollY = window.scrollY;
-      var viewH = window.innerHeight;
-      for (var i = 0; i < bgs.length; i++) {
-        var bg = bgs[i];
-        var scene = bg.parentElement;
-        if (mode === 'standard') {
-          bg.style.transform = 'translateY(0)';
-          continue;
+    // ── Capture morph colours — reads .scene-bg for bold (color-as-bg) sections ──
+    var morphColors = [];
+    function captureMorphColors() {
+      morphColors = [];
+      palettes.forEach(function (s) {
+        if (getComputedStyle(s).display === 'none') return;
+        var sceneParent = s.closest('.scene');
+        var bgColor;
+        if (sceneParent) {
+          var sceneBg = sceneParent.querySelector('.scene-bg');
+          bgColor = sceneBg ? getComputedStyle(sceneBg).backgroundColor : getComputedStyle(s).backgroundColor;
+        } else {
+          bgColor = getComputedStyle(s).backgroundColor;
         }
-        // Parallax: bg moves at 0.6x scroll speed
-        // shift = 0 when scene center is at viewport center
-        var sceneCenterPage = scene.offsetTop + scene.offsetHeight / 2;
-        var delta = scrollY - (sceneCenterPage - viewH / 2);
-        bg.style.transform = 'translateY(' + (delta * 0.4) + 'px)';
-      }
+        morphColors.push({ el: s, bg: bgColor });
+      });
     }
-    window.addEventListener('scroll', tick, { passive: true });
-    window.addEventListener('resize', function () { tick(); });
-    tick();
+    captureMorphColors();
 
-    // ── Parallax mode toggle ──
-    var pxBtns = document.querySelectorAll('.px-btn[data-mode]');
-    pxBtns.forEach(function (btn) {
+    // ── Scroll-morph tick ──
+    function tickMorph() {
+      if (document.body.dataset.mode !== 'scroll-morph') return;
+      var viewCenter = window.scrollY + window.innerHeight / 2;
+      var closest = null;
+      var minDist = Infinity;
+      morphColors.forEach(function (m) {
+        var rect = m.el.getBoundingClientRect();
+        var elCenter = window.scrollY + rect.top + rect.height / 2;
+        var dist = Math.abs(elCenter - viewCenter);
+        if (dist < minDist) { minDist = dist; closest = m; }
+      });
+      if (closest) { document.body.style.backgroundColor = closest.bg; }
+    }
+
+    window.addEventListener('scroll', tickMorph, { passive: true });
+
+    // ── Mode toggle (Flat / Scroll-Morph) ──
+    var modeBtns = document.querySelectorAll('.px-btn[data-mode]');
+    modeBtns.forEach(function (btn) {
       btn.addEventListener('click', function () {
-        document.body.dataset.parallax = btn.dataset.mode;
-        pxBtns.forEach(function (b) { b.classList.toggle('active', b === btn); });
-        tick();
+        var newMode = btn.dataset.mode;
+        var oldMode = document.body.dataset.mode;
+
+        if (newMode === 'scroll-morph') captureMorphColors();
+        if (oldMode === 'scroll-morph') document.body.style.backgroundColor = '';
+
+        document.body.dataset.mode = newMode;
+        modeBtns.forEach(function (b) { b.classList.toggle('active', b === btn); });
+        if (newMode === 'scroll-morph') tickMorph();
+      });
+    });
+
+    // ── Letter-seg toggle (independent overlay) ──
+    var lsBtn = document.querySelector('.px-btn[data-toggle="letter-seg"]');
+    if (lsBtn) {
+      lsBtn.addEventListener('click', function () {
+        document.body.classList.toggle('letter-seg');
+        lsBtn.classList.toggle('active');
+      });
+    }
+
+    // ── View toggle (All / Light / Dark) ──
+    var viewBtns = document.querySelectorAll('.px-btn[data-view]');
+    viewBtns.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var newView = btn.dataset.view;
+        if (newView === 'all') {
+          delete document.body.dataset.view;
+        } else {
+          document.body.dataset.view = newView;
+        }
+        viewBtns.forEach(function (b) { b.classList.toggle('active', b === btn); });
+        // Re-capture morph colors after view change (hidden sections are now excluded)
+        if (document.body.dataset.mode === 'scroll-morph') {
+          captureMorphColors();
+          tickMorph();
+        }
       });
     });
 

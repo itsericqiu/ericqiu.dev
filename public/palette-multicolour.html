@@ -1,0 +1,1594 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Multicolour Palettes — ericqiu.dev</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Instrument+Sans:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: "Instrument Sans", sans-serif; -webkit-font-smoothing: antialiased; }
+
+    /* ── Shared section layout ── */
+    .palette {
+      padding: 72px 40px 80px;
+      min-height: 100vh;
+    }
+
+    .palette-header {
+      max-width: 900px;
+      margin: 0 auto 56px;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 2rem;
+      flex-wrap: wrap;
+      border-bottom: 1px solid;
+      padding-bottom: 20px;
+    }
+
+    .palette-name {
+      font-family: "Space Mono", monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .palette-swatches {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .swatch {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      outline: 1px solid rgba(128,128,128,0.2);
+    }
+
+    .palette-inner {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    /* ── Simulated hero ── */
+    .sim-kicker {
+      font-family: "Space Mono", monospace;
+      font-size: 0.8125rem;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .sim-name {
+      font-family: "Fraunces", Georgia, serif;
+      font-size: clamp(3rem, 8vw, 5.5rem);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin-bottom: 2rem;
+      font-optical-sizing: auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sim-name em { font-style: italic; }
+
+    .sim-bio {
+      font-size: 1rem;
+      line-height: 1.75;
+      max-width: 520px;
+      margin-bottom: 0.75rem;
+      opacity: 0.82;
+    }
+
+    .sim-bio-aside {
+      font-size: 0.9375rem;
+      line-height: 1.75;
+      max-width: 520px;
+      margin-bottom: 2.5rem;
+      opacity: 0.65;
+    }
+
+    /* ── Simulated experience entry ── */
+    .sim-section-label {
+      font-family: "Space Mono", monospace;
+      font-size: 0.8125rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      margin-bottom: 2.5rem;
+      margin-top: 3.5rem;
+      padding-top: 3.5rem;
+      border-top: 1px solid;
+    }
+
+    .sim-entry {
+      padding: 2rem 0;
+      border-top: 1px solid;
+    }
+
+    .sim-company {
+      font-family: "Fraunces", Georgia, serif;
+      font-size: 1.75rem;
+      font-weight: 600;
+      line-height: 1.15;
+      margin-bottom: 6px;
+      font-optical-sizing: auto;
+    }
+
+    .sim-role {
+      font-family: "Space Mono", monospace;
+      font-size: 0.8125rem;
+      margin-bottom: 14px;
+      opacity: 0.72;
+    }
+
+    .sim-role span { opacity: 1; }
+
+    .sim-desc {
+      font-size: 1rem;
+      line-height: 1.75;
+      opacity: 0.82;
+      max-width: 640px;
+    }
+
+    /* ── Dual-accent legend ── */
+    .accent-legend {
+      display: flex;
+      gap: 1.5rem;
+      margin-bottom: 2.5rem;
+      flex-wrap: wrap;
+    }
+
+    .accent-chip {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: "Space Mono", monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      opacity: 0.7;
+    }
+
+    .accent-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+
+    /* ── Section dividers ── */
+    .palette-divider {
+      background: #0A0A0A;
+      color: #fff;
+      padding: 48px 40px 44px;
+      border-top: 4px solid;
+    }
+
+    .palette-divider h2 {
+      font-family: "Space Mono", monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .palette-divider p {
+      font-family: "Instrument Sans", sans-serif;
+      font-size: 1rem;
+      line-height: 1.6;
+      color: rgba(255,255,255,0.6);
+      max-width: 640px;
+    }
+
+    /* ── Nav strip ── */
+    .nav-strip {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(10,10,10,0.94);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .nav-toggle {
+      display: none;
+      width: 100%;
+      padding: 12px 20px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: "Space Mono", monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.7);
+      text-align: left;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-toggle-arrow {
+      display: inline-block;
+      transition: transform 0.2s;
+    }
+
+    .nav-links {
+      padding: 10px 40px 12px;
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      font-family: "Space Mono", monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+      padding: 4px 10px;
+      border-radius: 3px;
+      transition: color 0.15s, background 0.15s;
+    }
+
+    .nav-links a:hover { color: #fff; background: rgba(255,255,255,0.08); }
+    .nav-links .back-link { color: #D4A574; }
+
+    @media (max-width: 640px) {
+      .nav-toggle { display: flex; }
+      .nav-links {
+        padding: 0 16px 12px;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.25s ease, padding 0.25s ease;
+        padding-top: 0;
+        padding-bottom: 0;
+      }
+      .nav-links.open {
+        max-height: 400px;
+        padding-top: 6px;
+        padding-bottom: 12px;
+      }
+      .nav-strip.open .nav-toggle-arrow { transform: rotate(180deg); }
+      .palette { padding: 48px 20px 56px; }
+      .palette-header { margin-bottom: 36px; }
+    }
+
+    /* ══════════════════════════════════════════════════
+       PALETTE COLOUR DEFINITIONS
+       Each palette: dark + light variant
+       Accent 1 = structural/primary accent
+       Accent 2 = secondary/editorial accent
+    ══════════════════════════════════════════════════ */
+
+    /* ── 1. Financial Times ── */
+    /* Prussian Blue #0F5499 + Salmon Red #CC4B37 */
+    .p-ft-dark {
+      background: #0D1A2E;
+      color: #F0EDE8;
+    }
+    .p-ft-dark .palette-header  { border-color: #1A3050; }
+    .p-ft-dark .palette-name    { color: #90B4D8; }
+    .p-ft-dark .sim-kicker      { color: #CC4B37; }
+    .p-ft-dark .sim-section-label { color: #90B4D8; border-color: #1A3050; }
+    .p-ft-dark .sim-section-label span { color: #4A6888; font-weight: 400; }
+    .p-ft-dark .sim-entry       { border-color: #1A3050; }
+    .p-ft-dark .sim-role span   { color: #CC4B37; }
+    .p-ft-dark .sim-company     { color: #F0EDE8; }
+
+    .p-ft-light {
+      background: #FDF6EE;
+      color: #0D1A2E;
+    }
+    .p-ft-light .palette-header  { border-color: #D8C8B8; }
+    .p-ft-light .palette-name    { color: #0F5499; }
+    .p-ft-light .sim-kicker      { color: #CC4B37; }
+    .p-ft-light .sim-section-label { color: #0F5499; border-color: #D8C8B8; }
+    .p-ft-light .sim-section-label span { color: #8A7868; font-weight: 400; }
+    .p-ft-light .sim-entry       { border-color: #D8C8B8; }
+    .p-ft-light .sim-role span   { color: #CC4B37; }
+
+    /* ── 2. Kinfolk ── */
+    /* Sage #5A7A5E + Terracotta #B85C3A */
+    .p-kinfolk-dark {
+      background: #141A14;
+      color: #EAE8E0;
+    }
+    .p-kinfolk-dark .palette-header  { border-color: #243824; }
+    .p-kinfolk-dark .palette-name    { color: #8AAE8E; }
+    .p-kinfolk-dark .sim-kicker      { color: #D4806A; }
+    .p-kinfolk-dark .sim-section-label { color: #8AAE8E; border-color: #243824; }
+    .p-kinfolk-dark .sim-section-label span { color: #4A6A4E; font-weight: 400; }
+    .p-kinfolk-dark .sim-entry       { border-color: #243824; }
+    .p-kinfolk-dark .sim-role span   { color: #D4806A; }
+
+    .p-kinfolk-light {
+      background: #F4F0E8;
+      color: #1A1410;
+    }
+    .p-kinfolk-light .palette-header  { border-color: #CCC4B0; }
+    .p-kinfolk-light .palette-name    { color: #5A7A5E; }
+    .p-kinfolk-light .sim-kicker      { color: #B85C3A; }
+    .p-kinfolk-light .sim-section-label { color: #5A7A5E; border-color: #CCC4B0; }
+    .p-kinfolk-light .sim-section-label span { color: #8A7A68; font-weight: 400; }
+    .p-kinfolk-light .sim-entry       { border-color: #CCC4B0; }
+    .p-kinfolk-light .sim-role span   { color: #B85C3A; }
+
+    /* ── 3. Bloomberg Terminal ── */
+    /* Terminal Green #1A6B35 + Amber Alert #C8860A */
+    .p-terminal-dark {
+      background: #050D07;
+      color: #C8E8D0;
+    }
+    .p-terminal-dark .palette-header  { border-color: #0E2814; }
+    .p-terminal-dark .palette-name    { color: #3AB85A; }
+    .p-terminal-dark .sim-kicker      { color: #C8860A; }
+    .p-terminal-dark .sim-section-label { color: #3AB85A; border-color: #0E2814; }
+    .p-terminal-dark .sim-section-label span { color: #2A5838; font-weight: 400; }
+    .p-terminal-dark .sim-entry       { border-color: #0E2814; }
+    .p-terminal-dark .sim-role span   { color: #C8860A; }
+    .p-terminal-dark .sim-company     { color: #C8E8D0; }
+
+    .p-terminal-light {
+      background: #F0F8F2;
+      color: #061008;
+    }
+    .p-terminal-light .palette-header  { border-color: #B8D8C0; }
+    .p-terminal-light .palette-name    { color: #1A6B35; }
+    .p-terminal-light .sim-kicker      { color: #C8860A; }
+    .p-terminal-light .sim-section-label { color: #1A6B35; border-color: #B8D8C0; }
+    .p-terminal-light .sim-section-label span { color: #5A8068; font-weight: 400; }
+    .p-terminal-light .sim-entry       { border-color: #B8D8C0; }
+    .p-terminal-light .sim-role span   { color: #C8860A; }
+
+    /* ── 4. Cereal ── */
+    /* Charcoal Blue #2E4A5E + Dusty Rose #B07878 */
+    .p-cereal-dark {
+      background: #0A1018;
+      color: #E4E8EE;
+    }
+    .p-cereal-dark .palette-header  { border-color: #162030; }
+    .p-cereal-dark .palette-name    { color: #7A9AB8; }
+    .p-cereal-dark .sim-kicker      { color: #C89898; }
+    .p-cereal-dark .sim-section-label { color: #7A9AB8; border-color: #162030; }
+    .p-cereal-dark .sim-section-label span { color: #3A5870; font-weight: 400; }
+    .p-cereal-dark .sim-entry       { border-color: #162030; }
+    .p-cereal-dark .sim-role span   { color: #C89898; }
+
+    .p-cereal-light {
+      background: #F2F4F8;
+      color: #0E1820;
+    }
+    .p-cereal-light .palette-header  { border-color: #C0C8D4; }
+    .p-cereal-light .palette-name    { color: #2E4A5E; }
+    .p-cereal-light .sim-kicker      { color: #B07878; }
+    .p-cereal-light .sim-section-label { color: #2E4A5E; border-color: #C0C8D4; }
+    .p-cereal-light .sim-section-label span { color: #6A7A8A; font-weight: 400; }
+    .p-cereal-light .sim-entry       { border-color: #C0C8D4; }
+    .p-cereal-light .sim-role span   { color: #B07878; }
+
+    /* ── 5. Monocle ── */
+    /* Deep Navy #1A2850 + Marigold #D4940A */
+    .p-monocle-dark {
+      background: #08101E;
+      color: #EAECf4;
+    }
+    .p-monocle-dark .palette-header  { border-color: #142040; }
+    .p-monocle-dark .palette-name    { color: #7A9AD4; }
+    .p-monocle-dark .sim-kicker      { color: #D4940A; }
+    .p-monocle-dark .sim-section-label { color: #7A9AD4; border-color: #142040; }
+    .p-monocle-dark .sim-section-label span { color: #3A5888; font-weight: 400; }
+    .p-monocle-dark .sim-entry       { border-color: #142040; }
+    .p-monocle-dark .sim-role span   { color: #D4940A; }
+
+    .p-monocle-light {
+      background: #F0F2F8;
+      color: #060E1E;
+    }
+    .p-monocle-light .palette-header  { border-color: #BCC4D8; }
+    .p-monocle-light .palette-name    { color: #1A2850; }
+    .p-monocle-light .sim-kicker      { color: #D4940A; }
+    .p-monocle-light .sim-section-label { color: #1A2850; border-color: #BCC4D8; }
+    .p-monocle-light .sim-section-label span { color: #5A6A88; font-weight: 400; }
+    .p-monocle-light .sim-entry       { border-color: #BCC4D8; }
+    .p-monocle-light .sim-role span   { color: #D4940A; }
+
+    /* ── 6. Aesop ── */
+    /* Olive #4A5A28 + Burnt Sienna #8A4A28 */
+    .p-aesop-dark {
+      background: #0E100A;
+      color: #E8E4D8;
+    }
+    .p-aesop-dark .palette-header  { border-color: #202810; }
+    .p-aesop-dark .palette-name    { color: #8A9A58; }
+    .p-aesop-dark .sim-kicker      { color: #C87848; }
+    .p-aesop-dark .sim-section-label { color: #8A9A58; border-color: #202810; }
+    .p-aesop-dark .sim-section-label span { color: #4A5A28; font-weight: 400; }
+    .p-aesop-dark .sim-entry       { border-color: #202810; }
+    .p-aesop-dark .sim-role span   { color: #C87848; }
+
+    .p-aesop-light {
+      background: #F5F2E8;
+      color: #100E08;
+    }
+    .p-aesop-light .palette-header  { border-color: #CCC4A8; }
+    .p-aesop-light .palette-name    { color: #4A5A28; }
+    .p-aesop-light .sim-kicker      { color: #8A4A28; }
+    .p-aesop-light .sim-section-label { color: #4A5A28; border-color: #CCC4A8; }
+    .p-aesop-light .sim-section-label span { color: #7A7058; font-weight: 400; }
+    .p-aesop-light .sim-entry       { border-color: #CCC4A8; }
+    .p-aesop-light .sim-role span   { color: #8A4A28; }
+
+    /* ── 7. Wallpaper* ── */
+    /* Teal #1A5C54 + Tobacco #C4840A */
+    .p-wall-dark {
+      background: #070C0C;
+      color: #D8F0EE;
+    }
+    .p-wall-dark .palette-header  { border-color: #122424; }
+    .p-wall-dark .palette-name    { color: #3AA898; }
+    .p-wall-dark .sim-kicker      { color: #C4840A; }
+    .p-wall-dark .sim-section-label { color: #3AA898; border-color: #122424; }
+    .p-wall-dark .sim-section-label span { color: #1E5A50; font-weight: 400; }
+    .p-wall-dark .sim-entry       { border-color: #122424; }
+    .p-wall-dark .sim-role span   { color: #C4840A; }
+    .p-wall-dark .sim-company     { color: #D8F0EE; }
+
+    .p-wall-light {
+      background: #EEF7F6;
+      color: #0A1A18;
+    }
+    .p-wall-light .palette-header  { border-color: #B0D8D4; }
+    .p-wall-light .palette-name    { color: #1A5C54; }
+    .p-wall-light .sim-kicker      { color: #8A5C08; }
+    .p-wall-light .sim-section-label { color: #1A5C54; border-color: #B0D8D4; }
+    .p-wall-light .sim-section-label span { color: #5A8C88; font-weight: 400; }
+    .p-wall-light .sim-entry       { border-color: #B0D8D4; }
+    .p-wall-light .sim-role span   { color: #8A5C08; }
+
+    /* ── 8. National Geographic ── */
+    /* Ocean Blue #0E3A6E + Golden #D4A808 */
+    .p-natgeo-dark {
+      background: #050A14;
+      color: #D8E4F0;
+    }
+    .p-natgeo-dark .palette-header  { border-color: #0E1E30; }
+    .p-natgeo-dark .palette-name    { color: #4888B8; }
+    .p-natgeo-dark .sim-kicker      { color: #D4A808; }
+    .p-natgeo-dark .sim-section-label { color: #4888B8; border-color: #0E1E30; }
+    .p-natgeo-dark .sim-section-label span { color: #1E4870; font-weight: 400; }
+    .p-natgeo-dark .sim-entry       { border-color: #0E1E30; }
+    .p-natgeo-dark .sim-role span   { color: #D4A808; }
+    .p-natgeo-dark .sim-company     { color: #D8E4F0; }
+
+    .p-natgeo-light {
+      background: #EDF3FB;
+      color: #06101E;
+    }
+    .p-natgeo-light .palette-header  { border-color: #B8CCDE; }
+    .p-natgeo-light .palette-name    { color: #0E3A6E; }
+    .p-natgeo-light .sim-kicker      { color: #A87808; }
+    .p-natgeo-light .sim-section-label { color: #0E3A6E; border-color: #B8CCDE; }
+    .p-natgeo-light .sim-section-label span { color: #5A7898; font-weight: 400; }
+    .p-natgeo-light .sim-entry       { border-color: #B8CCDE; }
+    .p-natgeo-light .sim-role span   { color: #A87808; }
+
+    /* ── 9. Orion ── */
+    /* Viridian #1A6250 + Warm Red #D4684C */
+    .p-orion-dark {
+      background: #071210;
+      color: #D0EAE2;
+    }
+    .p-orion-dark .palette-header  { border-color: #102820; }
+    .p-orion-dark .palette-name    { color: #3A9878; }
+    .p-orion-dark .sim-kicker      { color: #D4684C; }
+    .p-orion-dark .sim-section-label { color: #3A9878; border-color: #102820; }
+    .p-orion-dark .sim-section-label span { color: #1A5040; font-weight: 400; }
+    .p-orion-dark .sim-entry       { border-color: #102820; }
+    .p-orion-dark .sim-role span   { color: #D4684C; }
+    .p-orion-dark .sim-company     { color: #D0EAE2; }
+
+    .p-orion-light {
+      background: #EAF7F3;
+      color: #081A14;
+    }
+    .p-orion-light .palette-header  { border-color: #A8D8C8; }
+    .p-orion-light .palette-name    { color: #1A6250; }
+    .p-orion-light .sim-kicker      { color: #AA4434; }
+    .p-orion-light .sim-section-label { color: #1A6250; border-color: #A8D8C8; }
+    .p-orion-light .sim-section-label span { color: #508870; font-weight: 400; }
+    .p-orion-light .sim-entry       { border-color: #A8D8C8; }
+    .p-orion-light .sim-role span   { color: #AA4434; }
+
+    /* ── 10. A24 ── */
+    /* Prussian Blue #0E3460 + Bronze #C07830 */
+    .p-a24-dark {
+      background: #05080E;
+      color: #D0D8E8;
+    }
+    .p-a24-dark .palette-header  { border-color: #0C1828; }
+    .p-a24-dark .palette-name    { color: #4880B0; }
+    .p-a24-dark .sim-kicker      { color: #C07830; }
+    .p-a24-dark .sim-section-label { color: #4880B0; border-color: #0C1828; }
+    .p-a24-dark .sim-section-label span { color: #1A3C68; font-weight: 400; }
+    .p-a24-dark .sim-entry       { border-color: #0C1828; }
+    .p-a24-dark .sim-role span   { color: #C07830; }
+    .p-a24-dark .sim-company     { color: #D0D8E8; }
+
+    .p-a24-light {
+      background: #EEF2FA;
+      color: #060C18;
+    }
+    .p-a24-light .palette-header  { border-color: #B4C4D8; }
+    .p-a24-light .palette-name    { color: #0E3460; }
+    .p-a24-light .sim-kicker      { color: #8A5018; }
+    .p-a24-light .sim-section-label { color: #0E3460; border-color: #B4C4D8; }
+    .p-a24-light .sim-section-label span { color: #506888; font-weight: 400; }
+    .p-a24-light .sim-entry       { border-color: #B4C4D8; }
+    .p-a24-light .sim-role span   { color: #8A5018; }
+
+    /* ── 11. New Yorker: Navy + Gold ── */
+    .p-ny-dark { background: #06091A; color: #E8E8DC; }
+    .p-ny-dark .palette-header  { border-color: #0C1030; }
+    .p-ny-dark .palette-name    { color: #4A72C0; }
+    .p-ny-dark .sim-kicker      { color: #C89808; }
+    .p-ny-dark .sim-section-label { color: #4A72C0; border-color: #0C1030; }
+    .p-ny-dark .sim-section-label span { color: #1E3870; font-weight: 400; }
+    .p-ny-dark .sim-entry       { border-color: #0C1030; }
+    .p-ny-dark .sim-role span   { color: #C89808; }
+    .p-ny-dark .sim-company     { color: #D8DCF0; }
+
+    .p-ny-light { background: #F0EEE4; color: #080C18; }
+    .p-ny-light .palette-header  { border-color: #C8C4B4; }
+    .p-ny-light .palette-name    { color: #1B2D45; }
+    .p-ny-light .sim-kicker      { color: #A07800; }
+    .p-ny-light .sim-section-label { color: #1B2D45; border-color: #C8C4B4; }
+    .p-ny-light .sim-section-label span { color: #4A6080; font-weight: 400; }
+    .p-ny-light .sim-entry       { border-color: #C8C4B4; }
+    .p-ny-light .sim-role span   { color: #A07800; }
+
+    /* ── 12. Heritage: Forest + Oxide ── */
+    .p-heritage-dark { background: #080C08; color: #E0E8DC; }
+    .p-heritage-dark .palette-header  { border-color: #101810; }
+    .p-heritage-dark .palette-name    { color: #5A8A68; }
+    .p-heritage-dark .sim-kicker      { color: #C05A38; }
+    .p-heritage-dark .sim-section-label { color: #5A8A68; border-color: #101810; }
+    .p-heritage-dark .sim-section-label span { color: #1E3A28; font-weight: 400; }
+    .p-heritage-dark .sim-entry       { border-color: #101810; }
+    .p-heritage-dark .sim-role span   { color: #C05A38; }
+    .p-heritage-dark .sim-company     { color: #D0E0D4; }
+
+    .p-heritage-light { background: #F0EFE8; color: #080A06; }
+    .p-heritage-light .palette-header  { border-color: #C8C8BC; }
+    .p-heritage-light .palette-name    { color: #2D4A3E; }
+    .p-heritage-light .sim-kicker      { color: #8B3A2A; }
+    .p-heritage-light .sim-section-label { color: #2D4A3E; border-color: #C8C8BC; }
+    .p-heritage-light .sim-section-label span { color: #5A7A68; font-weight: 400; }
+    .p-heritage-light .sim-entry       { border-color: #C8C8BC; }
+    .p-heritage-light .sim-role span   { color: #8B3A2A; }
+
+    /* ── 13. Nocturne: Indigo + Bronze ── */
+    .p-nocturne-dark { background: #080818; color: #E4E4F0; }
+    .p-nocturne-dark .palette-header  { border-color: #0E0E2A; }
+    .p-nocturne-dark .palette-name    { color: #7070C8; }
+    .p-nocturne-dark .sim-kicker      { color: #C08830; }
+    .p-nocturne-dark .sim-section-label { color: #7070C8; border-color: #0E0E2A; }
+    .p-nocturne-dark .sim-section-label span { color: #202060; font-weight: 400; }
+    .p-nocturne-dark .sim-entry       { border-color: #0E0E2A; }
+    .p-nocturne-dark .sim-role span   { color: #C08830; }
+    .p-nocturne-dark .sim-company     { color: #D0D0E8; }
+
+    .p-nocturne-light { background: #F0EFF6; color: #08080E; }
+    .p-nocturne-light .palette-header  { border-color: #C8C8D8; }
+    .p-nocturne-light .palette-name    { color: #2A2870; }
+    .p-nocturne-light .sim-kicker      { color: #7A4A18; }
+    .p-nocturne-light .sim-section-label { color: #2A2870; border-color: #C8C8D8; }
+    .p-nocturne-light .sim-section-label span { color: #5858A0; font-weight: 400; }
+    .p-nocturne-light .sim-entry       { border-color: #C8C8D8; }
+    .p-nocturne-light .sim-role span   { color: #7A4A18; }
+
+    /* ── 14. Storm: Slate + Plum ── */
+    .p-storm-dark { background: #0A0C14; color: #E4E8F2; }
+    .p-storm-dark .palette-header  { border-color: #101420; }
+    .p-storm-dark .palette-name    { color: #6A8AB0; }
+    .p-storm-dark .sim-kicker      { color: #9A4880; }
+    .p-storm-dark .sim-section-label { color: #6A8AB0; border-color: #101420; }
+    .p-storm-dark .sim-section-label span { color: #1E3050; font-weight: 400; }
+    .p-storm-dark .sim-entry       { border-color: #101420; }
+    .p-storm-dark .sim-role span   { color: #9A4880; }
+    .p-storm-dark .sim-company     { color: #D4D8E8; }
+
+    .p-storm-light { background: #F2F4F8; color: #0A0C18; }
+    .p-storm-light .palette-header  { border-color: #C4C8D4; }
+    .p-storm-light .palette-name    { color: #3A506A; }
+    .p-storm-light .sim-kicker      { color: #5A2A4A; }
+    .p-storm-light .sim-section-label { color: #3A506A; border-color: #C4C8D4; }
+    .p-storm-light .sim-section-label span { color: #7890A8; font-weight: 400; }
+    .p-storm-light .sim-entry       { border-color: #C4C8D4; }
+    .p-storm-light .sim-role span   { color: #5A2A4A; }
+
+    /* ── Floating toggle pill ── */
+    .px-toggle {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 200;
+      display: flex;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 28px rgba(0,0,0,0.7);
+      border: 1px solid rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+    }
+
+    .px-btn {
+      background: rgba(12,12,12,0.97);
+      border: none;
+      border-left: 1px solid rgba(255,255,255,0.07);
+      padding: 11px 15px;
+      font-family: "Space Mono", monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.32);
+      cursor: pointer;
+      transition: color 0.15s, background 0.15s;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+    }
+
+    .px-btn:first-child { border-left: none; }
+    .px-btn:hover { color: rgba(255,255,255,0.72); background: rgba(28,28,28,0.97); }
+    .px-btn.active { color: #D4A574; background: rgba(36,26,10,0.97); }
+    .px-sep { display: block; width: 1px; align-self: stretch; background: rgba(255,255,255,0.1); }
+
+    /* ── Light / dark view filter ── */
+    body[data-view="light"] .palette[class*="-dark"] { display: none; }
+    body[data-view="dark"] .palette[class*="-light"] { display: none; }
+  </style>
+</head>
+<body>
+
+<nav class="nav-strip" id="nav-strip">
+  <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="nav-links">
+    <em class="nav-toggle-arrow">▾</em> Multicolour Nav
+  </button>
+  <div class="nav-links" id="nav-links" role="navigation">
+    <a href="_lab.html" class="back-link" style="margin-right:8px">← Lab</a>
+    <a href="#" style="color:rgba(255,255,255,0.3);margin-right:4px">—</a>
+    <a href="#ft">Financial Times</a>
+    <a href="#kinfolk">Kinfolk</a>
+    <a href="#terminal">Bloomberg Terminal</a>
+    <a href="#cereal">Cereal</a>
+    <a href="#monocle">Monocle</a>
+    <a href="#aesop">Aesop</a>
+    <a href="#wall">Wallpaper*</a>
+    <a href="#natgeo">Nat Geo</a>
+    <a href="#orion">Orion</a>
+    <a href="#a24">A24</a>
+    <a href="#ny">New Yorker</a>
+    <a href="#heritage">Heritage</a>
+    <a href="#nocturne">Nocturne</a>
+    <a href="#storm">Storm</a>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- INTRO DIVIDER -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="palette-divider" style="border-color:#D4A574">
+  <h2 style="color:#D4A574">Multicolour — Dual-Accent Editorial Systems</h2>
+  <p>Six editorial palette systems, each with two distinct accent colours rather than a single monochrome accent. In each system, <em style="color:rgba(255,255,255,0.8)">Accent 1</em> is structural (section labels, company names, borders) and <em style="color:rgba(255,255,255,0.8)">Accent 2</em> is editorial (kicker, dates, links). Dark and light variants shown for each.</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 1. FINANCIAL TIMES -->
+<!-- ═══════════════════════════════════════════════ -->
+<div id="ft">
+<section class="palette p-ft-dark">
+  <div class="palette-header">
+    <span class="palette-name">01 — Financial Times &nbsp;·&nbsp; Dark</span>
+    <div class="palette-swatches">
+      <div class="swatch" style="background:#0D1A2E" title="Bg"></div>
+      <div class="swatch" style="background:#0F5499" title="Prussian Blue — structural"></div>
+      <div class="swatch" style="background:#CC4B37" title="Salmon Red — editorial"></div>
+      <div class="swatch" style="background:#F0EDE8" title="Text"></div>
+    </div>
+  </div>
+  <div class="palette-inner">
+    <div class="accent-legend">
+      <span class="accent-chip"><span class="accent-dot" style="background:#0F5499"></span>Prussian Blue — structural</span>
+      <span class="accent-chip"><span class="accent-dot" style="background:#CC4B37"></span>Salmon Red — editorial</span>
+    </div>
+    <p class="sim-kicker">Software Engineer // Coffee Addict // New York City</p>
+    <h1 class="sim-name"><span>Eric</span><em>Qiu.</em></h1>
+    <p class="sim-bio">I build distributed systems and cloud infrastructure at Bloomberg. University of Waterloo CS. Previously at Addepar, Postmates, and BMO Capital Markets.</p>
+    <p class="sim-bio-aside">Outside work: pour over coffee, a Fujifilm X100VI, and whatever book is currently face-down on my desk.</p>
+    <p class="sim-section-label"><span>01</span>&nbsp;&nbsp;Work</p>
+    <div class="sim-entry">
+      <p class="sim-company">Bloomberg LP</p>
+      <p class="sim-role">Senior Software Engineer &nbsp;<span>Jun 2021 – Present</span></p>
+      <p class="sim-desc">Working in Software Infrastructure to architect and develop managed multi-tenant distributed services in use by over 300 teams across all businesses and powering mission-critical applications.</p>
+    </div>
+  </div>
+</section>
+
+<section class="palette p-ft-light">
+  <div class="palette-header">
+    <span class="palette-name">01 — Financial Times &nbsp;·&nbsp; Light</span>
+    <div class="palette-swatches">
+      <div class="swatch" style="background:#FDF6EE" title="Bg"></div>
+      <div class="swatch" style="background:#0F5499" title="Prussian Blue — structural"></div>
+      <div class="swatch" style="background:#CC4B37" title="Salmon Red — editorial"></div>
+      <div class="swatch" style="background:#0D1A2E" title="Text"></div>
+    </div>
+  </div>
+  <div class="palette-inner">
+    <div class="accent-legend">
+      <span class="accent-chip"><span class="accent-dot" style="background:#0F5499"></span>Prussian Blue — structural</span>
+      <span class="accent-chip"><span class="accent-dot" style="background:#CC4B37"></span>Salmon Red — editorial</span>
+    </div>
+    <p class="sim-kicker">Software Engineer // Coffee Addict // New York City</p>
+    <h1 class="sim-name"><span>Eric</span><em>Qiu.</em></h1>
+    <p class="sim-bio">I build distributed systems and cloud infrastructure at Bloomberg. University of Waterloo CS. Previously at Addepar, Postmates, and BMO Capital Markets.</p>
+    <p class="sim-bio-aside">Outside work: pour over coffee, a Fujifilm X100VI, and whatever book is currently face-down on my desk.</p>
+    <p class="sim-section-label"><span>01</span>&nbsp;&nbsp;Work</p>
+    <div class="sim-entry">
+      <p class="sim-company">Bloomberg LP</p>
+      <p class="sim-role">Senior Software Engineer &nbsp;<span>Jun 2021 – Present</span></p>
+      <p class="sim-desc">Working in Software Infrastructure to architect and develop managed multi-tenant distributed services in use by over 300 teams across all businesses and powering mission-critical applications.</p>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 2. KINFOLK -->
+<!-- ═══════════════════════════════════════════════ -->
+<div id="kinfolk">
+<section class="palette p-kinfolk-dark">
+  <div class="palette-header">
+    <span class="palette-name">02 — Kinfolk &nbsp;·&nbsp; Dark</span>
+    <div class="palette-swatches">
+      <div class="swatch" style="background:#141A14" title="Bg"></div>
+      <div class="swatch" style="background:#5A7A5E" title="Sage — structural"></div>
+      <div class="swatch" style="background:#B85C3A" title="Terracotta — editorial"></div>
+      <div class="swatch" style="background:#EAE8E0" title="Text"></div>
+    </div>
+  </div>
+  <div class="palette-inner">
+    <div class="accent-legend">
+      <span class="accent-chip"><span class="accent-dot" style="background:#5A7A5E"></span>Sage — structural</span>
+      <span class="accent-chip"><span class="accent-dot" style="background:#B85C3A"></span>Terracotta — editorial</span>
+    </div>
+    <p class="sim-kicker">Software Engineer // Coffee Addict // New York City</p>
+    <h1 class="sim-name"><span>Eric</span><em>Qiu.</em></h1>
+    <p class="sim-bio">I build distributed systems and cloud infrastructure at Bloomberg. University of Waterloo CS. Previously at Addepar, Postmates, and BMO Capital Markets.</p>
+    <p class="sim-bio-aside">Outside work: pour over coffee, a Fujifilm X100VI, and whatever book is currently face-down on my desk.</p>
+    <p class="sim-section-label"><span>01</span>&nbsp;&nbsp;Work</p>
+    <div class="sim-entry">
+      <p class="sim-company">Bloomberg LP</p>
+      <p class="sim-role">Senior Software Engineer &nbsp;<span>Jun 2021 – Present</span></p>
+      <p class="sim-desc">Working in Software Infrastructure to architect and develop managed multi-tenant distributed services in use by over 300 teams across all businesses and powering mission-critical applications.</p>
+    </div>
+  </div>
+</section>
+
+<section class="palette p-kinfolk-light">
+  <div class="palette-header">
+    <span class="palette-name">02 — Kinfolk &nbsp;·&nbsp; Light</span>
+    <div class="palette-swatches">
+      <div class="swatch" style="background:#F4F0E8" title="Bg"></div>
+      <div class="swatch" style="background:#5A7A5E" title="Sage — structural"></div>
+      <div class="swatch" style="background:#B85C3A" title="Terracotta — editorial"></div>
+      <div class="swatch" style="background:#1A1410" title="Text"></div>
+    </div>
+  </div>
+  <div class="palette-inner">
+    <div class="accent-legend">
+      <span class="accent-chip"><span class="accent-dot" style="background:#5A7A5E"></span>Sage — structural</span>
+      <span class="accent-chip"><span class="accent-dot" style="background:#B85C3A"></span>Terracotta — editorial</span>
+    </div>
+    <p class="sim-kicker">Software Engineer // Coffee Addict // New York City</p>
+    <h1 class="sim-name"><span>Eric</span><em>Qiu.</em></h1>
+    <p class="sim-bio">I build distributed systems and cloud infrastructure at Bloomberg. University of Waterloo CS. Previously at Addepar, Postmates, and BMO Capital Markets.</p>
+    <p class="sim-bio-aside">Outside work: pour over coffee, a Fujifilm X100VI, and whatever book is currently face-down on my desk.</p>
+    <p class="sim-section-label"><span>01</span>&nbsp;&nbsp;Work</p>
+    <div class="sim-entry">
+      <p class="sim-company">Bloomberg LP</p>
+      <p class="sim-role">Senior Software Engineer &nbsp;<span>Jun 2021 – Present</span></p>
+      <p class="sim-desc">Working in Software Infrastructure to architect and develop managed multi-tenant distributed services in use by over 300 teams across all businesses and powering mission-critical applications.</p>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 3. BLOOMBERG TERMINAL -->
+<!-- ═══════════════════════════════════════════════ -->
+<div id="terminal">
+<section class="palette p-terminal-dark">
+  <div class="palette-header">
+    <span class="palette-name">03 — Bloomberg Terminal &nbsp;·&nbsp; Dark</span>
+    <div class="palette-swatches">
+      <div class="swatch" style="background:#050D07" title="Bg"></div>
+      <div class="swatch" style="background:#1A6B35" title="Terminal Green — structural"></div>
+      <div class="swatch" style="background:#C8860A" title="Amber Alert — editorial"></div>
+      <div class="swatch" style="background:#C8E8D0" title="Text"></div>
+    </div>
+  </div>
+  <div class="palette-inner">
+    <div class="accent-legend">
+      <span class="accent-chip"><span class="accent-dot" style="background:#1A6B35"></span>Terminal Green — structural</span>
+      <span class="accent-chip"><span class="accent-dot" style="background:#C8860A"></span>Amber Alert — editorial</span>
+    </div>
+    <p class="sim-kicker">Software Engineer // Coffee Addict // New York City</p>
+    <h1 class="sim-name"><span>Eric</span><em>Qiu.</em></h1>
+    <p class="sim-bio">I build distributed systems and cloud infrastructure at Bloomberg. University of Waterloo CS. Previously at Addepar, Postmates, and BMO Capital Markets.</p>
+    <p class="sim-bio-aside">Outside work: pour over coffee, a Fujifilm X100VI, and whatever book is currently face-down on my desk.</p>
+    <p class="sim-section-label"><span>01</span>&nbsp;&nbsp;Work</p>
+    <div class="sim-entry">
+      <p class="sim-company">Bloomberg LP</p>
+      <p class="sim-role">Senior Software Engineer &nbsp;<span>Jun 2021 – Present</span></p>
+      <p class="sim-desc">Working in Software Infrastructure to architect and develop managed multi-tenant distributed services in use by over 300 teams across all businesses and powering mission-critical applications.</p>
+    </div>
+  </div>
+</section>
+
+<section class="palette p-terminal-light">
+  <div class="palette-header">
+    <span class="palette-name">03 — Bloomberg Terminal &nbsp;·&nbsp; Light</span>
+    <div class="palette-swatches">
+      <div class="swatch" style="background:#F0F8F2" title="Bg"></div>
+      <div class="swatch" style="background:#1A6B35" title="Terminal Green — structural"></div>
+      <div class="swatch" style="background:#C8860A" title="Amber Alert — editorial"></div>
+      <div class="swatch" style="background:#061008" title="Text"></div>
+    </div>
+  </div>
+  <div class="palette-inner">
+    <div class="accent-legend">
+      <span class="accent-chip"><span class="accent-dot" style="background:#1A6B35"></span>Terminal Green — structural</span>
+      <span class="accent-chip"><span class="accent-dot" style="background:#C8860A"></span>Amber Alert — editorial</span>
+    </div>
+    <p class="sim-kicker">Software Engineer // Coffee Addict // New York City</p>
+    <h1 class="sim-name"><span>Eric</span><em>Qiu.</em></h1>
+    <p class="sim-bio">I build distributed systems and cloud infrastructure at Bloomberg. University of Waterloo CS. Previously at Addepar, Postmates, and BMO Capital Markets.</p>
+    <p class="sim-bio-aside">Outside work: pour over coffee, a Fujifilm X100VI, and whatever book is currently face-down on my desk.</p>
+    <p class="sim-section-label"><span>01</span>&nbsp;&nbsp;Work</p>
+    <div class="sim-entry">
+      <p class="sim-company">Bloomberg LP</p>
+      <p class="sim-role">Senior Software Engineer &nbsp;<span>Jun 2021 – Present</span></p>
+      <p class="sim-desc">Working in Software Infrastructure to architect and develop managed multi-tenant distributed services in use by over 300 teams across all businesses and powering mission-critical applications.</p>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 4. CEREAL -->
+<!-- ═══════════════════════════════════════════════ -->
+<div id="cereal">
+<section class="palette p-cereal-dark">
+  <div class="palette-header">
+    <span class="palette-name">04 — Cereal &nbsp;·&nbsp; Dark</span>
+    <div class="palette-swatches">
+      <div class="swatch" style="background:#0A1018" title="Bg"></div>
+      <div class="swatch" style="background:#2E4A5E" title="Charcoal Blue — structural"></div>
+      <div class="swatch" style="background:#B07878" title="Dusty Rose — editorial"></div>
+      <div class="swatch" style="background:#E4E8EE" title="Text"></div>
+    </div>
+  </div>
+  <div class="palette-inner">
+    <div class="accent-legend">
+      <span class="accent-chip"><span class="accent-dot" style="background:#2E4A5E"></span>Charcoal Blue — structural</span>
+      <span class="accent-chip"><span class="accent-dot" style="background:#B07878"></span>Dusty Rose — editorial</span>
+    </div>
+    <p class="sim-kicker">Software Engineer // Coffee Addict // New York City</p>
+    <h1 class="sim-name"><span>Eric</span><em>Qiu.</em></h1>
+    <p class="sim-bio">I build distributed systems and cloud infrastructure at Bloomberg. University of Waterloo CS. Previously at Addepar, Postmates, and BMO Capital Markets.</p>
+    <p class="sim-bio-aside">Outside work: pour over coffee, a Fujifilm X100VI, and whatever book is currently face-down on my desk.</p>
+    <p class="sim-section-label"><span>01</span>&nbsp;&nbsp;Work</p>
+    <div class="sim-entry">
+      <p class="sim-company">Bloomberg LP</p>
+      <p class="sim-role">Senior Software Engineer &nbsp;<span>Jun 2021 – Present</span></p>
+      <p class="sim-desc">Working in Software Infrastructure to architect and develop managed multi-tenant distributed services in use by over 300 teams across all businesses and powering mission-critical applications.</p>
+    </div>
+  </div>
+</section>
+
+<section class="palette p-cereal-light">
+  <div class="palette-header">
+    <span class="palette-name">04 — Cereal &nbsp;·&nbsp; Light</span>
+    <div class="palette-swatches">
+      <div class="swatch" style="background:#F2F4F8" title="Bg"></div>
+      <div class="swatch" style="background:#2E4A5E" title="Charcoal Blue — structural"></div>
+      <div class="swatch" style="background:#B07878" title="Dusty Rose — editorial"></div>
+      <div class="swatch" style="background:#0E1820" title="Text"></div>
+    </div>
+  </div>
+  <div class="palette-inner">
+    <div class="accent-legend">
+      <span class="accent-chip"><span class="accent-dot" style="background:#2E4A5E"></span>Charcoal Blue — structural</span>
+      <span class="accent-chip"><span class="accent-dot" style="background:#B07878"></span>Dusty Rose — editorial</span>
+    </div>
+    <p class="sim-kicker">Software Engineer // Coffee Addict // New York City</p>
+    <h1 class="sim-name"><span>Eric</span><em>Qiu.</em></h1>
+    <p class="sim-bio">I build distributed systems and cloud infrastructure at Bloomberg. University of Waterloo CS. Previously at Addepar, Postmates, and BMO Capital Markets.</p>
+    <p class="sim-bio-aside">Outside work: pour over coffee, a Fujifilm X100VI, and whatever book is currently face-down on my desk.</p>
+    <p class="sim-section-label"><span>01</span>&nbsp;&nbsp;Work</p>
+    <div class="sim-entry">
+      <p class="sim-company">Bloomberg LP</p>
+      <p class="sim-role">Senior Software Engineer &nbsp;<span>Jun 2021 – Present</span></p>
+      <p class="sim-desc">Working in Software Infrastructure to architect and develop managed multi-tenant distributed services in use by over 300 teams across all businesses and powering mission-critical applications.</p>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 5. MONOCLE -->
+<!-- ═══════════════════════════════════════════════ -->
+<div id="monocle">
+<section class="palette p-monocle-dark">
+  <div class="palette-header">
+    <span class="palette-name">05 — Monocle &nbsp;·&nbsp; Dark</span>
+    <div class="palette-swatches">
+      <div class="swatch" style="background:#08101E" title="Bg"></div>
+      <div class="swatch" style="background:#1A2850" title="Deep Navy — structural"></div>
+      <div class="swatch" style="background:#D4940A" title="Marigold — editorial"></div>
+      <div class="swatch" style="background:#EAECf4" title="Text"></div>
+    </div>
+  </div>
+  <div class="palette-inner">
+    <div class="accent-legend">
+      <span class="accent-chip"><span class="accent-dot" style="background:#1A2850"></span>Deep Navy — structural</span>
+      <span class="accent-chip"><span class="accent-dot" style="background:#D4940A"></span>Marigold — editorial</span>
+    </div>
+    <p class="sim-kicker">Software Engineer // Coffee Addict // New York City</p>
+    <h1 class="sim-name"><span>Eric</span><em>Qiu.</em></h1>
+    <p class="sim-bio">I build distributed systems and cloud infrastructure at Bloomberg. University of Waterloo CS. Previously at Addepar, Postmates, and BMO Capital Markets.</p>
+    <p class="sim-bio-aside">Outside work: pour over coffee, a Fujifilm X100VI, and whatever book is currently face-down on my desk.</p>
+    <p class="sim-section-label"><span>01</span>&nbsp;&nbsp;Work</p>
+    <div class="sim-entry">
+      <p class="sim-company">Bloomberg LP</p>
+      <p class="sim-role">Senior Software Engineer &nbsp;<span>Jun 2021 – Present</span></p>
+      <p class="sim-desc">Working in Software Infrastructure to architect and develop managed multi-tenant distributed services in use by over 300 teams across all businesses and powering mission-critical applications.</p>
+    </div>
+  </div>
+</section>
+
+<section class="palette p-monocle-light">
+  <div class="palette-header">
+    <span class="palette-name">05 — Monocle &nbsp;·&nbsp; Light</span>
+    <div class="palette-swatches">
+      <div class="swatch" style="background:#F0F2F8" title="Bg"></div>
+      <div class="swatch" style="background:#1A2850" title="Deep Navy — structural"></div>
+      <div class="swatch" style="background:#D4940A" title="Marigold — editorial"></div>
+      <div class="swatch" style="background:#060E1E" title="Text"></div>
+    </div>
+  </div>
+  <div class="palette-inner">
+    <div class="accent-legend">
+      <span class="accent-chip"><span class="accent-dot" style="background:#1A2850"></span>Deep Navy — structural</span>
+      <span class="accent-chip"><span class="accent-dot" style="background:#D4940A"></span>Marigold — editorial</span>
+    </div>
+    <p class="sim-kicker">Software Engineer // Coffee Addict // New York City</p>
+    <h1 class="sim-name"><span>Eric</span><em>Qiu.</em></h1>
+    <p class="sim-bio">I build distributed systems and cloud infrastructure at Bloomberg. University of Waterloo CS. Previously at Addepar, Postmates, and BMO Capital Markets.</p>
+    <p class="sim-bio-aside">Outside work: pour over coffee, a Fujifilm X100VI, and whatever book is currently face-down on my desk.</p>
+    <p class="sim-section-label"><span>01</span>&nbsp;&nbsp;Work</p>
+    <div class="sim-entry">
+      <p class="sim-company">Bloomberg LP</p>
+      <p class="sim-role">Senior Software Engineer &nbsp;<span>Jun 2021 – Present</span></p>
+      <p class="sim-desc">Working in Software Infrastructure to architect and develop managed multi-tenant distributed services in use by over 300 teams across all businesses and powering mission-critical applications.</p>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 6. AESOP -->
+<!-- ═══════════════════════════════════════════════ -->
+<div id="aesop">
+<section class="palette p-aesop-dark">
+  <div class="palette-header">
+    <span class="palette-name">06 — Aesop &nbsp;·&nbsp; Dark</span>
+    <div class="palette-swatches">
+      <div class="swatch" style="background:#0E100A" title="Bg"></div>
+      <div class="swatch" style="background:#4A5A28" title="Olive — structural"></div>
+      <div class="swatch" style="background:#8A4A28" title="Burnt Sienna — editorial"></div>
+      <div class="swatch" style="background:#E8E4D8" title="Text"></div>
+    </div>
+  </div>
+  <div class="palette-inner">
+    <div class="accent-legend">
+      <span class="accent-chip"><span class="accent-dot" style="background:#4A5A28"></span>Olive — structural</span>
+      <span class="accent-chip"><span class="accent-dot" style="background:#8A4A28"></span>Burnt Sienna — editorial</span>
+    </div>
+    <p class="sim-kicker">Software Engineer // Coffee Addict // New York City</p>
+    <h1 class="sim-name"><span>Eric</span><em>Qiu.</em></h1>
+    <p class="sim-bio">I build distributed systems and cloud infrastructure at Bloomberg. University of Waterloo CS. Previously at Addepar, Postmates, and BMO Capital Markets.</p>
+    <p class="sim-bio-aside">Outside work: pour over coffee, a Fujifilm X100VI, and whatever book is currently face-down on my desk.</p>
+    <p class="sim-section-label"><span>01</span>&nbsp;&nbsp;Work</p>
+    <div class="sim-entry">
+      <p class="sim-company">Bloomberg LP</p>
+      <p class="sim-role">Senior Software Engineer &nbsp;<span>Jun 2021 – Present</span></p>
+      <p class="sim-desc">Working in Software Infrastructure to architect and develop managed multi-tenant distributed services in use by over 300 teams across all businesses and powering mission-critical applications.</p>
+    </div>
+  </div>
+</section>
+
+<section class="palette p-aesop-light">
+  <div class="palette-header">
+    <span class="palette-name">06 — Aesop &nbsp;·&nbsp; Light</span>
+    <div class="palette-swatches">
+      <div class="swatch" style="background:#F5F2E8" title="Bg"></div>
+      <div class="swatch" style="background:#4A5A28" title="Olive — structural"></div>
+      <div class="swatch" style="background:#8A4A28" title="Burnt Sienna — editorial"></div>
+      <div class="swatch" style="background:#100E08" title="Text"></div>
+    </div>
+  </div>
+  <div class="palette-inner">
+    <div class="accent-legend">
+      <span class="accent-chip"><span class="accent-dot" style="background:#4A5A28"></span>Olive — structural</span>
+      <span class="accent-chip"><span class="accent-dot" style="background:#8A4A28"></span>Burnt Sienna — editorial</span>
+    </div>
+    <p class="sim-kicker">Software Engineer // Coffee Addict // New York City</p>
+    <h1 class="sim-name"><span>Eric</span><em>Qiu.</em></h1>
+    <p class="sim-bio">I build distributed systems and cloud infrastructure at Bloomberg. University of Waterloo CS. Previously at Addepar, Postmates, and BMO Capital Markets.</p>
+    <p class="sim-bio-aside">Outside work: pour over coffee, a Fujifilm X100VI, and whatever book is currently face-down on my desk.</p>
+    <p class="sim-section-label"><span>01</span>&nbsp;&nbsp;Work</p>
+    <div class="sim-entry">
+      <p class="sim-company">Bloomberg LP</p>
+      <p class="sim-role">Senior Software Engineer &nbsp;<span>Jun 2021 – Present</span></p>
+      <p class="sim-desc">Working in Software Infrastructure to architect and develop managed multi-tenant distributed services in use by over 300 teams across all businesses and powering mission-critical applications.</p>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 7. WALLPAPER* -->
+<!-- ═══════════════════════════════════════════════ -->
+<div id="wall">
+<section class="palette p-wall-dark">
+  <div class="palette-header">
+    <span class="palette-name">07 — Wallpaper* &nbsp;·&nbsp; Dark</span>
+    <div class="palette-swatches">
+      <div class="swatch" style="background:#070C0C" title="Bg"></div>
+      <div class="swatch" style="background:#1A5C54" title="Teal — structural"></div>
+      <div class="swatch" style="background:#C4840A" title="Tobacco — editorial"></div>
+      <div class="swatch" style="background:#D8F0EE" title="Text"></div>
+    </div>
+  </div>
+  <div class="palette-inner">
+    <div class="accent-legend">
+      <span class="accent-chip"><span class="accent-dot" style="background:#1A5C54"></span>Teal — structural</span>
+      <span class="accent-chip"><span class="accent-dot" style="background:#C4840A"></span>Tobacco — editorial</span>
+    </div>
+    <p class="sim-kicker">Software Engineer // Coffee Addict // New York City</p>
+    <h1 class="sim-name"><span>Eric</span><em>Qiu.</em></h1>
+    <p class="sim-bio">I build distributed systems and cloud infrastructure at Bloomberg. University of Waterloo CS. Previously at Addepar, Postmates, and BMO Capital Markets.</p>
+    <p class="sim-bio-aside">Outside work: pour over coffee, a Fujifilm X100VI, and whatever book is currently face-down on my desk.</p>
+    <p class="sim-section-label"><span>01</span>&nbsp;&nbsp;Work</p>
+    <div class="sim-entry">
+      <p class="sim-company">Bloomberg LP</p>
+      <p class="sim-role">Senior Software Engineer &nbsp;<span>Jun 2021 – Present</span></p>
+      <p class="sim-desc">Working in Software Infrastructure to architect and develop managed multi-tenant distributed services in use by over 300 teams across all businesses and powering mission-critical applications.</p>
+    </div>
+  </div>
+</section>
+
+<section class="palette p-wall-light">
+  <div class="palette-header">
+    <span class="palette-name">07 — Wallpaper* &nbsp;·&nbsp; Light</span>
+    <div class="palette-swatches">
+      <div class="swatch" style="background:#EEF7F6" title="Bg"></div>
+      <div class="swatch" style="background:#1A5C54" title="Teal — structural"></div>
+      <div class="swatch" style="background:#C4840A" title="Tobacco — editorial"></div>
+      <div class="swatch" style="background:#0A1A18" title="Text"></div>
+    </div>
+  </div>
+  <div class="palette-inner">
+    <div class="accent-legend">
+      <span class="accent-chip"><span class="accent-dot" style="background:#1A5C54"></span>Teal — structural</span>
+      <span class="accent-chip"><span class="accent-dot" style="background:#C4840A"></span>Tobacco — editorial</span>
+    </div>
+    <p class="sim-kicker">Software Engineer // Coffee Addict // New York City</p>
+    <h1 class="sim-name"><span>Eric</span><em>Qiu.</em></h1>
+    <p class="sim-bio">I build distributed systems and cloud infrastructure at Bloomberg. University of Waterloo CS. Previously at Addepar, Postmates, and BMO Capital Markets.</p>
+    <p class="sim-bio-aside">Outside work: pour over coffee, a Fujifilm X100VI, and whatever book is currently face-down on my desk.</p>
+    <p class="sim-section-label"><span>01</span>&nbsp;&nbsp;Work</p>
+    <div class="sim-entry">
+      <p class="sim-company">Bloomberg LP</p>
+      <p class="sim-role">Senior Software Engineer &nbsp;<span>Jun 2021 – Present</span></p>
+      <p class="sim-desc">Working in Software Infrastructure to architect and develop managed multi-tenant distributed services in use by over 300 teams across all businesses and powering mission-critical applications.</p>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 8. NATIONAL GEOGRAPHIC -->
+<!-- ═══════════════════════════════════════════════ -->
+<div id="natgeo">
+<section class="palette p-natgeo-dark">
+  <div class="palette-header">
+    <span class="palette-name">08 — National Geographic &nbsp;·&nbsp; Dark</span>
+    <div class="palette-swatches">
+      <div class="swatch" style="background:#050A14" title="Bg"></div>
+      <div class="swatch" style="background:#0E3A6E" title="Ocean Blue — structural"></div>
+      <div class="swatch" style="background:#D4A808" title="Golden — editorial"></div>
+      <div class="swatch" style="background:#D8E4F0" title="Text"></div>
+    </div>
+  </div>
+  <div class="palette-inner">
+    <div class="accent-legend">
+      <span class="accent-chip"><span class="accent-dot" style="background:#0E3A6E"></span>Ocean Blue — structural</span>
+      <span class="accent-chip"><span class="accent-dot" style="background:#D4A808"></span>Golden — editorial</span>
+    </div>
+    <p class="sim-kicker">Software Engineer // Coffee Addict // New York City</p>
+    <h1 class="sim-name"><span>Eric</span><em>Qiu.</em></h1>
+    <p class="sim-bio">I build distributed systems and cloud infrastructure at Bloomberg. University of Waterloo CS. Previously at Addepar, Postmates, and BMO Capital Markets.</p>
+    <p class="sim-bio-aside">Outside work: pour over coffee, a Fujifilm X100VI, and whatever book is currently face-down on my desk.</p>
+    <p class="sim-section-label"><span>01</span>&nbsp;&nbsp;Work</p>
+    <div class="sim-entry">
+      <p class="sim-company">Bloomberg LP</p>
+      <p class="sim-role">Senior Software Engineer &nbsp;<span>Jun 2021 – Present</span></p>
+      <p class="sim-desc">Working in Software Infrastructure to architect and develop managed multi-tenant distributed services in use by over 300 teams across all businesses and powering mission-critical applications.</p>
+    </div>
+  </div>
+</section>
+
+<section class="palette p-natgeo-light">
+  <div class="palette-header">
+    <span class="palette-name">08 — National Geographic &nbsp;·&nbsp; Light</span>
+    <div class="palette-swatches">
+      <div class="swatch" style="background:#EDF3FB" title="Bg"></div>
+      <div class="swatch" style="background:#0E3A6E" title="Ocean Blue — structural"></div>
+      <div class="swatch" style="background:#D4A808" title="Golden — editorial"></div>
+      <div class="swatch" style="background:#06101E" title="Text"></div>
+    </div>
+  </div>
+  <div class="palette-inner">
+    <div class="accent-legend">
+      <span class="accent-chip"><span class="accent-dot" style="background:#0E3A6E"></span>Ocean Blue — structural</span>
+      <span class="accent-chip"><span class="accent-dot" style="background:#D4A808"></span>Golden — editorial</span>
+    </div>
+    <p class="sim-kicker">Software Engineer // Coffee Addict // New York City</p>
+    <h1 class="sim-name"><span>Eric</span><em>Qiu.</em></h1>
+    <p class="sim-bio">I build distributed systems and cloud infrastructure at Bloomberg. University of Waterloo CS. Previously at Addepar, Postmates, and BMO Capital Markets.</p>
+    <p class="sim-bio-aside">Outside work: pour over coffee, a Fujifilm X100VI, and whatever book is currently face-down on my desk.</p>
+    <p class="sim-section-label"><span>01</span>&nbsp;&nbsp;Work</p>
+    <div class="sim-entry">
+      <p class="sim-company">Bloomberg LP</p>
+      <p class="sim-role">Senior Software Engineer &nbsp;<span>Jun 2021 – Present</span></p>
+      <p class="sim-desc">Working in Software Infrastructure to architect and develop managed multi-tenant distributed services in use by over 300 teams across all businesses and powering mission-critical applications.</p>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 9. ORION -->
+<!-- ═══════════════════════════════════════════════ -->
+<div id="orion">
+<section class="palette p-orion-dark">
+  <div class="palette-header">
+    <span class="palette-name">09 — Orion &nbsp;·&nbsp; Dark</span>
+    <div class="palette-swatches">
+      <div class="swatch" style="background:#071210" title="Bg"></div>
+      <div class="swatch" style="background:#1A6250" title="Viridian — structural"></div>
+      <div class="swatch" style="background:#D4684C" title="Warm Red — editorial"></div>
+      <div class="swatch" style="background:#D0EAE2" title="Text"></div>
+    </div>
+  </div>
+  <div class="palette-inner">
+    <div class="accent-legend">
+      <span class="accent-chip"><span class="accent-dot" style="background:#1A6250"></span>Viridian — structural</span>
+      <span class="accent-chip"><span class="accent-dot" style="background:#D4684C"></span>Warm Red — editorial</span>
+    </div>
+    <p class="sim-kicker">Software Engineer // Coffee Addict // New York City</p>
+    <h1 class="sim-name"><span>Eric</span><em>Qiu.</em></h1>
+    <p class="sim-bio">I build distributed systems and cloud infrastructure at Bloomberg. University of Waterloo CS. Previously at Addepar, Postmates, and BMO Capital Markets.</p>
+    <p class="sim-bio-aside">Outside work: pour over coffee, a Fujifilm X100VI, and whatever book is currently face-down on my desk.</p>
+    <p class="sim-section-label"><span>01</span>&nbsp;&nbsp;Work</p>
+    <div class="sim-entry">
+      <p class="sim-company">Bloomberg LP</p>
+      <p class="sim-role">Senior Software Engineer &nbsp;<span>Jun 2021 – Present</span></p>
+      <p class="sim-desc">Working in Software Infrastructure to architect and develop managed multi-tenant distributed services in use by over 300 teams across all businesses and powering mission-critical applications.</p>
+    </div>
+  </div>
+</section>
+
+<section class="palette p-orion-light">
+  <div class="palette-header">
+    <span class="palette-name">09 — Orion &nbsp;·&nbsp; Light</span>
+    <div class="palette-swatches">
+      <div class="swatch" style="background:#EAF7F3" title="Bg"></div>
+      <div class="swatch" style="background:#1A6250" title="Viridian — structural"></div>
+      <div class="swatch" style="background:#D4684C" title="Warm Red — editorial"></div>
+      <div class="swatch" style="background:#081A14" title="Text"></div>
+    </div>
+  </div>
+  <div class="palette-inner">
+    <div class="accent-legend">
+      <span class="accent-chip"><span class="accent-dot" style="background:#1A6250"></span>Viridian — structural</span>
+      <span class="accent-chip"><span class="accent-dot" style="background:#D4684C"></span>Warm Red — editorial</span>
+    </div>
+    <p class="sim-kicker">Software Engineer // Coffee Addict // New York City</p>
+    <h1 class="sim-name"><span>Eric</span><em>Qiu.</em></h1>
+    <p class="sim-bio">I build distributed systems and cloud infrastructure at Bloomberg. University of Waterloo CS. Previously at Addepar, Postmates, and BMO Capital Markets.</p>
+    <p class="sim-bio-aside">Outside work: pour over coffee, a Fujifilm X100VI, and whatever book is currently face-down on my desk.</p>
+    <p class="sim-section-label"><span>01</span>&nbsp;&nbsp;Work</p>
+    <div class="sim-entry">
+      <p class="sim-company">Bloomberg LP</p>
+      <p class="sim-role">Senior Software Engineer &nbsp;<span>Jun 2021 – Present</span></p>
+      <p class="sim-desc">Working in Software Infrastructure to architect and develop managed multi-tenant distributed services in use by over 300 teams across all businesses and powering mission-critical applications.</p>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 10. A24 -->
+<!-- ═══════════════════════════════════════════════ -->
+<div id="a24">
+<section class="palette p-a24-dark">
+  <div class="palette-header">
+    <span class="palette-name">10 — A24 &nbsp;·&nbsp; Dark</span>
+    <div class="palette-swatches">
+      <div class="swatch" style="background:#05080E" title="Bg"></div>
+      <div class="swatch" style="background:#0E3460" title="Prussian Blue — structural"></div>
+      <div class="swatch" style="background:#C07830" title="Bronze — editorial"></div>
+      <div class="swatch" style="background:#D0D8E8" title="Text"></div>
+    </div>
+  </div>
+  <div class="palette-inner">
+    <div class="accent-legend">
+      <span class="accent-chip"><span class="accent-dot" style="background:#0E3460"></span>Prussian Blue — structural</span>
+      <span class="accent-chip"><span class="accent-dot" style="background:#C07830"></span>Bronze — editorial</span>
+    </div>
+    <p class="sim-kicker">Software Engineer // Coffee Addict // New York City</p>
+    <h1 class="sim-name"><span>Eric</span><em>Qiu.</em></h1>
+    <p class="sim-bio">I build distributed systems and cloud infrastructure at Bloomberg. University of Waterloo CS. Previously at Addepar, Postmates, and BMO Capital Markets.</p>
+    <p class="sim-bio-aside">Outside work: pour over coffee, a Fujifilm X100VI, and whatever book is currently face-down on my desk.</p>
+    <p class="sim-section-label"><span>01</span>&nbsp;&nbsp;Work</p>
+    <div class="sim-entry">
+      <p class="sim-company">Bloomberg LP</p>
+      <p class="sim-role">Senior Software Engineer &nbsp;<span>Jun 2021 – Present</span></p>
+      <p class="sim-desc">Working in Software Infrastructure to architect and develop managed multi-tenant distributed services in use by over 300 teams across all businesses and powering mission-critical applications.</p>
+    </div>
+  </div>
+</section>
+
+<section class="palette p-a24-light">
+  <div class="palette-header">
+    <span class="palette-name">10 — A24 &nbsp;·&nbsp; Light</span>
+    <div class="palette-swatches">
+      <div class="swatch" style="background:#EEF2FA" title="Bg"></div>
+      <div class="swatch" style="background:#0E3460" title="Prussian Blue — structural"></div>
+      <div class="swatch" style="background:#C07830" title="Bronze — editorial"></div>
+      <div class="swatch" style="background:#060C18" title="Text"></div>
+    </div>
+  </div>
+  <div class="palette-inner">
+    <div class="accent-legend">
+      <span class="accent-chip"><span class="accent-dot" style="background:#0E3460"></span>Prussian Blue — structural</span>
+      <span class="accent-chip"><span class="accent-dot" style="background:#C07830"></span>Bronze — editorial</span>
+    </div>
+    <p class="sim-kicker">Software Engineer // Coffee Addict // New York City</p>
+    <h1 class="sim-name"><span>Eric</span><em>Qiu.</em></h1>
+    <p class="sim-bio">I build distributed systems and cloud infrastructure at Bloomberg. University of Waterloo CS. Previously at Addepar, Postmates, and BMO Capital Markets.</p>
+    <p class="sim-bio-aside">Outside work: pour over coffee, a Fujifilm X100VI, and whatever book is currently face-down on my desk.</p>
+    <p class="sim-section-label"><span>01</span>&nbsp;&nbsp;Work</p>
+    <div class="sim-entry">
+      <p class="sim-company">Bloomberg LP</p>
+      <p class="sim-role">Senior Software Engineer &nbsp;<span>Jun 2021 – Present</span></p>
+      <p class="sim-desc">Working in Software Infrastructure to architect and develop managed multi-tenant distributed services in use by over 300 teams across all businesses and powering mission-critical applications.</p>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 11. New Yorker -->
+<!-- ═══════════════════════════════════════════════ -->
+<div id="ny">
+<section class="palette p-ny-dark">
+  <div class="palette-header">
+    <span class="palette-name">11 — New Yorker &nbsp;·&nbsp; Dark</span>
+    <div class="palette-swatches">
+      <div class="swatch" style="background:#06091A" title="Bg"></div>
+      <div class="swatch" style="background:#1B2D45" title="Navy — structural"></div>
+      <div class="swatch" style="background:#C89808" title="Gold — editorial"></div>
+      <div class="swatch" style="background:#E8E8DC" title="Text"></div>
+    </div>
+  </div>
+  <div class="palette-inner">
+    <div class="accent-legend">
+      <span class="accent-chip"><span class="accent-dot" style="background:#4A72C0"></span>Navy — structural</span>
+      <span class="accent-chip"><span class="accent-dot" style="background:#C89808"></span>Gold — editorial</span>
+    </div>
+    <p class="sim-kicker">Software Engineer // Coffee Addict // New York City</p>
+    <h1 class="sim-name"><span>Eric</span><em>Qiu.</em></h1>
+    <p class="sim-bio">I build distributed systems and cloud infrastructure at Bloomberg. University of Waterloo CS. Previously at Addepar, Postmates, and BMO Capital Markets.</p>
+    <p class="sim-bio-aside">Outside work: pour over coffee, a Fujifilm X100VI, and whatever book is currently face-down on my desk.</p>
+    <p class="sim-section-label"><span>01</span>&nbsp;&nbsp;Work</p>
+    <div class="sim-entry">
+      <p class="sim-company">Bloomberg LP</p>
+      <p class="sim-role">Senior Software Engineer &nbsp;<span>Jun 2021 – Present</span></p>
+      <p class="sim-desc">Working in Software Infrastructure to architect and develop managed multi-tenant distributed services in use by over 300 teams across all businesses and powering mission-critical applications.</p>
+    </div>
+  </div>
+</section>
+
+<section class="palette p-ny-light">
+  <div class="palette-header">
+    <span class="palette-name">11 — New Yorker &nbsp;·&nbsp; Light</span>
+    <div class="palette-swatches">
+      <div class="swatch" style="background:#F0EEE4" title="Bg"></div>
+      <div class="swatch" style="background:#1B2D45" title="Navy — structural"></div>
+      <div class="swatch" style="background:#A07800" title="Gold — editorial"></div>
+      <div class="swatch" style="background:#080C18" title="Text"></div>
+    </div>
+  </div>
+  <div class="palette-inner">
+    <div class="accent-legend">
+      <span class="accent-chip"><span class="accent-dot" style="background:#1B2D45"></span>Navy — structural</span>
+      <span class="accent-chip"><span class="accent-dot" style="background:#A07800"></span>Gold — editorial</span>
+    </div>
+    <p class="sim-kicker">Software Engineer // Coffee Addict // New York City</p>
+    <h1 class="sim-name"><span>Eric</span><em>Qiu.</em></h1>
+    <p class="sim-bio">I build distributed systems and cloud infrastructure at Bloomberg. University of Waterloo CS. Previously at Addepar, Postmates, and BMO Capital Markets.</p>
+    <p class="sim-bio-aside">Outside work: pour over coffee, a Fujifilm X100VI, and whatever book is currently face-down on my desk.</p>
+    <p class="sim-section-label"><span>01</span>&nbsp;&nbsp;Work</p>
+    <div class="sim-entry">
+      <p class="sim-company">Bloomberg LP</p>
+      <p class="sim-role">Senior Software Engineer &nbsp;<span>Jun 2021 – Present</span></p>
+      <p class="sim-desc">Working in Software Infrastructure to architect and develop managed multi-tenant distributed services in use by over 300 teams across all businesses and powering mission-critical applications.</p>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 12. Heritage -->
+<!-- ═══════════════════════════════════════════════ -->
+<div id="heritage">
+<section class="palette p-heritage-dark">
+  <div class="palette-header">
+    <span class="palette-name">12 — Heritage &nbsp;·&nbsp; Dark</span>
+    <div class="palette-swatches">
+      <div class="swatch" style="background:#080C08" title="Bg"></div>
+      <div class="swatch" style="background:#2D4A3E" title="Forest — structural"></div>
+      <div class="swatch" style="background:#C05A38" title="Oxide — editorial"></div>
+      <div class="swatch" style="background:#E0E8DC" title="Text"></div>
+    </div>
+  </div>
+  <div class="palette-inner">
+    <div class="accent-legend">
+      <span class="accent-chip"><span class="accent-dot" style="background:#5A8A68"></span>Forest — structural</span>
+      <span class="accent-chip"><span class="accent-dot" style="background:#C05A38"></span>Oxide — editorial</span>
+    </div>
+    <p class="sim-kicker">Software Engineer // Coffee Addict // New York City</p>
+    <h1 class="sim-name"><span>Eric</span><em>Qiu.</em></h1>
+    <p class="sim-bio">I build distributed systems and cloud infrastructure at Bloomberg. University of Waterloo CS. Previously at Addepar, Postmates, and BMO Capital Markets.</p>
+    <p class="sim-bio-aside">Outside work: pour over coffee, a Fujifilm X100VI, and whatever book is currently face-down on my desk.</p>
+    <p class="sim-section-label"><span>01</span>&nbsp;&nbsp;Work</p>
+    <div class="sim-entry">
+      <p class="sim-company">Bloomberg LP</p>
+      <p class="sim-role">Senior Software Engineer &nbsp;<span>Jun 2021 – Present</span></p>
+      <p class="sim-desc">Working in Software Infrastructure to architect and develop managed multi-tenant distributed services in use by over 300 teams across all businesses and powering mission-critical applications.</p>
+    </div>
+  </div>
+</section>
+
+<section class="palette p-heritage-light">
+  <div class="palette-header">
+    <span class="palette-name">12 — Heritage &nbsp;·&nbsp; Light</span>
+    <div class="palette-swatches">
+      <div class="swatch" style="background:#F0EFE8" title="Bg"></div>
+      <div class="swatch" style="background:#2D4A3E" title="Forest — structural"></div>
+      <div class="swatch" style="background:#8B3A2A" title="Oxide — editorial"></div>
+      <div class="swatch" style="background:#080A06" title="Text"></div>
+    </div>
+  </div>
+  <div class="palette-inner">
+    <div class="accent-legend">
+      <span class="accent-chip"><span class="accent-dot" style="background:#2D4A3E"></span>Forest — structural</span>
+      <span class="accent-chip"><span class="accent-dot" style="background:#8B3A2A"></span>Oxide — editorial</span>
+    </div>
+    <p class="sim-kicker">Software Engineer // Coffee Addict // New York City</p>
+    <h1 class="sim-name"><span>Eric</span><em>Qiu.</em></h1>
+    <p class="sim-bio">I build distributed systems and cloud infrastructure at Bloomberg. University of Waterloo CS. Previously at Addepar, Postmates, and BMO Capital Markets.</p>
+    <p class="sim-bio-aside">Outside work: pour over coffee, a Fujifilm X100VI, and whatever book is currently face-down on my desk.</p>
+    <p class="sim-section-label"><span>01</span>&nbsp;&nbsp;Work</p>
+    <div class="sim-entry">
+      <p class="sim-company">Bloomberg LP</p>
+      <p class="sim-role">Senior Software Engineer &nbsp;<span>Jun 2021 – Present</span></p>
+      <p class="sim-desc">Working in Software Infrastructure to architect and develop managed multi-tenant distributed services in use by over 300 teams across all businesses and powering mission-critical applications.</p>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 13. Nocturne -->
+<!-- ═══════════════════════════════════════════════ -->
+<div id="nocturne">
+<section class="palette p-nocturne-dark">
+  <div class="palette-header">
+    <span class="palette-name">13 — Nocturne &nbsp;·&nbsp; Dark</span>
+    <div class="palette-swatches">
+      <div class="swatch" style="background:#080818" title="Bg"></div>
+      <div class="swatch" style="background:#2A2870" title="Indigo — structural"></div>
+      <div class="swatch" style="background:#C08830" title="Bronze — editorial"></div>
+      <div class="swatch" style="background:#E4E4F0" title="Text"></div>
+    </div>
+  </div>
+  <div class="palette-inner">
+    <div class="accent-legend">
+      <span class="accent-chip"><span class="accent-dot" style="background:#7070C8"></span>Indigo — structural</span>
+      <span class="accent-chip"><span class="accent-dot" style="background:#C08830"></span>Bronze — editorial</span>
+    </div>
+    <p class="sim-kicker">Software Engineer // Coffee Addict // New York City</p>
+    <h1 class="sim-name"><span>Eric</span><em>Qiu.</em></h1>
+    <p class="sim-bio">I build distributed systems and cloud infrastructure at Bloomberg. University of Waterloo CS. Previously at Addepar, Postmates, and BMO Capital Markets.</p>
+    <p class="sim-bio-aside">Outside work: pour over coffee, a Fujifilm X100VI, and whatever book is currently face-down on my desk.</p>
+    <p class="sim-section-label"><span>01</span>&nbsp;&nbsp;Work</p>
+    <div class="sim-entry">
+      <p class="sim-company">Bloomberg LP</p>
+      <p class="sim-role">Senior Software Engineer &nbsp;<span>Jun 2021 – Present</span></p>
+      <p class="sim-desc">Working in Software Infrastructure to architect and develop managed multi-tenant distributed services in use by over 300 teams across all businesses and powering mission-critical applications.</p>
+    </div>
+  </div>
+</section>
+
+<section class="palette p-nocturne-light">
+  <div class="palette-header">
+    <span class="palette-name">13 — Nocturne &nbsp;·&nbsp; Light</span>
+    <div class="palette-swatches">
+      <div class="swatch" style="background:#F0EFF6" title="Bg"></div>
+      <div class="swatch" style="background:#2A2870" title="Indigo — structural"></div>
+      <div class="swatch" style="background:#7A4A18" title="Bronze — editorial"></div>
+      <div class="swatch" style="background:#08080E" title="Text"></div>
+    </div>
+  </div>
+  <div class="palette-inner">
+    <div class="accent-legend">
+      <span class="accent-chip"><span class="accent-dot" style="background:#2A2870"></span>Indigo — structural</span>
+      <span class="accent-chip"><span class="accent-dot" style="background:#7A4A18"></span>Bronze — editorial</span>
+    </div>
+    <p class="sim-kicker">Software Engineer // Coffee Addict // New York City</p>
+    <h1 class="sim-name"><span>Eric</span><em>Qiu.</em></h1>
+    <p class="sim-bio">I build distributed systems and cloud infrastructure at Bloomberg. University of Waterloo CS. Previously at Addepar, Postmates, and BMO Capital Markets.</p>
+    <p class="sim-bio-aside">Outside work: pour over coffee, a Fujifilm X100VI, and whatever book is currently face-down on my desk.</p>
+    <p class="sim-section-label"><span>01</span>&nbsp;&nbsp;Work</p>
+    <div class="sim-entry">
+      <p class="sim-company">Bloomberg LP</p>
+      <p class="sim-role">Senior Software Engineer &nbsp;<span>Jun 2021 – Present</span></p>
+      <p class="sim-desc">Working in Software Infrastructure to architect and develop managed multi-tenant distributed services in use by over 300 teams across all businesses and powering mission-critical applications.</p>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 14. Storm -->
+<!-- ═══════════════════════════════════════════════ -->
+<div id="storm">
+<section class="palette p-storm-dark">
+  <div class="palette-header">
+    <span class="palette-name">14 — Storm &nbsp;·&nbsp; Dark</span>
+    <div class="palette-swatches">
+      <div class="swatch" style="background:#0A0C14" title="Bg"></div>
+      <div class="swatch" style="background:#3A506A" title="Slate — structural"></div>
+      <div class="swatch" style="background:#9A4880" title="Plum — editorial"></div>
+      <div class="swatch" style="background:#E4E8F2" title="Text"></div>
+    </div>
+  </div>
+  <div class="palette-inner">
+    <div class="accent-legend">
+      <span class="accent-chip"><span class="accent-dot" style="background:#6A8AB0"></span>Slate — structural</span>
+      <span class="accent-chip"><span class="accent-dot" style="background:#9A4880"></span>Plum — editorial</span>
+    </div>
+    <p class="sim-kicker">Software Engineer // Coffee Addict // New York City</p>
+    <h1 class="sim-name"><span>Eric</span><em>Qiu.</em></h1>
+    <p class="sim-bio">I build distributed systems and cloud infrastructure at Bloomberg. University of Waterloo CS. Previously at Addepar, Postmates, and BMO Capital Markets.</p>
+    <p class="sim-bio-aside">Outside work: pour over coffee, a Fujifilm X100VI, and whatever book is currently face-down on my desk.</p>
+    <p class="sim-section-label"><span>01</span>&nbsp;&nbsp;Work</p>
+    <div class="sim-entry">
+      <p class="sim-company">Bloomberg LP</p>
+      <p class="sim-role">Senior Software Engineer &nbsp;<span>Jun 2021 – Present</span></p>
+      <p class="sim-desc">Working in Software Infrastructure to architect and develop managed multi-tenant distributed services in use by over 300 teams across all businesses and powering mission-critical applications.</p>
+    </div>
+  </div>
+</section>
+
+<section class="palette p-storm-light">
+  <div class="palette-header">
+    <span class="palette-name">14 — Storm &nbsp;·&nbsp; Light</span>
+    <div class="palette-swatches">
+      <div class="swatch" style="background:#F2F4F8" title="Bg"></div>
+      <div class="swatch" style="background:#3A506A" title="Slate — structural"></div>
+      <div class="swatch" style="background:#5A2A4A" title="Plum — editorial"></div>
+      <div class="swatch" style="background:#0A0C18" title="Text"></div>
+    </div>
+  </div>
+  <div class="palette-inner">
+    <div class="accent-legend">
+      <span class="accent-chip"><span class="accent-dot" style="background:#3A506A"></span>Slate — structural</span>
+      <span class="accent-chip"><span class="accent-dot" style="background:#5A2A4A"></span>Plum — editorial</span>
+    </div>
+    <p class="sim-kicker">Software Engineer // Coffee Addict // New York City</p>
+    <h1 class="sim-name"><span>Eric</span><em>Qiu.</em></h1>
+    <p class="sim-bio">I build distributed systems and cloud infrastructure at Bloomberg. University of Waterloo CS. Previously at Addepar, Postmates, and BMO Capital Markets.</p>
+    <p class="sim-bio-aside">Outside work: pour over coffee, a Fujifilm X100VI, and whatever book is currently face-down on my desk.</p>
+    <p class="sim-section-label"><span>01</span>&nbsp;&nbsp;Work</p>
+    <div class="sim-entry">
+      <p class="sim-company">Bloomberg LP</p>
+      <p class="sim-role">Senior Software Engineer &nbsp;<span>Jun 2021 – Present</span></p>
+      <p class="sim-desc">Working in Software Infrastructure to architect and develop managed multi-tenant distributed services in use by over 300 teams across all businesses and powering mission-critical applications.</p>
+    </div>
+  </div>
+</section>
+</div>
+
+<div class="px-toggle">
+  <button class="px-btn active" data-view="all">All</button>
+  <button class="px-btn" data-view="light">Light</button>
+  <button class="px-btn" data-view="dark">Dark</button>
+  <span class="px-sep"></span>
+  <a class="px-btn" href="_lab.html">← Lab</a>
+  <a class="px-btn" href="palette-preview.html">Palettes</a>
+  <a class="px-btn" href="palette-sections.html">Sections</a>
+</div>
+
+<script>
+  (function () {
+    // ── View toggle (All / Light / Dark) ──
+    var viewBtns = document.querySelectorAll('.px-btn[data-view]');
+    viewBtns.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var newView = btn.dataset.view;
+        if (newView === 'all') {
+          delete document.body.dataset.view;
+        } else {
+          document.body.dataset.view = newView;
+        }
+        viewBtns.forEach(function (b) { b.classList.toggle('active', b === btn); });
+      });
+    });
+
+    // ── Collapsible nav ──
+    var navStrip = document.getElementById('nav-strip');
+    var navToggle = document.getElementById('nav-toggle');
+    var navLinks = document.getElementById('nav-links');
+    if (navToggle && navLinks) {
+      navToggle.addEventListener('click', function () {
+        var isOpen = navLinks.classList.toggle('open');
+        navStrip.classList.toggle('open', isOpen);
+        navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      });
+      navLinks.addEventListener('click', function (e) {
+        if (e.target.tagName === 'A') {
+          navLinks.classList.remove('open');
+          navStrip.classList.remove('open');
+          navToggle.setAttribute('aria-expanded', 'false');
+        }
+      });
+    }
+  })();
+</script>
+
+</body>
+</html>

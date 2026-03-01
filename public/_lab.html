@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Design Lab — ericqiu.dev</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Instrument+Sans:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg:           #F5F0E8;
+      --text-primary: #111111;
+      --text-secondary: #4A4642;
+      --text-muted:   #828078;
+      --accent:       #7E5F28;
+      --accent-light: #D4A574;
+      --border:       #D8D4CC;
+      --border-strong:#B0AA9E;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text-primary);
+      font-family: "Instrument Sans", sans-serif;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Header ── */
+    .site-header {
+      padding: 72px 40px 56px;
+      border-bottom: 1px solid var(--border);
+      max-width: 900px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .header-kicker {
+      font-family: "Space Mono", monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    .header-title {
+      font-family: "Fraunces", Georgia, serif;
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      font-optical-sizing: auto;
+      color: var(--text-primary);
+      margin-bottom: 1.25rem;
+    }
+
+    .header-title em {
+      font-style: italic;
+    }
+
+    .header-desc {
+      font-size: 1rem;
+      line-height: 1.75;
+      color: var(--text-secondary);
+      max-width: 480px;
+    }
+
+    /* ── Main grid ── */
+    main {
+      flex: 1;
+      padding: 0 40px 80px;
+      max-width: 900px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    /* ── Cards ── */
+    .card-list {
+      margin-top: 0;
+    }
+
+    .card {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      border-bottom: 1px solid var(--border);
+      padding: 2.5rem 0;
+      display: grid;
+      grid-template-columns: 3rem 1fr auto;
+      grid-template-rows: auto auto;
+      column-gap: 1.5rem;
+      row-gap: 0.5rem;
+      align-items: start;
+      transition: background 0.15s;
+    }
+
+    .card:first-child {
+      border-top: 1px solid var(--border);
+      margin-top: 3rem;
+    }
+
+    .card:hover {
+      background: rgba(126, 95, 40, 0.04);
+      margin-left: -40px;
+      margin-right: -40px;
+      padding-left: 40px;
+      padding-right: 40px;
+    }
+
+    .card-num {
+      font-family: "Space Mono", monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      padding-top: 0.25rem;
+      grid-row: 1;
+      grid-column: 1;
+    }
+
+    .card-title {
+      font-family: "Fraunces", Georgia, serif;
+      font-size: 1.625rem;
+      font-weight: 600;
+      line-height: 1.15;
+      font-optical-sizing: auto;
+      color: var(--text-primary);
+      grid-row: 1;
+      grid-column: 2;
+      transition: color 0.15s;
+    }
+
+    .card:hover .card-title {
+      color: var(--accent);
+    }
+
+    .card-arrow {
+      font-family: "Space Mono", monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.06em;
+      color: var(--accent-light);
+      grid-row: 1;
+      grid-column: 3;
+      padding-top: 0.3rem;
+      white-space: nowrap;
+      transition: color 0.15s, transform 0.15s;
+      display: inline-block;
+    }
+
+    .card:hover .card-arrow {
+      color: var(--accent);
+      transform: translateX(3px);
+    }
+
+    .card-desc {
+      font-size: 0.9375rem;
+      line-height: 1.65;
+      color: var(--text-secondary);
+      grid-row: 2;
+      grid-column: 2 / 4;
+      max-width: 560px;
+    }
+
+    .card-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 0.75rem;
+      grid-row: 3;
+      grid-column: 2 / 4;
+    }
+
+    .tag {
+      font-family: "Space Mono", monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      background: rgba(0,0,0,0.04);
+      border: 1px solid var(--border);
+      padding: 2px 8px;
+      border-radius: 3px;
+    }
+
+    /* ── Status badges ── */
+    .badge {
+      display: inline-block;
+      font-family: "Space Mono", monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 2px 7px;
+      border-radius: 3px;
+      margin-left: 0.75rem;
+      vertical-align: middle;
+      position: relative;
+      top: -2px;
+    }
+
+    .badge-live {
+      background: rgba(126, 95, 40, 0.12);
+      color: var(--accent);
+      border: 1px solid rgba(126, 95, 40, 0.2);
+    }
+
+    .badge-wip {
+      background: rgba(130, 128, 120, 0.08);
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+    }
+
+    /* ── Footer ── */
+    site-footer, footer.site-footer {
+      padding: 28px 40px;
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-note {
+      font-family: "Space Mono", monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .footer-back {
+      font-family: "Space Mono", monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      color: var(--accent-light);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    .footer-back:hover {
+      color: var(--accent);
+    }
+
+    /* ── Mobile ── */
+    @media (max-width: 640px) {
+      .site-header {
+        padding: 48px 20px 40px;
+      }
+
+      main {
+        padding: 0 20px 60px;
+      }
+
+      .card {
+        grid-template-columns: 2.5rem 1fr;
+        grid-template-rows: auto auto auto;
+      }
+
+      .card:hover {
+        margin-left: -20px;
+        margin-right: -20px;
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+
+      .card-arrow {
+        display: none;
+      }
+
+      .card-desc {
+        grid-column: 2 / 3;
+      }
+
+      .card-tags {
+        grid-column: 2 / 3;
+      }
+
+      site-footer, footer.site-footer {
+        padding: 24px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <p class="header-kicker">Internal Tooling</p>
+  <h1 class="header-title">Design <em>Lab.</em></h1>
+  <p class="header-desc">Palette, typography, and layout experiments for ericqiu.dev. None of these pages are part of the live site.</p>
+</header>
+
+<main>
+  <div class="card-list">
+
+    <a class="card" href="palette-preview.html">
+      <span class="card-num">01</span>
+      <span class="card-title">Palette Preview <span class="badge badge-live">Live</span></span>
+      <span class="card-arrow">Open →</span>
+      <p class="card-desc">Standard + bold palette systems with design element modes: flat and scroll-morph. Letter-seg as independent overlay. Light/dark filter. 16 additive signature colour variants.</p>
+      <div class="card-tags">
+        <span class="tag">14 palettes</span>
+        <span class="tag">16 additive</span>
+        <span class="tag">Letter-seg overlay</span>
+      </div>
+    </a>
+
+    <a class="card" href="palette-multicolour.html">
+      <span class="card-num">02</span>
+      <span class="card-title">Multicolour Palettes <span class="badge badge-wip">New</span></span>
+      <span class="card-arrow">Open →</span>
+      <p class="card-desc">Fourteen editorial dual-accent palette systems: FT, Kinfolk, Terminal, Cereal, Monocle, Aesop, Wallpaper*, Nat Geo, Orion, A24, New Yorker, Heritage, Nocturne, Storm. Dark and light variants each.</p>
+      <div class="card-tags">
+        <span class="tag">14 systems</span>
+        <span class="tag">28 variants</span>
+        <span class="tag">Dual-accent</span>
+      </div>
+    </a>
+
+    <a class="card" href="palette-sections.html">
+      <span class="card-num">03</span>
+      <span class="card-title">Section Preview <span class="badge badge-wip">New</span></span>
+      <span class="card-arrow">Open →</span>
+      <p class="card-desc">Full simulated site layout — hero through footer — with live palette and design element selectors. The only place to prototype section-by-section colour moments.</p>
+      <div class="card-tags">
+        <span class="tag">Interactive</span>
+        <span class="tag">Full layout</span>
+        <span class="tag">Section moments</span>
+      </div>
+    </a>
+
+    <a class="card" href="font-preview.html">
+      <span class="card-num">04</span>
+      <span class="card-title">Font Preview <span class="badge badge-live">Live</span></span>
+      <span class="card-arrow">Open →</span>
+      <p class="card-desc">Body typeface candidates shown at actual site sizes with real copy across hero bio, experience entries, and footer. Instrument Sans is current selection.</p>
+      <div class="card-tags">
+        <span class="tag">6 typefaces</span>
+        <span class="tag">Real copy</span>
+      </div>
+    </a>
+
+    <a class="card" href="hero-anim.html">
+      <span class="card-num">05</span>
+      <span class="card-title">Hero Animation Lab <span class="badge badge-wip">New</span></span>
+      <span class="card-arrow">Open →</span>
+      <p class="card-desc">Three approaches to transitioning the letter-seg colour on the hero name: smooth fade (current production), diagonal scan (gradient boundary sweeps at 82°), and type-based (per-letter stagger). Speed and dark mode controls.</p>
+      <div class="card-tags">
+        <span class="tag">Fade</span>
+        <span class="tag">Diagonal scan</span>
+        <span class="tag">Type-based</span>
+      </div>
+    </a>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <span class="footer-note">ericqiu.dev · Internal tooling</span>
+    <a class="footer-back" href="https://ericqiu.dev" target="_blank" rel="noopener">← Live site</a>
+  </div>
+</footer>
+
+</body>
+</html>

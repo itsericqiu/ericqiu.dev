@@ -25,6 +25,38 @@ import { site } from "../site";
 </section>
 
 <style>
+  /* Register --seg-color as a typed <color> so keyframes interpolate smoothly.
+     inherits: true lets child elements pick up the animated value. */
+  @property --seg-color {
+    syntax: '<color>';
+    initial-value: #7E5F28;
+    inherits: true;
+  }
+
+  /* Light mode: amber → verdigris → navy → oxide → amber */
+  @keyframes seg-light {
+    0%, 20%  { --seg-color: #7E5F28; }
+    25%, 45% { --seg-color: #2A6B5E; }
+    50%, 70% { --seg-color: #1B2D45; }
+    75%, 95% { --seg-color: #8B3A2A; }
+    100%     { --seg-color: #7E5F28; }
+  }
+
+  /* Dark mode: lighter versions of the same hues */
+  @keyframes seg-dark {
+    0%, 20%  { --seg-color: #D4A574; }
+    25%, 45% { --seg-color: #7EC8B4; }
+    50%, 70% { --seg-color: #7A98B0; }
+    75%, 95% { --seg-color: #C47860; }
+    100%     { --seg-color: #D4A574; }
+  }
+
+  /* Kicker breathing pulse — subtle opacity wave, 16s to loosely track the color cycle */
+  @keyframes kicker-pulse {
+    0%, 100% { opacity: 0.6; }
+    50%      { opacity: 1; }
+  }
+
   .hero {
     padding: 120px 25px 80px;
     background: var(--bg-primary);
@@ -41,7 +73,9 @@ import { site } from "../site";
 
   .hero-kicker {
     margin-bottom: 0.875rem;
-    animation: line-reveal 0.5s var(--transition-reveal) 0s both;
+    animation:
+      line-reveal 0.5s var(--transition-reveal) 0s both,
+      kicker-pulse 16s ease-in-out 1s infinite;
   }
 
   .kicker-line {
@@ -66,6 +100,16 @@ import { site } from "../site";
     flex-direction: column;
     font-optical-sizing: auto;
     font-feature-settings: "liga" 1, "dlig" 1;
+    animation: seg-light 16s ease-in-out infinite;
+  }
+
+  /* "Eric" cycles through accent colors; "Qiu." keeps --text-primary */
+  .hero-line:first-child {
+    color: var(--seg-color);
+  }
+
+  :global([data-theme="dark"]) .hero-name {
+    animation-name: seg-dark;
   }
 
   .hero-line {
@@ -103,11 +147,15 @@ import { site } from "../site";
 
   @media (max-width: 640px) {
     .hero {
-      padding: 90px 25px 60px;
+      padding: 115px 20px 70px;
     }
 
     .hero-name {
       font-size: clamp(2.75rem, 16vw, 4rem);
+    }
+
+    .hero-kicker {
+      margin-bottom: 1.75rem;
     }
   }
 </style>

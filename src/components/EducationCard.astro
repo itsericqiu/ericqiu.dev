@@ -13,9 +13,11 @@ interface Props {
   logoSrc?: ImageMetadata;
   logoSrcDark?: ImageMetadata;
   invertOnDark?: boolean;
+  secondProgram?: string;
+  secondDates?: string;
 }
 
-const { school, program, department, dates, courses, href, logoAlt, logoSrc, logoSrcDark, invertOnDark = false } = Astro.props;
+const { school, program, department, dates, courses, href, logoAlt, logoSrc, logoSrcDark, invertOnDark = false, secondProgram, secondDates } = Astro.props;
 ---
 
 <div class="edu-row">
@@ -46,6 +48,11 @@ const { school, program, department, dates, courses, href, logoAlt, logoSrc, log
     <p class="program-line">
       {program} <span class="dates">{dates}</span>
     </p>
+    {secondProgram && (
+      <p class="program-line">
+        {secondProgram} <span class="dates">{secondDates}</span>
+      </p>
+    )}
     <ul class="courses">
       {courses.map((course) => (
         <li>{course}</li>

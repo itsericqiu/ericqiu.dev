@@ -1,0 +1,743 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Section Preview — ericqiu.dev</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Instrument+Sans:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --ctrl-h: 80px;
+      --font-display: "Fraunces", Georgia, serif;
+      --font-sans:    "Instrument Sans", sans-serif;
+      --font-mono:    "Space Mono", monospace;
+    }
+
+    body { background: #111; font-family: var(--font-sans); }
+
+    /* ══════════════════════════════════════════════
+       CONTROL BAR — two rows
+    ══════════════════════════════════════════════ */
+    .ctrl-bar {
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      background: rgba(10,10,10,0.97);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    /* Row 1: links · effects · presets */
+    .ctrl-row-top {
+      display: flex;
+      align-items: stretch;
+      flex-wrap: wrap;
+      min-height: 38px;
+    }
+
+    .ctrl-link {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #D4A574;
+      text-decoration: none;
+      padding: 0 14px;
+      display: flex;
+      align-items: center;
+      border-right: 1px solid rgba(255,255,255,0.07);
+      white-space: nowrap;
+      transition: color 0.15s;
+    }
+    .ctrl-link:hover { color: #fff; }
+
+    .ctrl-sep {
+      display: block;
+      width: 1px;
+      align-self: stretch;
+      background: rgba(255,255,255,0.07);
+    }
+
+    .ctrl-group {
+      display: flex;
+      align-items: center;
+      padding: 0 12px;
+      gap: 5px;
+      flex-wrap: wrap;
+      min-height: 38px;
+    }
+
+    .ctrl-label {
+      font-family: var(--font-mono);
+      font-size: 0.5rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.25);
+      white-space: nowrap;
+      margin-right: 3px;
+    }
+
+    .ctrl-btn {
+      font-family: var(--font-mono);
+      font-size: 0.55rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      background: none;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 3px;
+      padding: 4px 8px;
+      cursor: pointer;
+      transition: color 0.15s, background 0.15s, border-color 0.15s;
+      white-space: nowrap;
+    }
+    .ctrl-btn:hover { color: rgba(255,255,255,0.8); border-color: rgba(255,255,255,0.3); }
+    .ctrl-btn.active { color: #D4A574; background: rgba(36,26,10,0.8); border-color: #7E5F28; }
+
+    /* Row 2: per-section selects */
+    .ctrl-row-sels {
+      display: flex;
+      align-items: stretch;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      overflow-x: auto;
+    }
+
+    .ctrl-sel-wrap {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 3px;
+      padding: 6px 10px;
+      border-right: 1px solid rgba(255,255,255,0.07);
+      min-width: 0;
+    }
+    .ctrl-sel-wrap:last-child { border-right: none; }
+
+    .ctrl-sel-label {
+      font-family: var(--font-mono);
+      font-size: 0.48rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.28);
+      white-space: nowrap;
+    }
+
+    .ctrl-sel {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.04em;
+      background: rgba(255,255,255,0.06);
+      color: rgba(255,255,255,0.75);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 3px;
+      padding: 3px 5px;
+      cursor: pointer;
+      width: 116px;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    .ctrl-sel:focus { outline: none; border-color: #D4A574; }
+    option { background: #1a1a1a; color: rgba(255,255,255,0.85); }
+    optgroup { color: rgba(255,255,255,0.35); }
+
+    /* ══════════════════════════════════════════════
+       SIMULATED SITE — base
+    ══════════════════════════════════════════════ */
+    .sim-page {
+      background: var(--bg-primary, #F5F0E8);
+      color: var(--text-primary, #111);
+      font-family: var(--font-sans);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Nav ── */
+    .sim-nav {
+      height: 60px;
+      background: var(--bg-nav, rgba(245,240,232,0.92));
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border, #D8D4CC);
+      display: flex;
+      align-items: center;
+      padding: 0 25px;
+      position: sticky;
+      top: var(--ctrl-h, 80px);
+      z-index: 100;
+      transition: background-color 0.4s, border-color 0.4s;
+    }
+    .sim-nav-logo {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-style: italic;
+      font-optical-sizing: auto;
+      font-size: 1.1rem;
+      letter-spacing: -0.02em;
+      color: var(--text-primary, #111);
+      transition: color 0.4s;
+    }
+
+    /* ── Hero ── */
+    .sim-section-hero {
+      padding: 120px 25px 80px;
+      background: var(--bg-primary, #F5F0E8);
+      transition: background-color 0.4s;
+    }
+    @media (max-width: 640px) { .sim-section-hero { padding: 90px 20px 60px; } }
+    .sim-hero-inner { max-width: 900px; margin: 0 auto; }
+
+    .sim-kicker {
+      font-family: var(--font-mono);
+      font-size: 0.8125rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.875rem;
+      transition: color 0.4s;
+    }
+    .sim-name {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 8vw, 5.5rem);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+      margin-bottom: 2rem;
+      font-optical-sizing: auto;
+      display: flex;
+      flex-direction: column;
+      transition: color 0.4s;
+    }
+    .sim-name em { font-style: italic; }
+    .sim-bio {
+      font-size: 1rem; line-height: 1.75;
+      color: var(--text-secondary); max-width: 520px; margin-bottom: 1rem;
+      transition: color 0.4s;
+    }
+    .sim-bio-aside {
+      font-size: 0.9375rem; line-height: 1.75;
+      color: var(--text-muted); max-width: 520px; margin-bottom: 2rem;
+      transition: color 0.4s;
+    }
+    .sim-cta-link {
+      font-family: var(--font-mono); font-size: 0.85rem; letter-spacing: 0.04em;
+      color: var(--accent); text-decoration: none; transition: color 0.4s;
+    }
+
+    /* ── Content sections ── */
+    .sim-content-section {
+      padding: 80px 25px;
+      border-top: 1px solid var(--border);
+      background: var(--bg-primary);
+      transition: background-color 0.4s, border-color 0.4s;
+    }
+    .sim-content-inner { max-width: 900px; margin: 0 auto; }
+    .sim-section-label {
+      font-family: var(--font-mono); font-size: 0.8125rem; font-weight: 700;
+      letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent);
+      margin-bottom: 3rem; display: flex; gap: 1rem; align-items: center;
+      transition: color 0.4s;
+    }
+    .sim-section-label span { color: var(--text-muted); font-weight: 400; }
+    .sim-entry { padding: 2rem 0; border-top: 1px solid var(--border); transition: border-color 0.4s; }
+    .sim-entry:first-of-type { border-top: none; }
+    .sim-company {
+      font-family: var(--font-display); font-size: 1.75rem; font-weight: 600;
+      line-height: 1.15; color: var(--text-primary); margin-bottom: 6px;
+      font-optical-sizing: auto; transition: color 0.4s;
+    }
+    .sim-role {
+      font-family: var(--font-mono); font-size: 0.8125rem;
+      color: var(--text-secondary); margin-bottom: 14px; transition: color 0.4s;
+    }
+    .sim-role span { color: var(--accent); transition: color 0.4s; }
+    .sim-desc {
+      font-size: 1rem; line-height: 1.75; color: var(--text-secondary);
+      max-width: 640px; transition: color 0.4s;
+    }
+
+    /* ── Skills ── */
+    .sim-tech-row { margin-bottom: 1.25rem; }
+    .sim-tech-label {
+      font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.5rem;
+      transition: color 0.4s;
+    }
+    .sim-tech-items {
+      font-family: var(--font-mono); font-size: 0.8125rem;
+      color: var(--text-secondary); line-height: 1.8; transition: color 0.4s;
+    }
+
+    /* ── CTA ── */
+    .sim-cta-heading {
+      font-family: var(--font-display); font-size: clamp(1.75rem, 4vw, 2.5rem);
+      font-weight: 700; line-height: 1.2; font-optical-sizing: auto;
+      color: var(--text-primary); margin-bottom: 1.5rem; max-width: 560px;
+      transition: color 0.4s;
+    }
+    .sim-cta-links { display: flex; gap: 1.5rem; flex-wrap: wrap; align-items: center; }
+    .sim-cta-link-primary {
+      font-family: var(--font-mono); font-size: 0.85rem; letter-spacing: 0.06em;
+      color: var(--bg-primary); background: var(--accent);
+      padding: 10px 20px; border-radius: 4px; text-decoration: none;
+      transition: background-color 0.4s, color 0.4s;
+    }
+    .sim-cta-link-secondary {
+      font-family: var(--font-mono); font-size: 0.85rem; letter-spacing: 0.06em;
+      color: var(--accent); text-decoration: none;
+      border-bottom: 1px solid var(--accent); padding-bottom: 1px;
+      transition: color 0.4s, border-color 0.4s;
+    }
+
+    /* ── Photography callout ── */
+    .sim-section-photo {
+      padding: 80px 25px;
+      background: var(--photo-bg, var(--accent));
+      transition: background-color 0.4s;
+    }
+    .sim-photo-inner { max-width: 900px; margin: 0 auto; }
+    .sim-photo-label {
+      font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--photo-text, #F0EBE0); opacity: 0.6;
+      margin-bottom: 1rem;
+    }
+    .sim-photo-heading {
+      font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 800; font-style: italic; font-optical-sizing: auto;
+      color: var(--photo-text, #F0EBE0); line-height: 1.1; margin-bottom: 1.25rem;
+      max-width: 560px;
+    }
+    .sim-photo-desc {
+      font-size: 1rem; line-height: 1.7; color: var(--photo-text, #F0EBE0);
+      opacity: 0.75; max-width: 480px; margin-bottom: 1.75rem;
+    }
+    .sim-photo-link {
+      font-family: var(--font-mono); font-size: 0.8125rem; letter-spacing: 0.06em;
+      color: var(--photo-text, #F0EBE0); text-decoration: none;
+      border-bottom: 1px solid rgba(240,235,224,0.4); padding-bottom: 2px;
+    }
+
+    /* ── Footer ── */
+    .sim-footer {
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border);
+      padding: 64px 25px 48px;
+      transition: background-color 0.4s, border-color 0.4s;
+    }
+    .sim-footer-inner {
+      max-width: 900px; margin: 0 auto;
+      display: grid; grid-template-columns: auto 1fr; gap: 2.5rem; align-items: start;
+    }
+    @media (max-width: 640px) { .sim-footer-inner { grid-template-columns: 1fr; } }
+    .sim-footer-photo {
+      width: 72px; height: 72px; border-radius: 50%; background: var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-display); font-style: italic; font-weight: 800;
+      font-size: 1.2rem; color: var(--text-muted); transition: background-color 0.4s, color 0.4s;
+    }
+    .sim-footer-name {
+      font-family: var(--font-display); font-size: 1.25rem; font-weight: 700;
+      font-optical-sizing: auto; color: var(--text-primary); margin-bottom: 0.5rem;
+      transition: color 0.4s;
+    }
+    .sim-footer-bio {
+      font-size: 0.875rem; line-height: 1.6; color: var(--text-secondary);
+      max-width: 480px; margin-bottom: 1.25rem; transition: color 0.4s;
+    }
+    .sim-footer-links { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .sim-footer-link {
+      font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--text-muted); text-decoration: none;
+      transition: color 0.4s;
+    }
+    .sim-footer-email {
+      font-family: var(--font-mono); font-size: 0.8125rem;
+      color: var(--text-muted); margin-top: 0.75rem; transition: color 0.4s;
+    }
+
+    /* ══════════════════════════════════════════════
+       EFFECTS
+    ══════════════════════════════════════════════ */
+
+    /* Letter-Seg: split gradient on hero name */
+    body.letter-seg .sim-name {
+      padding-bottom: 0.18em;
+      margin-bottom: calc(2rem - 0.18em); /* cancel extra padding so layout doesn't shift */
+      background: linear-gradient(
+        to bottom,
+        var(--accent) 0%,
+        var(--accent) 46%,
+        var(--text-primary) 54%,
+        var(--text-primary) 100%
+      );
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Control Bar ── -->
+<div class="ctrl-bar" id="ctrl-bar">
+
+  <!-- Row 1: nav links · effects · presets -->
+  <div class="ctrl-row-top">
+    <a class="ctrl-link" href="_lab.html">← Lab</a>
+    <a class="ctrl-link" href="palette-preview.html">Palettes</a>
+    <a class="ctrl-link" href="palette-multicolour.html">Multi</a>
+    <span class="ctrl-sep"></span>
+    <div class="ctrl-group">
+      <span class="ctrl-label">Effects</span>
+      <button class="ctrl-btn" data-toggle="letter-seg">Letter-Seg</button>
+      <button class="ctrl-btn" data-toggle="scroll-morph">Scroll-Morph</button>
+    </div>
+    <span class="ctrl-sep"></span>
+    <div class="ctrl-group">
+      <span class="ctrl-label">Preset</span>
+      <button class="ctrl-btn active" data-preset="uniform">Uniform</button>
+      <button class="ctrl-btn" data-preset="signature">Signature</button>
+      <button class="ctrl-btn" data-preset="gradient">Gradient</button>
+      <button class="ctrl-btn" data-preset="editorial">Editorial</button>
+    </div>
+  </div>
+
+  <!-- Row 2: per-section palette selects -->
+  <div class="ctrl-row-sels">
+    <div class="ctrl-sel-wrap">
+      <span class="ctrl-sel-label">Hero</span>
+      <select class="ctrl-sel" data-section="hero"></select>
+    </div>
+    <div class="ctrl-sel-wrap">
+      <span class="ctrl-sel-label">Work</span>
+      <select class="ctrl-sel" data-section="work"></select>
+    </div>
+    <div class="ctrl-sel-wrap">
+      <span class="ctrl-sel-label">Edu</span>
+      <select class="ctrl-sel" data-section="edu"></select>
+    </div>
+    <div class="ctrl-sel-wrap">
+      <span class="ctrl-sel-label">Skills</span>
+      <select class="ctrl-sel" data-section="skills"></select>
+    </div>
+    <div class="ctrl-sel-wrap">
+      <span class="ctrl-sel-label">CTA</span>
+      <select class="ctrl-sel" data-section="cta"></select>
+    </div>
+    <div class="ctrl-sel-wrap">
+      <span class="ctrl-sel-label">Photo</span>
+      <select class="ctrl-sel" data-section="photo"></select>
+    </div>
+    <div class="ctrl-sel-wrap">
+      <span class="ctrl-sel-label">Footer</span>
+      <select class="ctrl-sel" data-section="footer"></select>
+    </div>
+  </div>
+
+</div>
+
+<!-- ── Simulated Page ── -->
+<div class="sim-page" id="sim-page">
+
+  <nav class="sim-nav">
+    <span class="sim-nav-logo">EQ.</span>
+  </nav>
+
+  <!-- Hero -->
+  <section class="sim-section sim-section-hero" data-section="hero">
+    <div class="sim-hero-inner">
+      <p class="sim-kicker">Software Engineer // Coffee Addict // New York City</p>
+      <h1 class="sim-name"><span>Eric</span><em>Qiu.</em></h1>
+      <p class="sim-bio">I build distributed systems and cloud infrastructure at Bloomberg. University of Waterloo CS. Previously at Addepar, Postmates, and BMO Capital Markets.</p>
+      <p class="sim-bio-aside">Outside work: pour over coffee, a Fujifilm X100VI, and whatever book is currently face-down on my desk.</p>
+      <div><a href="#" class="sim-cta-link">I also shoot photos →</a></div>
+    </div>
+  </section>
+
+  <!-- Work -->
+  <section class="sim-content-section sim-section sim-section-work" data-section="work">
+    <div class="sim-content-inner">
+      <p class="sim-section-label"><span>01</span> Work</p>
+      <div class="sim-entry">
+        <p class="sim-company">Bloomberg LP</p>
+        <p class="sim-role">Senior Software Engineer &nbsp;<span>Jun 2021 – Present</span></p>
+        <p class="sim-desc">Working in Software Infrastructure to architect and develop managed multi-tenant distributed services in use by over 300 teams across all businesses and powering mission-critical applications.</p>
+      </div>
+      <div class="sim-entry">
+        <p class="sim-company">Addepar</p>
+        <p class="sim-role">Software Engineer &nbsp;<span>Sep 2019 – Jun 2021</span></p>
+        <p class="sim-desc">Built portfolio analytics and reporting infrastructure serving family offices and institutional wealth managers across $3T+ in assets.</p>
+      </div>
+      <div class="sim-entry">
+        <p class="sim-company">BMO Capital Markets</p>
+        <p class="sim-role">Software Developer &nbsp;<span>Sep 2018 – Sep 2019</span></p>
+        <p class="sim-desc">Developed quantitative risk and pricing tools for the fixed income and derivatives trading desk.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Education -->
+  <section class="sim-content-section sim-section sim-section-edu" data-section="edu">
+    <div class="sim-content-inner">
+      <p class="sim-section-label"><span>02</span> Education</p>
+      <div class="sim-entry">
+        <p class="sim-company">University of Waterloo</p>
+        <p class="sim-role">B.CS, Computer Science &nbsp;<span>2016 – 2021</span></p>
+        <p class="sim-desc">Studied algorithms, distributed systems, and human-computer interaction. Co-op program with six internships across finance and technology.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills / What I Do -->
+  <section class="sim-content-section sim-section sim-section-skills" data-section="skills">
+    <div class="sim-content-inner">
+      <p class="sim-section-label"><span>03</span> What I Do</p>
+      <div class="sim-tech-row">
+        <p class="sim-tech-label">Infrastructure</p>
+        <p class="sim-tech-items">Kubernetes · Terraform · AWS · GCP · Kafka · gRPC</p>
+      </div>
+      <div class="sim-tech-row">
+        <p class="sim-tech-label">Languages</p>
+        <p class="sim-tech-items">Go · Python · TypeScript · C++ · Java · SQL</p>
+      </div>
+      <div class="sim-tech-row">
+        <p class="sim-tech-label">Practices</p>
+        <p class="sim-tech-items">Distributed systems · API design · Observability · On-call</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA / Get in Touch -->
+  <section class="sim-content-section sim-section sim-section-cta" data-section="cta">
+    <div class="sim-content-inner">
+      <p class="sim-section-label"><span>04</span> Get in Touch</p>
+      <p class="sim-cta-heading">Always happy to talk distributed systems, specialty coffee, or photography.</p>
+      <div class="sim-cta-links">
+        <a href="#" class="sim-cta-link-primary">LinkedIn</a>
+        <a href="#" class="sim-cta-link-secondary">Chat with me →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Photography Callout -->
+  <section class="sim-section sim-section-photo" data-section="photo">
+    <div class="sim-photo-inner">
+      <p class="sim-photo-label">Also</p>
+      <h2 class="sim-photo-heading">I shoot film<br>and digital.</h2>
+      <p class="sim-photo-desc">Fujifilm X100VI. Street, travel, and the occasional pour over. All the photos live at photos.ericqiu.io.</p>
+      <a href="#" class="sim-photo-link">View the archive →</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="sim-footer sim-section" data-section="footer">
+    <div class="sim-footer-inner">
+      <div class="sim-footer-photo">EQ.</div>
+      <div>
+        <p class="sim-footer-name">Eric Qiu.</p>
+        <p class="sim-footer-bio">From Hamilton, Ontario — University of Waterloo CS grad, now based in New York City. I build distributed systems at Bloomberg and spend my evenings with a camera or chasing a good pour over.</p>
+        <div class="sim-footer-links">
+          <a href="#" class="sim-footer-link">GitHub</a>
+          <a href="#" class="sim-footer-link">LinkedIn</a>
+          <a href="#" class="sim-footer-link">Twitter</a>
+          <a href="#" class="sim-footer-link">Photos</a>
+        </div>
+        <p class="sim-footer-email">hello[at]ericqiu[dot]io</p>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+(function () {
+
+  /* ── Palette definitions ── */
+  var P = {
+    'amber-light':    { bg:'#F5F0E8', bg2:'#EDE8DC', text:'#111111', text2:'#4A4642', muted:'#828078', accent:'#7E5F28',  accentL:'#D4A574', border:'#D8D4CC', borderS:'#B0AA9E', nav:'rgba(245,240,232,0.92)' },
+    'amber-dark':     { bg:'#0D0D0B', bg2:'#141410', text:'#F0EBE0', text2:'#C8C0B8', muted:'#828078', accent:'#D4A574',  accentL:'#7E5F28', border:'#2A2820', borderS:'#5C5650', nav:'rgba(13,13,11,0.92)' },
+    'sig-verdigris':  { bg:'#F5F0E8', bg2:'#EDE8DC', text:'#111111', text2:'#4A4642', muted:'#828078', accent:'#2A6B5E',  accentL:'#7EC8B4', border:'#D8D4CC', borderS:'#B0AA9E', nav:'rgba(245,240,232,0.92)' },
+    'sig-forest':     { bg:'#F5F0E8', bg2:'#EDE8DC', text:'#111111', text2:'#4A4642', muted:'#828078', accent:'#2D4A3E',  accentL:'#5A8A70', border:'#D8D4CC', borderS:'#B0AA9E', nav:'rgba(245,240,232,0.92)' },
+    'sig-navy':       { bg:'#F5F0E8', bg2:'#EDE8DC', text:'#111111', text2:'#4A4642', muted:'#828078', accent:'#1B2D45',  accentL:'#4A6880', border:'#D8D4CC', borderS:'#B0AA9E', nav:'rgba(245,240,232,0.92)' },
+    'sig-oxide':      { bg:'#F5F0E8', bg2:'#EDE8DC', text:'#111111', text2:'#4A4642', muted:'#828078', accent:'#8B3A2A',  accentL:'#C47860', border:'#D8D4CC', borderS:'#B0AA9E', nav:'rgba(245,240,232,0.92)' },
+    'sig-steel':      { bg:'#F5F0E8', bg2:'#EDE8DC', text:'#111111', text2:'#4A4642', muted:'#828078', accent:'#4A6580',  accentL:'#7A98B0', border:'#D8D4CC', borderS:'#B0AA9E', nav:'rgba(245,240,232,0.92)' },
+    'sig-prussian':   { bg:'#F5F0E8', bg2:'#EDE8DC', text:'#111111', text2:'#4A4642', muted:'#828078', accent:'#0F3A5A',  accentL:'#3A7098', border:'#D8D4CC', borderS:'#B0AA9E', nav:'rgba(245,240,232,0.92)' },
+    'sig-slate-teal': { bg:'#F5F0E8', bg2:'#EDE8DC', text:'#111111', text2:'#4A4642', muted:'#828078', accent:'#2A5055',  accentL:'#5A8898', border:'#D8D4CC', borderS:'#B0AA9E', nav:'rgba(245,240,232,0.92)' },
+    'sig-plum':       { bg:'#F5F0E8', bg2:'#EDE8DC', text:'#111111', text2:'#4A4642', muted:'#828078', accent:'#5A2A4A',  accentL:'#8A5878', border:'#D8D4CC', borderS:'#B0AA9E', nav:'rgba(245,240,232,0.92)' },
+    'sig-bronze':     { bg:'#F5F0E8', bg2:'#EDE8DC', text:'#111111', text2:'#4A4642', muted:'#828078', accent:'#7A4A18',  accentL:'#B07848', border:'#D8D4CC', borderS:'#B0AA9E', nav:'rgba(245,240,232,0.92)' },
+    'sig-indigo':     { bg:'#F5F0E8', bg2:'#EDE8DC', text:'#111111', text2:'#4A4642', muted:'#828078', accent:'#2A2870',  accentL:'#5A5898', border:'#D8D4CC', borderS:'#B0AA9E', nav:'rgba(245,240,232,0.92)' },
+    'sig-hunter':     { bg:'#F5F0E8', bg2:'#EDE8DC', text:'#111111', text2:'#4A4642', muted:'#828078', accent:'#2B5235',  accentL:'#5A8A62', border:'#D8D4CC', borderS:'#B0AA9E', nav:'rgba(245,240,232,0.92)' },
+    'sig-sage':       { bg:'#F5F0E8', bg2:'#EDE8DC', text:'#111111', text2:'#4A4642', muted:'#828078', accent:'#4E6A55',  accentL:'#80A888', border:'#D8D4CC', borderS:'#B0AA9E', nav:'rgba(245,240,232,0.92)' },
+    'sig-malachite':  { bg:'#F5F0E8', bg2:'#EDE8DC', text:'#111111', text2:'#4A4642', muted:'#828078', accent:'#1A7A56',  accentL:'#4EAA82', border:'#D8D4CC', borderS:'#B0AA9E', nav:'rgba(245,240,232,0.92)' },
+    'sig-fern':       { bg:'#F5F0E8', bg2:'#EDE8DC', text:'#111111', text2:'#4A4642', muted:'#828078', accent:'#4D6B3C',  accentL:'#7AA866', border:'#D8D4CC', borderS:'#B0AA9E', nav:'rgba(245,240,232,0.92)' },
+    'sig-cobalt':     { bg:'#F5F0E8', bg2:'#EDE8DC', text:'#111111', text2:'#4A4642', muted:'#828078', accent:'#1C3A82',  accentL:'#4A70B8', border:'#D8D4CC', borderS:'#B0AA9E', nav:'rgba(245,240,232,0.92)' },
+    'sig-mauve':      { bg:'#F5F0E8', bg2:'#EDE8DC', text:'#111111', text2:'#4A4642', muted:'#828078', accent:'#7A4A68',  accentL:'#B07898', border:'#D8D4CC', borderS:'#B0AA9E', nav:'rgba(245,240,232,0.92)' },
+  };
+
+  var PALETTE_OPTIONS = [
+    { v:'amber-light',    label:'Amber Light',  group:'Base' },
+    { v:'amber-dark',     label:'Amber Dark',   group:'Base' },
+    { v:'sig-verdigris',  label:'+ Verdigris',  group:'Signature' },
+    { v:'sig-forest',     label:'+ Forest',     group:'Signature' },
+    { v:'sig-navy',       label:'+ Navy',       group:'Signature' },
+    { v:'sig-oxide',      label:'+ Oxide',      group:'Signature' },
+    { v:'sig-steel',      label:'+ Steel',      group:'Signature' },
+    { v:'sig-prussian',   label:'+ Prussian',   group:'Signature' },
+    { v:'sig-slate-teal', label:'+ Slate Teal', group:'Signature' },
+    { v:'sig-plum',       label:'+ Plum',       group:'Signature' },
+    { v:'sig-bronze',     label:'+ Bronze',     group:'Signature' },
+    { v:'sig-indigo',     label:'+ Indigo',     group:'Signature' },
+    { v:'sig-hunter',     label:'+ Hunter',     group:'Greens' },
+    { v:'sig-sage',       label:'+ Sage',       group:'Greens' },
+    { v:'sig-malachite',  label:'+ Malachite',  group:'Greens' },
+    { v:'sig-fern',       label:'+ Fern',       group:'Greens' },
+    { v:'sig-cobalt',     label:'+ Cobalt',     group:'Others' },
+    { v:'sig-mauve',      label:'+ Mauve',      group:'Others' },
+  ];
+
+  var PRESETS = {
+    'uniform':   { hero:'amber-light', work:'amber-light',    edu:'amber-light', skills:'amber-light', cta:'amber-light',    photo:'amber-light', footer:'amber-light' },
+    'signature': { hero:'amber-light', work:'sig-verdigris',  edu:'sig-navy',    skills:'amber-light', cta:'amber-light',    photo:'sig-verdigris', footer:'amber-light' },
+    'gradient':  { hero:'amber-light', work:'sig-verdigris',  edu:'sig-navy',    skills:'sig-steel',   cta:'sig-oxide',      photo:'sig-steel',   footer:'amber-dark' },
+    'editorial': { hero:'amber-dark',  work:'sig-navy',       edu:'amber-dark',  skills:'amber-dark',  cta:'sig-verdigris',  photo:'sig-oxide',   footer:'amber-dark' },
+  };
+
+  /* ── State ── */
+  var states = { hero:'amber-light', work:'amber-light', edu:'amber-light', skills:'amber-light', cta:'amber-light', photo:'amber-light', footer:'amber-light' };
+  var smActive = false;
+
+  /* ── Element refs ── */
+  var page = document.getElementById('sim-page');
+  var ctrlBar = document.getElementById('ctrl-bar');
+  var sectionEls = {};
+  document.querySelectorAll('.sim-section[data-section]').forEach(function (el) {
+    sectionEls[el.dataset.section] = el;
+  });
+
+  /* ── Populate selects ── */
+  document.querySelectorAll('.ctrl-sel[data-section]').forEach(function (sel) {
+    var lastGroup = null, grp = null;
+    PALETTE_OPTIONS.forEach(function (opt) {
+      if (opt.group !== lastGroup) {
+        grp = document.createElement('optgroup');
+        grp.label = opt.group;
+        sel.appendChild(grp);
+        lastGroup = opt.group;
+      }
+      var o = document.createElement('option');
+      o.value = opt.v;
+      o.textContent = opt.label;
+      grp.appendChild(o);
+    });
+  });
+
+  /* ── Apply palette CSS vars to an element ── */
+  function applySection(el, key) {
+    var p = P[key];
+    if (!p || !el) return;
+    el.style.setProperty('--bg-primary',     p.bg);
+    el.style.setProperty('--bg-secondary',   p.bg2);
+    el.style.setProperty('--text-primary',   p.text);
+    el.style.setProperty('--text-secondary', p.text2);
+    el.style.setProperty('--text-muted',     p.muted);
+    el.style.setProperty('--accent',         p.accent);
+    el.style.setProperty('--accent-light',   p.accentL);
+    el.style.setProperty('--border',         p.border);
+    el.style.setProperty('--border-strong',  p.borderS);
+    el.style.setProperty('--bg-nav',         p.nav);
+    /* Photo callout vars — only meaningful on .sim-section-photo */
+    el.style.setProperty('--photo-bg',   p.accent);
+    el.style.setProperty('--photo-text', '#F0EBE0');
+  }
+
+  /* ── Sync #sim-page to hero palette so nav inherits it ── */
+  function syncPage() {
+    applySection(page, states['hero']);
+  }
+
+  /* ── Apply all sections at once ── */
+  function applyAll() {
+    Object.keys(states).forEach(function (sec) {
+      applySection(sectionEls[sec], states[sec]);
+    });
+    syncPage();
+  }
+
+  /* ── Keep nav top in sync with control bar height ── */
+  function syncNavTop() {
+    document.documentElement.style.setProperty('--ctrl-h', ctrlBar.offsetHeight + 'px');
+  }
+  window.addEventListener('resize', syncNavTop);
+  syncNavTop();
+
+  /* ── Scroll-Morph: update nav/page accent as sections scroll into view ── */
+  var smObserver = new IntersectionObserver(function (entries) {
+    if (!smActive) return;
+    entries.forEach(function (entry) {
+      if (!entry.isIntersecting) return;
+      var p = P[states[entry.target.dataset.section]];
+      if (!p) return;
+      page.style.setProperty('--accent',      p.accent);
+      page.style.setProperty('--bg-nav',      p.nav);
+      page.style.setProperty('--bg-primary',  p.bg);
+      page.style.setProperty('--text-primary',p.text);
+    });
+  }, { threshold: 0.35, rootMargin: '-70px 0px 0px 0px' });
+  Object.values(sectionEls).forEach(function (el) { smObserver.observe(el); });
+
+  /* ── Select change handlers ── */
+  document.querySelectorAll('.ctrl-sel[data-section]').forEach(function (sel) {
+    sel.addEventListener('change', function () {
+      var sec = sel.dataset.section;
+      states[sec] = sel.value;
+      applySection(sectionEls[sec], sel.value);
+      if (sec === 'hero') syncPage();
+      /* Deactivate preset highlights on manual change */
+      document.querySelectorAll('.ctrl-btn[data-preset]').forEach(function (b) {
+        b.classList.remove('active');
+      });
+    });
+  });
+
+  /* ── Preset buttons ── */
+  document.querySelectorAll('.ctrl-btn[data-preset]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var preset = PRESETS[btn.dataset.preset];
+      if (!preset) return;
+      Object.keys(preset).forEach(function (sec) {
+        states[sec] = preset[sec];
+        var sel = document.querySelector('.ctrl-sel[data-section="' + sec + '"]');
+        if (sel) sel.value = preset[sec];
+      });
+      applyAll();
+      document.querySelectorAll('.ctrl-btn[data-preset]').forEach(function (b) {
+        b.classList.toggle('active', b === btn);
+      });
+    });
+  });
+
+  /* ── Effect toggles ── */
+  document.querySelectorAll('.ctrl-btn[data-toggle]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      if (btn.dataset.toggle === 'letter-seg') {
+        document.body.classList.toggle('letter-seg');
+        btn.classList.toggle('active');
+      } else if (btn.dataset.toggle === 'scroll-morph') {
+        smActive = !smActive;
+        btn.classList.toggle('active', smActive);
+        if (!smActive) syncPage(); /* Reset nav to hero palette */
+      }
+    });
+  });
+
+  /* ── Init ── */
+  applyAll();
+  syncNavTop();
+
+})();
+</script>
+
+</body>
+</html>
