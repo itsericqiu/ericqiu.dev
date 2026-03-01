@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "npm run gen:icons && astro build",
     "preview": "astro preview",
     "gen:icons": "tsx scripts/gen-icons.ts",
     "gen:icon-palette": "tsx scripts/gen-icon-palette.ts"
