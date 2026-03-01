@@ -7,7 +7,8 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "gen:icons": "tsx scripts/gen-icons.ts"
+    "gen:icons": "tsx scripts/gen-icons.ts",
+    "gen:icon-palette": "tsx scripts/gen-icon-palette.ts"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.3.1",

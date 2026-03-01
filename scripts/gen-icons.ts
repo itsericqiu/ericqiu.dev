@@ -69,6 +69,22 @@ const tree = {
           children: "Q",
         },
       },
+      {
+        type: "span",
+        props: {
+          style: {
+            fontFamily: "Fraunces",
+            fontWeight: 800,
+            fontStyle: "normal",
+            fontSize: `${FONT_SIZE}px`,
+            color: icon.text,
+            lineHeight: 1,
+            letterSpacing: "-0.03em",
+            marginLeft: "-0.09em",
+          },
+          children: ".",
+        },
+      },
     ],
   },
 };
