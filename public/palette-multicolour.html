@@ -261,7 +261,7 @@
       .palette-header { margin-bottom: 36px; }
       .palette-divider { padding: 32px 20px 28px; }
 
-      /* Floating pill → fixed full-width bottom bar */
+      /* Floating pill → fixed full-width scrollable bottom bar */
       .px-toggle {
         left: 0;
         right: 0;
@@ -271,17 +271,19 @@
         border-right: none;
         border-bottom: none;
         border-top: 1px solid rgba(255,255,255,0.12);
-        justify-content: stretch;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
         flex-wrap: nowrap;
       }
+      .px-toggle::-webkit-scrollbar { display: none; }
       .px-btn {
-        flex: 1;
-        justify-content: center;
-        text-align: center;
-        padding: 14px 6px;
-        font-size: 0.55rem;
+        flex: 0 0 auto;
+        white-space: nowrap;
+        padding: 14px 14px;
+        font-size: 0.58rem;
       }
-      .px-sep { display: none; }
+      .px-sep { width: 1px; flex-shrink: 0; }
 
       /* Extra body padding so content scrolls clear of the bottom bar */
       body { padding-bottom: 52px; }
