@@ -3,3 +3,5 @@ dist/
 .astro/
 .claude/
 dev.sh
+.DS_Store
+public/icon-palette/
