@@ -150,7 +150,7 @@ import { site } from "../site";
 (function () {
   var COLORS = {
     light: ['#7E5F28', '#2A6B5E', '#1B2D45', '#8B3A2A'],
-    dark:  ['#D4A574', '#6EC4B0', '#7A9AD4', '#C05A38']
+    dark:  ['#D4A574', '#A3BC85', '#8A9FC2', '#C4896A', '#B89FD4', '#7DBFB0']
   };
 
   var colorIdx = 0;
@@ -200,7 +200,7 @@ import { site } from "../site";
 
   function advance() {
     var oldColor = curColor;
-    colorIdx = (colorIdx + 1) % 4;
+    colorIdx = (colorIdx + 1) % palette().length;
     curColor = palette()[colorIdx];
     doScan(oldColor, curColor);
   }
@@ -209,7 +209,9 @@ import { site } from "../site";
 
   /* When dark/light mode toggles, snap to the equivalent color in the new palette */
   new MutationObserver(function () {
-    var c = palette()[colorIdx];
+    var p = palette();
+    colorIdx = colorIdx % p.length;
+    var c = p[colorIdx];
     curColor = c;
     if (scanning) {
       ++scanGen;        /* abort in-progress scan */

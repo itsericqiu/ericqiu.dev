@@ -55,6 +55,6 @@ export const dark: PaletteMode = {
 
 /** Colors used for the favicon / PWA icon */
 export const icon = {
-  bg:   "#7E5F28",
+  bg:   "#1B2D45",
   text: "#F0EBE0",
 };
