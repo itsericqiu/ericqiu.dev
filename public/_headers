@@ -1,17 +1,35 @@
 # Cloudflare Pages custom response headers
 
-# Icons — short TTL so stale icons clear quickly after deploys
+# Icons — 1 hour TTL so stale icons clear quickly after deploys.
+# The HTML references favicon.png?v=N and apple-touch-icon.png?v=N to
+# bust CDN/browser cache on each icon change without waiting for TTL.
+
+/favicon.svg
+  Cache-Control: public, max-age=3600, stale-while-revalidate=86400
+
 /favicon.png
-  Cache-Control: public, max-age=86400, stale-while-revalidate=86400
+  Cache-Control: public, max-age=3600, stale-while-revalidate=86400
 
 /apple-touch-icon.png
-  Cache-Control: public, max-age=86400, stale-while-revalidate=86400
+  Cache-Control: public, max-age=3600, stale-while-revalidate=86400
+
+/apple-touch-icon-precomposed.png
+  Cache-Control: public, max-age=3600, stale-while-revalidate=86400
+
+/apple-touch-icon-120x120.png
+  Cache-Control: public, max-age=3600, stale-while-revalidate=86400
+
+/apple-touch-icon-120x120-precomposed.png
+  Cache-Control: public, max-age=3600, stale-while-revalidate=86400
 
 /icon-192.png
-  Cache-Control: public, max-age=86400, stale-while-revalidate=86400
+  Cache-Control: public, max-age=3600, stale-while-revalidate=86400
 
 /icon-512.png
-  Cache-Control: public, max-age=86400, stale-while-revalidate=86400
+  Cache-Control: public, max-age=3600, stale-while-revalidate=86400
+
+/icon-1024.png
+  Cache-Control: public, max-age=3600, stale-while-revalidate=86400
 
 /manifest.json
-  Cache-Control: public, max-age=86400, stale-while-revalidate=86400
+  Cache-Control: public, max-age=3600, stale-while-revalidate=86400

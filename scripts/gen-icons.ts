@@ -1,6 +1,7 @@
 /**
- * Generates favicon.png (256×256) and icon-512.png (512×512)
- * Colors driven by src/palette.ts — change the palette there, re-run this script.
+ * Generates all favicons and PWA icons from src/palette.ts icon colors.
+ * Outputs: favicon.svg (vector), favicon.png (256), apple-touch-icon* (180/120),
+ *          icon-192.png, icon-512.png, icon-1024.png
  *
  * Run: npm run gen:icons
  */
@@ -91,13 +92,23 @@ const tree = {
 
 const svg = await satori(tree, { width: SIZE, height: SIZE, fonts });
 
+// SVG favicon — crisp at any resolution on modern browsers (Chrome, Firefox, Edge)
+fs.writeFileSync(path.join(root, "public/favicon.svg"), svg);
+console.log("✓ public/favicon.svg");
+
+// PNG fallback for Safari + legacy browsers
+const resvg256 = new Resvg(svg, { fitTo: { mode: "width", value: 256 } });
+fs.writeFileSync(path.join(root, "public/favicon.png"), resvg256.render().asPng());
+console.log("✓ public/favicon.png");
+
 const resvg512 = new Resvg(svg, { fitTo: { mode: "width", value: 512 } });
 fs.writeFileSync(path.join(root, "public/icon-512.png"), resvg512.render().asPng());
 console.log("✓ public/icon-512.png");
 
-const resvg256 = new Resvg(svg, { fitTo: { mode: "width", value: 256 } });
-fs.writeFileSync(path.join(root, "public/favicon.png"), resvg256.render().asPng());
-console.log("✓ public/favicon.png");
+// 1024×1024 for highest-DPI PWA contexts
+const resvg1024 = new Resvg(svg, { fitTo: { mode: "width", value: 1024 } });
+fs.writeFileSync(path.join(root, "public/icon-1024.png"), resvg1024.render().asPng());
+console.log("✓ public/icon-1024.png");
 
 // iOS Safari requests these paths directly (ignores <link> tags; probes legacy names too)
 const resvg180 = new Resvg(svg, { fitTo: { mode: "width", value: 180 } });
