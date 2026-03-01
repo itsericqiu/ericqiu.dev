@@ -99,10 +99,20 @@ const resvg256 = new Resvg(svg, { fitTo: { mode: "width", value: 256 } });
 fs.writeFileSync(path.join(root, "public/favicon.png"), resvg256.render().asPng());
 console.log("✓ public/favicon.png");
 
-// iOS Safari requests /apple-touch-icon.png at this exact path (ignores <link> tags)
+// iOS Safari requests these paths directly (ignores <link> tags; probes legacy names too)
 const resvg180 = new Resvg(svg, { fitTo: { mode: "width", value: 180 } });
-fs.writeFileSync(path.join(root, "public/apple-touch-icon.png"), resvg180.render().asPng());
+const png180 = resvg180.render().asPng();
+fs.writeFileSync(path.join(root, "public/apple-touch-icon.png"), png180);
 console.log("✓ public/apple-touch-icon.png");
+fs.writeFileSync(path.join(root, "public/apple-touch-icon-precomposed.png"), png180);
+console.log("✓ public/apple-touch-icon-precomposed.png");
+
+const resvg120 = new Resvg(svg, { fitTo: { mode: "width", value: 120 } });
+const png120 = resvg120.render().asPng();
+fs.writeFileSync(path.join(root, "public/apple-touch-icon-120x120.png"), png120);
+console.log("✓ public/apple-touch-icon-120x120.png");
+fs.writeFileSync(path.join(root, "public/apple-touch-icon-120x120-precomposed.png"), png120);
+console.log("✓ public/apple-touch-icon-120x120-precomposed.png");
 
 // Android Chrome / PWA manifest
 const resvg192 = new Resvg(svg, { fitTo: { mode: "width", value: 192 } });
