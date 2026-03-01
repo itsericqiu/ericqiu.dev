@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Font Preview — ericqiu.dev</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Space+Mono:wght@400;700&family=Inter:wght@400;500&family=Instrument+Sans:wght@400;500&family=DM+Sans:wght@400;500&family=Figtree:wght@400;500&family=Spectral:ital,wght@0,400;0,500;1,400&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #F5F0E8;
+      --text-primary: #111111;
+      --text-secondary: #4A4642;
+      --text-muted: #828078;
+      --accent: #7E5F28;
+      --border: #D8D4CC;
+      --display: "Fraunces", Georgia, serif;
+      --mono: "Space Mono", monospace;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text-primary);
+      padding: 48px 24px 96px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    header {
+      max-width: 900px;
+      margin: 0 auto 56px;
+    }
+
+    header h1 {
+      font-family: var(--display);
+      font-size: 2rem;
+      font-weight: 700;
+      font-optical-sizing: auto;
+      margin-bottom: 0.5rem;
+    }
+
+    header p {
+      font-family: var(--mono);
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+    }
+
+    .font-section {
+      max-width: 900px;
+      margin: 0 auto 64px;
+      border-top: 2px solid var(--text-primary);
+      padding-top: 24px;
+    }
+
+    .font-label {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+
+    .font-name {
+      font-family: var(--display);
+      font-size: 1.5rem;
+      font-weight: 700;
+      font-optical-sizing: auto;
+      margin-bottom: 24px;
+    }
+
+    .font-name em {
+      color: var(--text-muted);
+      font-style: normal;
+      font-size: 0.9rem;
+      font-family: var(--mono);
+      font-weight: 400;
+      margin-left: 0.5rem;
+    }
+
+    /* Simulated entry */
+    .entry {
+      border-top: 1px solid var(--border);
+      padding: 32px 0;
+    }
+
+    .entry-company {
+      font-family: var(--display);
+      font-size: 1.75rem;
+      font-weight: 600;
+      line-height: 1.15;
+      margin-bottom: 6px;
+      font-optical-sizing: auto;
+    }
+
+    .entry-meta {
+      font-family: var(--mono);
+      font-size: 0.8125rem;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+    }
+
+    .entry-meta span {
+      color: var(--accent);
+      margin-left: 1rem;
+    }
+
+    .entry-desc {
+      font-size: 1rem;
+      line-height: 1.75;
+      color: var(--text-secondary);
+      max-width: 640px;
+    }
+
+    .hero-bio {
+      font-size: 1rem;
+      line-height: 1.75;
+      color: var(--text-secondary);
+      max-width: 520px;
+      margin-bottom: 8px;
+    }
+
+    .hero-bio-aside {
+      font-size: 0.9375rem;
+      color: var(--text-muted);
+      max-width: 520px;
+      margin-bottom: 24px;
+    }
+
+    .footer-bio {
+      font-size: 0.875rem;
+      line-height: 1.6;
+      color: var(--text-secondary);
+      max-width: 480px;
+      margin-top: 16px;
+    }
+
+    .section-divider {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin: 28px 0 12px;
+    }
+
+    /* Current badge */
+    .current-badge {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      background: var(--accent);
+      color: #F0EBE0;
+      padding: 2px 8px;
+      border-radius: 3px;
+      margin-left: 12px;
+      vertical-align: middle;
+      position: relative;
+      top: -2px;
+    }
+
+    /* Font-specific classes */
+    .f-inter        { font-family: "Inter", sans-serif; }
+    .f-instrument   { font-family: "Instrument Sans", sans-serif; }
+    .f-dm           { font-family: "DM Sans", sans-serif; }
+    .f-figtree      { font-family: "Figtree", sans-serif; }
+    .f-spectral     { font-family: "Spectral", Georgia, serif; }
+    .f-newsreader   { font-family: "Newsreader", Georgia, serif; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Body Typeface Options</h1>
+  <p>All fonts shown at actual site sizes with real copy — hero bio, experience description, footer.</p>
+</header>
+
+<!-- INTER (current) -->
+<section class="font-section">
+  <p class="font-label">Option 1</p>
+  <h2 class="font-name">Inter <span class="current-badge">current</span> <em>— sans-serif, geometric neutral</em></h2>
+  <div class="f-inter">
+    <p class="section-divider">Hero bio</p>
+    <p class="hero-bio">I build distributed systems and cloud infrastructure at Bloomberg. University of Waterloo CS. Previously at Addepar, Postmates, and BMO Capital Markets.</p>
+    <p class="hero-bio-aside">Outside work: pour over coffee, a Fujifilm X100VI, and whatever book is currently face-down on my desk.</p>
+    <div class="entry">
+      <p class="entry-company">Bloomberg LP</p>
+      <p class="entry-meta">Senior Software Engineer <span>Jun 2021 – Present</span></p>
+      <p class="entry-desc f-inter">Working in Software Infrastructure to architect and develop managed multi-tenant distributed DR-1 compliant cloud services in use by over 300 teams across all businesses and powering mission-critical applications at Bloomberg Engineering and Global Data.</p>
+    </div>
+    <p class="section-divider">Footer</p>
+    <p class="footer-bio">From Hamilton, Ontario — University of Waterloo CS grad, now based in New York City. I build distributed systems at Bloomberg and spend my evenings with a camera or chasing a good pour over.</p>
+  </div>
+</section>
+
+<!-- INSTRUMENT SANS -->
+<section class="font-section">
+  <p class="font-label">Option 2</p>
+  <h2 class="font-name">Instrument Sans <em>— humanist grotesque, editorial</em></h2>
+  <div class="f-instrument">
+    <p class="section-divider">Hero bio</p>
+    <p class="hero-bio">I build distributed systems and cloud infrastructure at Bloomberg. University of Waterloo CS. Previously at Addepar, Postmates, and BMO Capital Markets.</p>
+    <p class="hero-bio-aside">Outside work: pour over coffee, a Fujifilm X100VI, and whatever book is currently face-down on my desk.</p>
+    <div class="entry">
+      <p class="entry-company">Bloomberg LP</p>
+      <p class="entry-meta">Senior Software Engineer <span>Jun 2021 – Present</span></p>
+      <p class="entry-desc f-instrument">Working in Software Infrastructure to architect and develop managed multi-tenant distributed DR-1 compliant cloud services in use by over 300 teams across all businesses and powering mission-critical applications at Bloomberg Engineering and Global Data.</p>
+    </div>
+    <p class="section-divider">Footer</p>
+    <p class="footer-bio">From Hamilton, Ontario — University of Waterloo CS grad, now based in New York City. I build distributed systems at Bloomberg and spend my evenings with a camera or chasing a good pour over.</p>
+  </div>
+</section>
+
+<!-- DM SANS -->
+<section class="font-section">
+  <p class="font-label">Option 3</p>
+  <h2 class="font-name">DM Sans <em>— geometric, soft, approachable</em></h2>
+  <div class="f-dm">
+    <p class="section-divider">Hero bio</p>
+    <p class="hero-bio">I build distributed systems and cloud infrastructure at Bloomberg. University of Waterloo CS. Previously at Addepar, Postmates, and BMO Capital Markets.</p>
+    <p class="hero-bio-aside">Outside work: pour over coffee, a Fujifilm X100VI, and whatever book is currently face-down on my desk.</p>
+    <div class="entry">
+      <p class="entry-company">Bloomberg LP</p>
+      <p class="entry-meta">Senior Software Engineer <span>Jun 2021 – Present</span></p>
+      <p class="entry-desc f-dm">Working in Software Infrastructure to architect and develop managed multi-tenant distributed DR-1 compliant cloud services in use by over 300 teams across all businesses and powering mission-critical applications at Bloomberg Engineering and Global Data.</p>
+    </div>
+    <p class="section-divider">Footer</p>
+    <p class="footer-bio">From Hamilton, Ontario — University of Waterloo CS grad, now based in New York City. I build distributed systems at Bloomberg and spend my evenings with a camera or chasing a good pour over.</p>
+  </div>
+</section>
+
+<!-- FIGTREE -->
+<section class="font-section">
+  <p class="font-label">Option 4</p>
+  <h2 class="font-name">Figtree <em>— clean grotesque, slightly rounded</em></h2>
+  <div class="f-figtree">
+    <p class="section-divider">Hero bio</p>
+    <p class="hero-bio">I build distributed systems and cloud infrastructure at Bloomberg. University of Waterloo CS. Previously at Addepar, Postmates, and BMO Capital Markets.</p>
+    <p class="hero-bio-aside">Outside work: pour over coffee, a Fujifilm X100VI, and whatever book is currently face-down on my desk.</p>
+    <div class="entry">
+      <p class="entry-company">Bloomberg LP</p>
+      <p class="entry-meta">Senior Software Engineer <span>Jun 2021 – Present</span></p>
+      <p class="entry-desc f-figtree">Working in Software Infrastructure to architect and develop managed multi-tenant distributed DR-1 compliant cloud services in use by over 300 teams across all businesses and powering mission-critical applications at Bloomberg Engineering and Global Data.</p>
+    </div>
+    <p class="section-divider">Footer</p>
+    <p class="footer-bio">From Hamilton, Ontario — University of Waterloo CS grad, now based in New York City. I build distributed systems at Bloomberg and spend my evenings with a camera or chasing a good pour over.</p>
+  </div>
+</section>
+
+<!-- SPECTRAL -->
+<section class="font-section">
+  <p class="font-label">Option 5</p>
+  <h2 class="font-name">Spectral <em>— screen serif, editorial, bold choice</em></h2>
+  <div class="f-spectral">
+    <p class="section-divider">Hero bio</p>
+    <p class="hero-bio">I build distributed systems and cloud infrastructure at Bloomberg. University of Waterloo CS. Previously at Addepar, Postmates, and BMO Capital Markets.</p>
+    <p class="hero-bio-aside">Outside work: pour over coffee, a Fujifilm X100VI, and whatever book is currently face-down on my desk.</p>
+    <div class="entry">
+      <p class="entry-company">Bloomberg LP</p>
+      <p class="entry-meta">Senior Software Engineer <span>Jun 2021 – Present</span></p>
+      <p class="entry-desc f-spectral">Working in Software Infrastructure to architect and develop managed multi-tenant distributed DR-1 compliant cloud services in use by over 300 teams across all businesses and powering mission-critical applications at Bloomberg Engineering and Global Data.</p>
+    </div>
+    <p class="section-divider">Footer</p>
+    <p class="footer-bio">From Hamilton, Ontario — University of Waterloo CS grad, now based in New York City. I build distributed systems at Bloomberg and spend my evenings with a camera or chasing a good pour over.</p>
+  </div>
+</section>
+
+<!-- NEWSREADER -->
+<section class="font-section">
+  <p class="font-label">Option 6</p>
+  <h2 class="font-name">Newsreader <em>— editorial serif, designed for screens</em></h2>
+  <div class="f-newsreader">
+    <p class="section-divider">Hero bio</p>
+    <p class="hero-bio">I build distributed systems and cloud infrastructure at Bloomberg. University of Waterloo CS. Previously at Addepar, Postmates, and BMO Capital Markets.</p>
+    <p class="hero-bio-aside">Outside work: pour over coffee, a Fujifilm X100VI, and whatever book is currently face-down on my desk.</p>
+    <div class="entry">
+      <p class="entry-company">Bloomberg LP</p>
+      <p class="entry-meta">Senior Software Engineer <span>Jun 2021 – Present</span></p>
+      <p class="entry-desc f-newsreader">Working in Software Infrastructure to architect and develop managed multi-tenant distributed DR-1 compliant cloud services in use by over 300 teams across all businesses and powering mission-critical applications at Bloomberg Engineering and Global Data.</p>
+    </div>
+    <p class="section-divider">Footer</p>
+    <p class="footer-bio">From Hamilton, Ontario — University of Waterloo CS grad, now based in New York City. I build distributed systems at Bloomberg and spend my evenings with a camera or chasing a good pour over.</p>
+  </div>
+</section>
+
+</body>
+</html>

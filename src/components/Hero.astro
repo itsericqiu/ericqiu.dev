@@ -1,22 +1,21 @@
 ---
-
+import { site } from "../site";
 ---
 
 <section class="hero" id="top">
   <div class="hero-inner">
     <div class="hero-kicker">
-      <span class="kicker-line">Senior Software Engineer & Coffee Addict // New York City</span>
+      <span class="kicker-line">{site.kicker}</span>
     </div>
     <h1 class="hero-name">
-      <span class="hero-line" style="animation-delay: 0.1s">Eric</span>
-      <span class="hero-line" style="animation-delay: 0.3s; font-style: italic;">Qiu.</span>
+      <span class="hero-line" style="animation-delay: 0.1s">{site.nameFirst}</span>
+      <span class="hero-line" style="animation-delay: 0.3s; font-style: italic;">{site.nameLast}</span>
     </h1>
     <p class="hero-bio">
-      I build distributed systems and cloud infrastructure at Bloomberg.
-      University of Waterloo CS. Previously at Addepar, Postmates, and BMO Capital Markets.
+      {site.bio}
     </p>
     <p class="hero-bio hero-bio-aside" style="animation-delay: 0.45s">
-      Outside work: pour over coffee, a Fujifilm X100VI, and whatever book is currently face-down on my desk.
+      {site.bioAside}
     </p>
     <div class="hero-cta">
       <a href="https://photos.ericqiu.io" target="_blank" rel="noopener noreferrer"

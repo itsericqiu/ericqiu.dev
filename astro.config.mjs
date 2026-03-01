@@ -11,7 +11,7 @@ export default defineConfig({
   server: { host: true },
   vite: {
     server: {
-      allowedHosts: true,
+      allowedHosts: ["all", "erics-macbook-pro"],
     },
   },
 });

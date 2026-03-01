@@ -3,6 +3,8 @@ import { Resvg } from "@resvg/resvg-js";
 import fs from "fs";
 import path from "path";
 import type { APIRoute } from "astro";
+import { dark } from "../palette";
+import { site } from "../site";
 
 export const GET: APIRoute = async () => {
   const frauncesData = fs.readFileSync(
@@ -24,7 +26,7 @@ export const GET: APIRoute = async () => {
           flexDirection: "row",
           width: "1200px",
           height: "630px",
-          background: "#0D0D0B",
+          background: dark.bgPrimary,
         },
         children: [
           // Amber accent stripe
@@ -34,7 +36,7 @@ export const GET: APIRoute = async () => {
               style: {
                 width: "12px",
                 height: "630px",
-                background: "#D4A574",
+                background: dark.accent,
                 flexShrink: 0,
               },
             },
@@ -59,12 +61,12 @@ export const GET: APIRoute = async () => {
                       fontFamily: "Space Mono",
                       fontSize: "24px",
                       fontWeight: 400,
-                      color: "#D4A574",
+                      color: dark.accent,
                       letterSpacing: "0.06em",
                       textTransform: "uppercase",
                       marginBottom: "32px",
                     },
-                    children: "Senior Software Engineer // New York City",
+                    children: site.kicker,
                   },
                 },
                 // Name block
@@ -84,11 +86,11 @@ export const GET: APIRoute = async () => {
                             fontFamily: "Fraunces",
                             fontSize: "96px",
                             fontWeight: 800,
-                            color: "#F0EBE0",
+                            color: dark.textPrimary,
                             lineHeight: 1.05,
                             letterSpacing: "-0.02em",
                           },
-                          children: "Eric",
+                          children: site.nameFirst,
                         },
                       },
                       {
@@ -99,11 +101,11 @@ export const GET: APIRoute = async () => {
                             fontStyle: "italic",
                             fontSize: "96px",
                             fontWeight: 800,
-                            color: "#F0EBE0",
+                            color: dark.textPrimary,
                             lineHeight: 1.05,
                             letterSpacing: "-0.02em",
                           },
-                          children: "Qiu.",
+                          children: site.nameLast,
                         },
                       },
                     ],
@@ -117,10 +119,10 @@ export const GET: APIRoute = async () => {
                       fontFamily: "Space Mono",
                       fontSize: "22px",
                       fontWeight: 400,
-                      color: "#5A5650",
+                      color: dark.textMuted,
                       letterSpacing: "0.03em",
                     },
-                    children: "ericqiu.dev",
+                    children: site.domain,
                   },
                 },
               ],

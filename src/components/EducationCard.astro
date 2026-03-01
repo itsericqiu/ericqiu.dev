@@ -1,4 +1,7 @@
 ---
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
 interface Props {
   school: string;
   program: string;
@@ -7,24 +10,33 @@ interface Props {
   courses: string[];
   href: string;
   logoAlt: string;
-  logoSrc?: string;
+  logoSrc?: ImageMetadata;
+  logoSrcDark?: ImageMetadata;
   invertOnDark?: boolean;
 }
 
-const { school, program, department, dates, courses, href, logoAlt, logoSrc, invertOnDark = false } = Astro.props;
+const { school, program, department, dates, courses, href, logoAlt, logoSrc, logoSrcDark, invertOnDark = false } = Astro.props;
 ---
 
 <div class="edu-row">
   <div class="logo-col">
     {logoSrc && (
-      <a href={href} target="_blank" rel="noopener noreferrer">
-        <img src={logoSrc} alt={logoAlt} class:list={["school-logo", { "invert-on-dark": invertOnDark }]} loading="lazy" />
+      <a href={href} target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
+        <Image src={logoSrc} alt={logoAlt}
+          class:list={["school-logo", logoSrcDark ? "logo-light-only" : "", { "invert-on-dark": invertOnDark }]}
+          loading="lazy" />
+        {logoSrcDark && (
+          <Image src={logoSrcDark} alt={logoAlt}
+            class="school-logo logo-dark-only" loading="lazy" />
+        )}
       </a>
     )}
   </div>
   <div class="text-col">
     <p class="info-line">
-      <strong class="school-name">{school}</strong>
+      <strong class="school-name">
+        <a href={href} target="_blank" rel="noopener noreferrer" class="link-underline">{school}</a>
+      </strong>
       <br />
       <span class="department">{department}</span>
     </p>
@@ -52,7 +64,7 @@ const { school, program, department, dates, courses, href, logoAlt, logoSrc, inv
     flex: 0 0 33%;
     display: flex;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
   }
 
   .school-logo {
@@ -61,6 +73,15 @@ const { school, program, department, dates, courses, href, logoAlt, logoSrc, inv
     max-width: 220px;
     object-fit: contain;
   }
+
+  .logo-dark-only { display: none; }
+
+  @media (prefers-color-scheme: dark) {
+    :global(:root:not([data-theme="light"])) .logo-light-only { display: none; }
+    :global(:root:not([data-theme="light"])) .logo-dark-only  { display: block; }
+  }
+  :global([data-theme="dark"]) .logo-light-only { display: none; }
+  :global([data-theme="dark"]) .logo-dark-only  { display: block; }
 
   .text-col {
     flex: 1;
@@ -78,6 +99,11 @@ const { school, program, department, dates, courses, href, logoAlt, logoSrc, inv
     font-size: 1.25rem;
     font-weight: 600;
     font-optical-sizing: auto;
+  }
+
+  .school-name a {
+    color: inherit;
+    text-decoration: none;
   }
 
   .department {
@@ -117,7 +143,7 @@ const { school, program, department, dates, courses, href, logoAlt, logoSrc, inv
 
     .logo-col {
       flex: none;
-      justify-content: flex-start;
+      justify-content: center;
       width: 100%;
     }
 

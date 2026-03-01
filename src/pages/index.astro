@@ -4,6 +4,16 @@ import Nav from "../components/Nav.astro";
 import Hero from "../components/Hero.astro";
 import EducationCard from "../components/EducationCard.astro";
 import Footer from "../components/Footer.astro";
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
+// Glob import all logos — add a new logo by dropping a file in src/assets/logos/
+const logoFiles = import.meta.glob<{ default: ImageMetadata }>(
+  "../assets/logos/*.webp",
+  { eager: true }
+);
+const logo = (name: string) =>
+  logoFiles[`../assets/logos/${name}.webp`]!.default;
 
 const experiences = [
   {
@@ -15,7 +25,7 @@ const experiences = [
     description:
       "Working in Software Infrastructure to architect and develop managed multi-tenant distributed DR-1 compliant cloud services in use by over 300 teams across all businesses and powering mission-critical applications at Bloomberg Engineering and Global Data.",
     href: "https://www.bloomberg.com/company/values/tech-at-bloomberg/",
-    logoSrc: "/logos/bloomberg.png",
+    logoSrc: logo("bloomberg"),
     logoAlt: "Bloomberg LP logo",
     invertOnDark: true,
   },
@@ -25,7 +35,7 @@ const experiences = [
     description:
       "Designed and developed full-stack implementation of 2FA auditing and management tools for firm administrators within Addepar's portfolio analysis and financial graph product for Family Offices, Private Offices, and RIAs.",
     href: "https://addepar.com",
-    logoSrc: "/logos/addepar.png",
+    logoSrc: logo("addepar"),
     logoAlt: "Addepar logo",
     invertOnDark: true,
   },
@@ -35,7 +45,7 @@ const experiences = [
     description:
       "Architected and led multi-developer team in tandem with Product Design to introduce automated self-service support workflows for Postmates Couriers including implementations in CRM, database, server job queue management in Kubernetes-based backend, and in-app/in-browser experience.",
     href: "https://postmates.com",
-    logoSrc: "/logos/postmates.png",
+    logoSrc: logo("postmates"),
     logoAlt: "Postmates logo",
     invertOnDark: true,
   },
@@ -47,7 +57,7 @@ const experiences = [
     description:
       "Trained and productionized machine learning model along with accompanying data pipeline to serve a new hybrid higher-quality and lower-latency data source for implied equity options volatility surfaces in Terminal and for Enterprise Data clients. Optimized Derivatives Data applications for performance.",
     href: "https://www.bloomberg.com/company/values/tech-at-bloomberg/",
-    logoSrc: "/logos/bloomberg.png",
+    logoSrc: logo("bloomberg"),
     logoAlt: "Bloomberg LP logo",
     invertOnDark: true,
   },
@@ -59,7 +69,7 @@ const experiences = [
     description:
       "Prototyped proof-of-concept for blockchain-based bond-issuance platform analogous to ICOs for the Fixed Income, Currencies & Commodities desk. Assisted Data Cognition desk in work on solutions for mining trade and transaction data from Bloomberg Terminal and Symphony messages.",
     href: "https://capitalmarkets.bmo.com/en/",
-    logoSrc: "/logos/bmo.png",
+    logoSrc: logo("bmo"),
     logoAlt: "BMO Capital Markets logo",
     invertOnDark: false,
   },
@@ -68,8 +78,8 @@ const experiences = [
     roles: [{ title: "Full Stack Developer Co-op", dates: "May – Aug 2017" }],
     description:
       "Worked on full-stack development of in-store 3D inventory and product mapping solution for customer and sales representatives. Visited retail locations piloting the solution to conduct user research. Prototyped solutions for technology-based KYC applications and age verification.",
-    href: "https://www.lcbonext.com",
-    logoSrc: "/logos/lcbo.png",
+    href: "https://www.lcbo.com",
+    logoSrc: logo("lcbo"),
     logoAlt: "LCBO logo",
     invertOnDark: true,
   },
@@ -88,7 +98,8 @@ const education = [
       "Software Specification & Testing",
     ],
     href: "https://uwaterloo.ca",
-    logoSrc: "/logos/waterloo.png",
+    logoSrc: logo("waterloo"),
+    logoSrcDark: logo("waterloo-dark"),
     logoAlt: "University of Waterloo logo",
     invertOnDark: false,
   },
@@ -99,7 +110,7 @@ const education = [
     dates: "2019",
     courses: ["Compilers", "Automata Theory", "Computer Vision"],
     href: "https://postech.ac.kr/eng/",
-    logoSrc: "/logos/postech.png",
+    logoSrc: logo("postech"),
     logoAlt: "POSTECH logo",
     invertOnDark: false,
   },
@@ -147,7 +158,7 @@ const techStack = [
               {exp.logoSrc && (
                 <div class="entry-logo">
                   <a href={exp.href} target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
-                    <img src={exp.logoSrc} alt={exp.logoAlt}
+                    <Image src={exp.logoSrc} alt={exp.logoAlt}
                       class:list={["entry-logo-img", { "invert-on-dark": exp.invertOnDark }]}
                       loading="lazy" />
                   </a>
@@ -238,7 +249,6 @@ const techStack = [
     font-weight: 400;
     color: var(--text-muted);
     margin-right: 0.75rem;
-    opacity: 0.7;
   }
 
   /* Experience list */
@@ -394,7 +404,7 @@ const techStack = [
     font-size: 0.75rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--text-muted);
+    color: var(--text-secondary);
     flex-shrink: 0;
     min-width: 100px;
   }
@@ -448,7 +458,7 @@ const techStack = [
   .photo-callout-text {
     font-family: var(--font-display);
     font-style: italic;
-    font-weight: 300;
+    font-weight: 350;
     font-size: clamp(1.5rem, 3vw, 2.25rem);
     color: var(--text-primary);
     letter-spacing: -0.01em;
@@ -483,10 +493,10 @@ const techStack = [
     }
 
     .entry-logo-img {
-      height: 36px;
       width: auto;
+      height: auto;
       max-width: 140px;
-      max-height: none;
+      max-height: 80px;
       opacity: 1;
     }
 
@@ -506,5 +516,22 @@ const techStack = [
     .photo-callout {
       padding: 40px 25px;
     }
+  }
+
+  /* Fraunces weight 350 is visually thin on dark backgrounds — bump to 400 */
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .skills-statement,
+    :root:not([data-theme="light"]) .photo-callout-text {
+      font-weight: 400;
+    }
+  }
+  [data-theme="dark"] .skills-statement,
+  [data-theme="dark"] .photo-callout-text {
+    font-weight: 400;
+  }
+
+  /* Education: reduce gap between section title and first card */
+  #education .section-title {
+    margin-bottom: 1.5rem;
   }
 </style>
