@@ -25,33 +25,19 @@ import { site } from "../site";
 </section>
 
 <style>
-  /* Register --seg-color as a typed <color> so keyframes interpolate smoothly.
-     inherits: true lets child elements pick up the animated value. */
-  @property --seg-color {
-    syntax: '<color>';
-    initial-value: #7E5F28;
-    inherits: true;
+  /* Animatable gradient position for the diagonal scan wipe */
+  @property --scan-pos {
+    syntax: '<percentage>';
+    initial-value: -22%;
+    inherits: false;
   }
 
-  /* Light mode: amber → verdigris → navy → oxide → amber */
-  @keyframes seg-light {
-    0%, 20%  { --seg-color: #7E5F28; }
-    25%, 45% { --seg-color: #2A6B5E; }
-    50%, 70% { --seg-color: #1B2D45; }
-    75%, 95% { --seg-color: #8B3A2A; }
-    100%     { --seg-color: #7E5F28; }
+  @keyframes scan-wipe {
+    from { --scan-pos: -22%; }
+    to   { --scan-pos: 122%; }
   }
 
-  /* Dark mode: lighter versions of the same hues */
-  @keyframes seg-dark {
-    0%, 20%  { --seg-color: #D4A574; }
-    25%, 45% { --seg-color: #7EC8B4; }
-    50%, 70% { --seg-color: #7A98B0; }
-    75%, 95% { --seg-color: #C47860; }
-    100%     { --seg-color: #D4A574; }
-  }
-
-  /* Kicker breathing pulse — subtle opacity wave, 16s to loosely track the color cycle */
+  /* Kicker breathing pulse — subtle opacity wave, loosely in phase with color cycle */
   @keyframes kicker-pulse {
     0%, 100% { opacity: 0.6; }
     50%      { opacity: 1; }
@@ -100,16 +86,24 @@ import { site } from "../site";
     flex-direction: column;
     font-optical-sizing: auto;
     font-feature-settings: "liga" 1, "dlig" 1;
-    animation: seg-light 16s ease-in-out infinite;
   }
 
-  /* "Eric" cycles through accent colors; "Qiu." keeps --text-primary */
+  /* "Eric" — color driven by JS; "Qiu." inherits --text-primary from .hero-name */
   .hero-line:first-child {
-    color: var(--seg-color);
+    /* initial color set inline by script */
   }
 
-  :global([data-theme="dark"]) .hero-name {
-    animation-name: seg-dark;
+  /* Diagonal scan wipe: gradient boundary sweeps across "Eric" at 55° */
+  .hero-line:first-child.is-scanning {
+    background: linear-gradient(
+      55deg,
+      var(--seg-new) calc(var(--scan-pos) - 12%),
+      var(--seg-old) calc(var(--scan-pos) + 12%)
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: scan-wipe 1.0s ease-in-out forwards;
   }
 
   .hero-line {
@@ -159,3 +153,67 @@ import { site } from "../site";
     }
   }
 </style>
+
+<script>
+(function () {
+  var COLORS = {
+    light: ['#7E5F28', '#2A6B5E', '#1B2D45', '#8B3A2A'],
+    dark:  ['#D4A574', '#6EC4B0', '#7A9AD4', '#C05A38']
+  };
+
+  var colorIdx = 0;
+  var scanning = false;
+  var scanGen  = 0;
+  var curColor = '';
+
+  var el = document.querySelector('#top .hero-line');
+
+  function isDark()   { return document.documentElement.dataset.theme === 'dark'; }
+  function palette()  { return COLORS[isDark() ? 'dark' : 'light']; }
+
+  /* Set the initial color immediately */
+  curColor = palette()[0];
+  el.style.color = curColor;
+
+  function doScan(oldColor, newColor) {
+    if (scanning) return;
+    scanning = true;
+    var gen = ++scanGen;
+
+    el.style.setProperty('--seg-old', oldColor);
+    el.style.setProperty('--seg-new', newColor);
+    el.classList.add('is-scanning');
+
+    el.addEventListener('animationend', function onEnd(e) {
+      if (e.animationName !== 'scan-wipe') return;
+      el.removeEventListener('animationend', onEnd);
+      if (scanGen !== gen) return; /* aborted (e.g. theme switch mid-scan) */
+      el.style.color = newColor;
+      el.classList.remove('is-scanning');
+      scanning = false;
+    });
+  }
+
+  function advance() {
+    var oldColor = curColor;
+    colorIdx = (colorIdx + 1) % 4;
+    curColor = palette()[colorIdx];
+    doScan(oldColor, curColor);
+  }
+
+  /* First transition after one full interval, then every interval */
+  setTimeout(function () { setInterval(advance, 4000); }, 4000);
+
+  /* When dark/light mode toggles, snap to the equivalent color in the new palette */
+  new MutationObserver(function () {
+    var c = palette()[colorIdx];
+    curColor = c;
+    if (scanning) {
+      ++scanGen;        /* abort in-progress scan */
+      scanning = false;
+      el.classList.remove('is-scanning');
+    }
+    el.style.color = c;
+  }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+})();
+</script>

@@ -220,19 +220,19 @@
     .sim-line-first.is-scanning {
       /* --seg-old and --seg-new set via inline style before class is added */
       background: linear-gradient(
-        82deg,
-        var(--seg-new) calc(var(--scan-pos) - 7%),
-        var(--seg-old) calc(var(--scan-pos) + 7%)
+        55deg,
+        var(--seg-new) calc(var(--scan-pos) - 12%),
+        var(--seg-old) calc(var(--scan-pos) + 12%)
       );
       -webkit-background-clip: text;
       background-clip: text;
       -webkit-text-fill-color: transparent;
-      animation: scan-wipe 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+      animation: scan-wipe 1.0s ease-in-out forwards;
     }
 
     /* ─── TYPE mode ─── */
     body.mode-type .sim-line-first .letter {
-      transition: color 55ms ease-out;
+      transition: color 180ms ease-out;
     }
 
     /* ─── Info section ─── */
@@ -408,7 +408,7 @@
 
   <div class="info-panel" id="panel-type">
     <p class="info-title">Type-based</p>
-    <p class="info-desc">Each letter is individually wrapped in a span. On transition, colour updates stagger left-to-right at 40ms intervals with a 55ms CSS transition per letter. The word repaints in ~150ms — fast enough to avoid the typewriter cliché, directional enough to feel intentional.</p>
+    <p class="info-desc">Each letter is individually wrapped in a span. On transition, colour updates stagger left-to-right at 120ms intervals with a 180ms CSS transition per letter. The word repaints in ~540ms — clearly directional without feeling like a typewriter.</p>
     <p class="info-notes">
       <strong>Pro</strong> — fits mono/terminal DNA; no <code>@property</code> needed; simple implementation<br>
       <strong>Con</strong> — requires JS to wrap letters; less dramatic on short words<br>
@@ -427,7 +427,7 @@
   /* ── Colour palettes ── */
   var COLORS = {
     light: ['#7E5F28', '#2A6B5E', '#1B2D45', '#8B3A2A'],
-    dark:  ['#D4A574', '#7EC8B4', '#7A98B0', '#C47860']
+    dark:  ['#D4A574', '#6EC4B0', '#7A9AD4', '#C05A38']
   };
 
   /* ── State ── */
@@ -481,7 +481,7 @@
   /* TYPE — stagger per-letter color update */
   function doType(newColor) {
     nameFirst.querySelectorAll('.letter').forEach(function (el, i) {
-      setTimeout(function () { el.style.color = newColor; }, i * 40);
+      setTimeout(function () { el.style.color = newColor; }, i * 120);
     });
   }
 
