@@ -259,6 +259,32 @@
       .nav-strip.open .nav-toggle-arrow { transform: rotate(180deg); }
       .palette { padding: 48px 20px 56px; }
       .palette-header { margin-bottom: 36px; }
+      .palette-divider { padding: 32px 20px 28px; }
+
+      /* Floating pill → fixed full-width bottom bar */
+      .px-toggle {
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+        border-bottom: none;
+        border-top: 1px solid rgba(255,255,255,0.12);
+        justify-content: stretch;
+        flex-wrap: nowrap;
+      }
+      .px-btn {
+        flex: 1;
+        justify-content: center;
+        text-align: center;
+        padding: 14px 6px;
+        font-size: 0.55rem;
+      }
+      .px-sep { display: none; }
+
+      /* Extra body padding so content scrolls clear of the bottom bar */
+      body { padding-bottom: 52px; }
     }
 
     /* ══════════════════════════════════════════════════
