@@ -144,6 +144,28 @@
     option { background: #1a1a1a; color: rgba(255,255,255,0.85); }
     optgroup { color: rgba(255,255,255,0.35); }
 
+    @media (max-width: 640px) {
+      /* Row 1: scroll horizontally instead of wrapping */
+      .ctrl-row-top {
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+      }
+      .ctrl-row-top::-webkit-scrollbar { display: none; }
+
+      /* Tighter spacing on mobile */
+      .ctrl-link { padding: 0 10px; font-size: 0.55rem; }
+      .ctrl-group { padding: 0 8px; gap: 4px; }
+      .ctrl-label { font-size: 0.45rem; }
+      .ctrl-btn { font-size: 0.5rem; padding: 3px 7px; }
+
+      /* Section selects row: make each select a bit narrower */
+      .ctrl-sel { width: 96px; font-size: 0.55rem; }
+      .ctrl-sel-wrap { padding: 5px 7px; }
+      .ctrl-sel-label { font-size: 0.44rem; }
+    }
+
     /* ══════════════════════════════════════════════
        SIMULATED SITE — base
     ══════════════════════════════════════════════ */

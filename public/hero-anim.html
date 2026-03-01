@@ -327,12 +327,30 @@
     .footer-back:hover { color: var(--accent); }
 
     @media (max-width: 640px) {
-      .ctrl { padding: 10px 20px; gap: 10px; }
+      /* Control bar: scroll horizontally instead of wrapping */
+      .ctrl {
+        padding: 8px 16px;
+        gap: 6px;
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+      }
+      .ctrl::-webkit-scrollbar { display: none; }
+
+      /* Slightly smaller controls to fit more on screen */
+      .ctrl-btn { padding: 4px 9px; font-size: 0.6rem; }
+      .ctrl-label { font-size: 0.55rem; }
+      .ctrl-group { gap: 4px; }
+
+      /* Next button: remove the auto left margin that orphans it when wrapping */
+      .ctrl-next { margin-left: 6px; }
+
+      .ctrl-sep { display: none; }
       .page-header { padding: 40px 20px 36px; }
       .preview { padding: 60px 20px; }
       .info { padding: 32px 20px 60px; }
       footer { padding: 20px; }
-      .ctrl-sep { display: none; }
     }
   </style>
 </head>
