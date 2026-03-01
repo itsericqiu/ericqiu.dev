@@ -39,8 +39,7 @@ All hero text and OG image content pulls from here.
 - `.reveal`: tech stack groups — same observer, slightly different easing
 - Hero: CSS `line-reveal` keyframe animation on `.hero-line`, `.hero-kicker`, `.hero-bio`, `.hero-cta`
 - Both `.reveal` and `.reveal-entry` handled by same IntersectionObserver in `Base.astro`
-- **Letter-seg color cycling** (`Hero.astro`): `@property --seg-color` (typed `<color>`, `inherits: true`) animated via `seg-light` / `seg-dark` keyframes cycling amber → verdigris → navy → oxide over 16s with `ease-in-out`. Applied as `color: var(--seg-color)` on `.hero-line:first-child` ("Eric") only — "Qiu." stays `--text-primary`. Dark mode switches animation via `:global([data-theme="dark"]) .hero-name { animation-name: seg-dark }`.
-- **Kicker pulse**: `.hero-kicker` has a secondary `kicker-pulse` animation (opacity 0.6 → 1 → 0.6, 16s ease-in-out) that starts 1s after page load, loosely in phase with the color cycle.
+- **Letter-seg color cycling** (`Hero.astro`): JS state machine cycles "Eric" through 4 accent hues (amber → verdigris → navy → oxide) every 4s. Uses diagonal scan wipe: `@property --scan-pos` (`<percentage>`) animates gradient boundary in `@keyframes scan-wipe` at 55°, with `background-clip: text` on `.hero-line:first-child.is-scanning`. **Key detail**: scan animation driven via `el.style.animation` (inline style) — NOT from CSS class — to prevent the CSS cascade from replaying `line-reveal` when `.is-scanning` is removed. `line-reveal` is frozen via an `animationend` listener after page-load entry. Dark mode uses 6 warm-calibrated hues (`#D4A574`, `#A3BC85`, `#8A9FC2`, `#C4896A`, `#B89FD4`, `#7DBFB0`), snapped via MutationObserver on `data-theme`. Cycle length is `palette().length` (dynamic). First transition at 4s, then every 4s. No kicker pulse.
 
 ## Key Conventions
 - **Email**: always `hello[at]ericqiu[dot]io` — never a mailto link (anti-scraping)
