@@ -1,64 +1,113 @@
 # ericqiu.dev — Claude Code Context
 
 ## Project Purpose
-This is an Astro-based rebuild of the live portfolio site at https://www.ericqiu.dev (originally built with Typedream/Next.js). The goal is to faithfully replicate the live site's visual design and behavior as a self-hosted version deployable via Cloudflare Pages.
-
-## Deployment
-- Platform: Cloudflare Pages (via `wrangler.json`)
-- Build: `npm run build` → `dist/`
+Astro-based personal portfolio site. Deploys to Cloudflare Pages via `wrangler.json`.
 - Dev: `npm run dev`
+- Build: `npm run build` → `dist/`
+- Preview (local): `npm run preview`
 
-## Design Reference
-The live site at https://www.ericqiu.dev is the visual source of truth. Key differences to be aware of:
-- Live site uses Typedream CMS with ~1200px section containers
-- This rebuild uses `--max-width: 900px` for main content sections
-- Live site nav spans full browser width — replicated here (no max-width on `.nav-inner`)
+## Current Design
+**Editorial typographic concept** — Fraunces display serif, Instrument Sans body, Space Mono mono, amber/cream palette. Not the original Typedream replica; this is the redesigned version.
 
 ## Typography
-- `--font-sans`: Inter (body, hero h1)
-- `--font-mono`: Space Mono (nav, company names, code)
-- `--font-heading`: Quicksand (hero subtitle, CTA)
-- `--font-serif`: Libre Caslon Text (accent/decorative)
-- All loaded from Google Fonts
+- `--font-display`: Fraunces (variable, Google Fonts) — headings, company names, hero name, italic Qiu.
+- `--font-sans`: Instrument Sans (Google Fonts) — body text, descriptions
+- `--font-mono`: Space Mono (Google Fonts) — nav, section labels, kicker, dates, code
+- Static TTFs in `src/assets/` — used **only** by satori for server-side image generation:
+  - `fraunces-800.ttf`, `fraunces-800-italic.ttf` (generated from variable font via fonttools)
+  - `space-mono-400.ttf`, `inter-bold.ttf` (inter-bold kept but unused in satori)
+  - Satori does NOT support variable fonts — must use static weight TTFs
+
+## Color System
+Single source of truth: `src/palette.ts`
+- Exports: `light`, `dark` (type `PaletteMode`), `icon` (`{ bg, text }`)
+- CSS variables generated inline in `Base.astro` from palette tokens — change palette.ts, everything updates
+- Current palette: **Amber** (light: cream `#F5F0E8` / dark: near-black `#0D0D0B`, accent: `#7E5F28` / `#D4A574`)
+
+## Site Content (single source of truth)
+`src/site.ts` — name, kicker, bio, bioAside, domain, SEO meta, footerBio
+All hero text and OG image content pulls from here.
 
 ## Layout
-- Fixed nav: 60px height, full browser width, `backdrop-filter: blur(12px)`
-- `div.nav-spacer` (60px, `var(--bg-primary)`) is placed before `<Hero>` in index.astro so the translucent nav shows the page background color at the top, not the dark hero
-- Hero section: `background: #000000`, padding starts at 20px top (spacer handles the nav offset)
+- Fixed nav: 60px height, `backdrop-filter: blur(12px)`, `--bg-nav` (rgba with opacity)
+- No nav-spacer div — hero `padding: 120px 25px 80px` (desktop) / `90px 25px 60px` (mobile) handles nav offset
+- `--max-width: 900px` for content sections; `--footer-width: 1100px` for footer
+- Sections: Hero → Work (01) → Education (02) → What I Do (03) → Get in Touch (04) → Photography callout → Footer
 
 ## Animations
-- Scroll-reveal (`.reveal` class + IntersectionObserver) applied **only to experience cards** (`ExperienceCard.astro`)
-- Section titles, education rows, skills section, and CTA card do NOT animate (matches live site)
-- Cards within a row have staggered `transition-delay` via `animDelay` prop
+- `.reveal-entry`: experience list entries — `opacity 0 → 1`, `translateY(12px) → 0`, triggered by IntersectionObserver
+- `.reveal`: tech stack groups — same observer, slightly different easing
+- Hero: CSS `line-reveal` keyframe animation on `.hero-line`, `.hero-kicker`, `.hero-bio`, `.hero-cta`
+- Both `.reveal` and `.reveal-entry` handled by same IntersectionObserver in `Base.astro`
 
-## Known Fixes Applied (vs initial scaffold)
-- Nav max-width removed → full browser width
-- Nav opacity: `0.95` → `0.80` (more translucent)
-- Nav spacer added before hero for white-bar effect
-- Hero h1: `2.5rem` → `3.5rem`; subtitle: `1.5rem` → `1.75rem`
-- Nav logo text: `1rem` → `1.125rem`; nav links: `0.875rem` → `1rem`
-- Experience card: removed `min-height: 300px`, padding `28px 32px`, more vertical gaps between elements, logo width `65%`
-- Education card school logo max-width: `253px` → `200px`
-- Emoji rendering: `👋` wrapped in `<span class="wave">` with emoji font stack; both emojis get `font-variant-emoji: emoji` + `-webkit-font-smoothing: auto`
-- Reveal animation scoped to experience cards only
-- Favicon: `favicon.png` is the coffee illustration (256×256, same image as live site from Typedream CDN); `favicon.svg` deleted; `Base.astro` updated to `<link rel="icon" href="/favicon.png">`
-- Note: `coffee-3d.png` and `favicon.png` are the same source image — the hero uses it at full scale, favicon at 256×256
+## Key Conventions
+- **Email**: always `hello[at]ericqiu[dot]io` — never a mailto link (anti-scraping)
+- **Theme toggle**: dark mode from OS preference; no persistence; `data-theme` attr on `<html>`; Nav.astro handles toggle
+- **Logo inversion**: `.invert-on-dark` class + global CSS in `Base.astro`; `invertOnDark: true` prop on each entry
+- **Company names**: "Bloomberg LP" (not "Bloomberg Engineering"), "BMO Capital Markets" (not "BMO")
 
 ## File Structure
 ```
 src/
+  site.ts                  — identity, hero copy, SEO meta (single source of truth)
+  palette.ts               — all color tokens: light, dark, icon exports
+  assets/
+    logos/                 — *.webp employer/school logos (glob-imported in index.astro)
+    fraunces-800.ttf       — static Fraunces weight 800 (for satori)
+    fraunces-800-italic.ttf
+    space-mono-400.ttf     — (for satori)
+    inter-bold.ttf         — (kept, unused by satori currently)
   components/
-    Nav.astro          — fixed nav, theme toggle, full-width layout
-    Hero.astro         — dark hero section with 3D coffee image
-    ExperienceCard.astro — work experience cards with scroll reveal
-    EducationCard.astro  — education rows (no animation)
-    Footer.astro       — footer with bio and links
+    Nav.astro              — fixed nav, theme toggle
+    Hero.astro             — editorial hero: kicker, Fraunces name, bio, photo CTA
+    EducationCard.astro    — education rows
+    Footer.astro           — profile photo, bio, social links, email (obfuscated)
   layouts/
-    Base.astro         — global CSS variables, fonts, reveal animation JS
+    Base.astro             — CSS vars from palette.ts, Google Fonts, scroll reveal JS,
+                             JSON-LD, OG tags, GA4, scroll progress bar
   pages/
-    index.astro        — main page: nav-spacer, Hero, Work, Education, Skills, CTA, Footer
+    index.astro            — main page: experience entries inline (no ExperienceCard)
+    og-image.png.ts        — dynamic OG image via satori + @resvg/resvg-js
+    manifest.json.ts       — PWA manifest from palette + site tokens
 public/
-  logos/               — company/school logos (bloomberg.png, addepar.png, etc.)
-  coffee-3d.png        — hero 3D illustration
-  profile.jpg          — profile photo (used in footer)
+  favicon.png              — 256×256 EQ lettermark (generated by scripts/gen-icons.ts)
+  icon-512.png             — 512×512 EQ lettermark
+  profile.jpg              — profile photo (footer)
+  palette-preview.html     — standalone palette explorer (NOT part of Astro build)
+  icon-palette/            — gitignored; gen-icon-palette.ts output
+scripts/
+  gen-icons.ts             — generates favicon.png + icon-512.png from palette.ts icon colors
+  gen-icon-palette.ts      — generates 28 EQ icons across all palette variants (for preview)
 ```
+
+## Icon / Favicon Workflow
+When changing the palette accent or icon colors:
+1. Edit `src/palette.ts` → `icon.bg` / `icon.text`
+2. Run `npm run gen:icons` → regenerates `public/favicon.png` and `public/icon-512.png`
+
+## OG Image
+`/og-image.png` served dynamically at build time:
+- 1200×630, dark card (`#0D0D0B`), 12px amber left stripe (`#D4A574`)
+- Fraunces 800 name (two lines: "Eric" / italic "Qiu."), Space Mono kicker + domain
+- Content pulled from `src/site.ts` and `src/palette.ts`
+
+## Palette Preview (exploratory tooling)
+`public/palette-preview.html` — open directly in browser (not via Astro dev server):
+- 6 standard palettes (light + dark): Amber, Forest, Ink Blue, Clay, Slate, Burgundy
+- 8 bold color-as-background palettes (dark + light tint): Bottle, Ultra, Teal, Amber Wash, Terra, Olive, Burg, Cobalt
+- Parallax toggle: Standard / Color Bleed / Diagonal
+- Collapsible nav on mobile
+- Icons for each variant in `public/icon-palette/` (run `npx tsx scripts/gen-icon-palette.ts` to regenerate)
+
+## Google Analytics
+GA4 property `G-40921B4C5L`, deferred via `window.load` event in `Base.astro`.
+
+---
+
+## Documentation Maintenance (for Claude)
+**After any session where changes are made, update:**
+1. **This file (`CLAUDE.md`)** — if file structure, conventions, or architectural decisions changed
+2. **`~/.claude/projects/.../memory/MEMORY.md`** — if decisions, preferences, or project state changed
+3. **`~/.claude/projects/.../memory/work-tracking.md`** — mark completed items, add new backlog items, update in-progress
+
+Keep these in sync so future sessions start with accurate context rather than stale information.

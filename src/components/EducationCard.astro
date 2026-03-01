@@ -24,10 +24,13 @@ const { school, program, department, dates, courses, href, logoAlt, logoSrc, log
       <a href={href} target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
         <Image src={logoSrc} alt={logoAlt}
           class:list={["school-logo", logoSrcDark ? "logo-light-only" : "", { "invert-on-dark": invertOnDark }]}
+          widths={[220, 440]} sizes="220px"
           loading="lazy" />
         {logoSrcDark && (
           <Image src={logoSrcDark} alt={logoAlt}
-            class="school-logo logo-dark-only" loading="lazy" />
+            class="school-logo logo-dark-only"
+            widths={[220, 440]} sizes="220px"
+            loading="lazy" />
         )}
       </a>
     )}

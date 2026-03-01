@@ -19,8 +19,8 @@ const frauncesData = fs.readFileSync(path.join(root, "src/assets/fraunces-800.tt
 const frauncesItalicData = fs.readFileSync(path.join(root, "src/assets/fraunces-800-italic.ttf"));
 
 const fonts = [
-  { name: "Fraunces", data: frauncesData, weight: 800, style: "normal" as const },
-  { name: "Fraunces", data: frauncesItalicData, weight: 800, style: "italic" as const },
+  { name: "Fraunces", data: frauncesData, weight: 800 as const, style: "normal" as const },
+  { name: "Fraunces", data: frauncesItalicData, weight: 800 as const, style: "italic" as const },
 ];
 
 const SIZE = 512;
@@ -98,3 +98,13 @@ console.log("✓ public/icon-512.png");
 const resvg256 = new Resvg(svg, { fitTo: { mode: "width", value: 256 } });
 fs.writeFileSync(path.join(root, "public/favicon.png"), resvg256.render().asPng());
 console.log("✓ public/favicon.png");
+
+// iOS Safari requests /apple-touch-icon.png at this exact path (ignores <link> tags)
+const resvg180 = new Resvg(svg, { fitTo: { mode: "width", value: 180 } });
+fs.writeFileSync(path.join(root, "public/apple-touch-icon.png"), resvg180.render().asPng());
+console.log("✓ public/apple-touch-icon.png");
+
+// Android Chrome / PWA manifest
+const resvg192 = new Resvg(svg, { fitTo: { mode: "width", value: 192 } });
+fs.writeFileSync(path.join(root, "public/icon-192.png"), resvg192.render().asPng());
+console.log("✓ public/icon-192.png");

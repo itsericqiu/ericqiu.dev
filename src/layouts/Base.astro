@@ -114,7 +114,7 @@ const cssVars = `
 
     <!-- Favicon & Manifest -->
     <link rel="icon" href="/favicon.png" type="image/png" sizes="256x256" />
-    <link rel="apple-touch-icon" href="/icon-512.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/manifest.json" />
 
     <!-- Theme Color (from palette) -->
@@ -141,8 +141,7 @@ const cssVars = `
       />
     </noscript>
 
-    <!-- DNS Prefetch for external domains -->
-    <link rel="preconnect" href="https://www.googletagmanager.com" />
+    <!-- DNS Prefetch for deferred external domains -->
     <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
 
     <!-- JSON-LD Structured Data -->
@@ -194,13 +193,18 @@ const cssVars = `
     <script is:inline>
       (function () {
         var bar = document.getElementById('scroll-progress');
+        var docHeight = 0;
+        function cacheDocHeight() {
+          docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        }
         function updateProgress() {
-          var scrollTop = window.scrollY || document.documentElement.scrollTop;
-          var docHeight = document.documentElement.scrollHeight - window.innerHeight;
-          bar.style.width = (docHeight > 0 ? (scrollTop / docHeight) * 100 : 0) + '%';
+          // Only window.scrollY in the hot scroll path — no layout reads
+          bar.style.width = (docHeight > 0 ? (window.scrollY / docHeight) * 100 : 0) + '%';
         }
         window.addEventListener('scroll', updateProgress, { passive: true });
-        updateProgress();
+        window.addEventListener('resize', function () { cacheDocHeight(); updateProgress(); });
+        // Defer initial computation to next frame so layout is fully stable
+        requestAnimationFrame(function () { cacheDocHeight(); updateProgress(); });
       })();
     </script>
     <script is:inline>

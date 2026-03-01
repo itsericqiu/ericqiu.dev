@@ -163,7 +163,7 @@ export const GET: APIRoute = async () => {
   const pngData = resvg.render();
   const pngBuffer = pngData.asPng();
 
-  return new Response(pngBuffer, {
+  return new Response(pngBuffer as any, {
     headers: {
       "Content-Type": "image/png",
       "Cache-Control": "public, max-age=86400",
