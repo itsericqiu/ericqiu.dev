@@ -37,12 +37,6 @@ import { site } from "../site";
     to   { --scan-pos: 122%; }
   }
 
-  /* Kicker breathing pulse — subtle opacity wave, loosely in phase with color cycle */
-  @keyframes kicker-pulse {
-    0%, 100% { opacity: 0.6; }
-    50%      { opacity: 1; }
-  }
-
   .hero {
     padding: 120px 25px 80px;
     background: var(--bg-primary);
@@ -59,9 +53,7 @@ import { site } from "../site";
 
   .hero-kicker {
     margin-bottom: 0.875rem;
-    animation:
-      line-reveal 0.5s var(--transition-reveal) 0s both,
-      kicker-pulse 16s ease-in-out 1s infinite;
+    animation: line-reveal 0.5s var(--transition-reveal) 0s both;
   }
 
   .kicker-line {
@@ -103,7 +95,7 @@ import { site } from "../site";
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    animation: scan-wipe 1.0s ease-in-out forwards;
+    /* animation driven by JS via el.style.animation to avoid cascade triggering line-reveal replay */
   }
 
   .hero-line {
@@ -175,6 +167,14 @@ import { site } from "../site";
   curColor = palette()[0];
   el.style.color = curColor;
 
+  /* After the entry line-reveal finishes, freeze animation so removing .is-scanning
+     later doesn't cascade back to line-reveal and replay it. */
+  el.addEventListener('animationend', function onReveal(e) {
+    if (e.animationName !== 'line-reveal') return;
+    el.removeEventListener('animationend', onReveal);
+    el.style.animation = 'none';
+  });
+
   function doScan(oldColor, newColor) {
     if (scanning) return;
     scanning = true;
@@ -182,6 +182,9 @@ import { site } from "../site";
 
     el.style.setProperty('--seg-old', oldColor);
     el.style.setProperty('--seg-new', newColor);
+    /* Drive animation via inline style — keeps it out of the CSS cascade so
+       removing .is-scanning won't revert to line-reveal. */
+    el.style.animation = 'scan-wipe 1.0s ease-in-out forwards';
     el.classList.add('is-scanning');
 
     el.addEventListener('animationend', function onEnd(e) {
@@ -190,6 +193,7 @@ import { site } from "../site";
       if (scanGen !== gen) return; /* aborted (e.g. theme switch mid-scan) */
       el.style.color = newColor;
       el.classList.remove('is-scanning');
+      el.style.animation = 'none';
       scanning = false;
     });
   }
@@ -201,8 +205,7 @@ import { site } from "../site";
     doScan(oldColor, curColor);
   }
 
-  /* First transition after one full interval, then every interval */
-  setTimeout(function () { setInterval(advance, 4000); }, 4000);
+  setInterval(advance, 4000);
 
   /* When dark/light mode toggles, snap to the equivalent color in the new palette */
   new MutationObserver(function () {
