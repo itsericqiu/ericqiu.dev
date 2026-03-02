@@ -338,7 +338,12 @@
     body[data-view="dark"] .palette[class*="sig-"] { display: none; }
     body[data-view="dark"] .additive-divider { display: none; }
 
-    /* ── Per-palette CSS vars (for letter-seg gradient) ── */
+    /* ── Per-palette CSS vars (for letter-seg gradient and dual-accent support) ── */
+    /* --a   = primary accent (structural: section labels, links)                  */
+    /* --a2  = secondary accent (editorial: kicker, dates) — defaults to --a      */
+    /* --accent-2 = CSS var consumed by sim-kicker and sim-role span               */
+    .palette { --accent-2: var(--a); }
+
     .p-amber          { --a: #7E5F28; --t: #111111; }
     .p-amber-dark     { --a: #D4A574; --t: #F0EBE0; }
     .p-forest         { --a: #2D5A27; --t: #0F1A0C; }

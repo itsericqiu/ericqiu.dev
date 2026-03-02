@@ -1,5 +1,6 @@
 ---
 import { site } from "../site";
+import { accentCycle } from "../palette";
 ---
 
 <section class="hero" id="top">
@@ -62,7 +63,7 @@ import { site } from "../site";
     font-weight: 400;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--accent);
+    color: var(--accent-2);
   }
 
   .hero-name {
@@ -146,12 +147,9 @@ import { site } from "../site";
   }
 </style>
 
-<script>
+<script define:vars={{ cycleLight: accentCycle.light, cycleDark: accentCycle.dark }}>
 (function () {
-  var COLORS = {
-    light: ['#7E5F28', '#2A6B5E', '#1B2D45', '#8B3A2A'],
-    dark:  ['#D4A574', '#A3BC85', '#8A9FC2', '#C4896A', '#B89FD4', '#7DBFB0']
-  };
+  var COLORS = { light: cycleLight, dark: cycleDark };
 
   var colorIdx = 0;
   var scanning = false;

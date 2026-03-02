@@ -37,356 +37,84 @@
 
     /* ══════════════════════════════════════════════════
        PALETTE COLOUR DEFINITIONS
-       Each palette: dark + light variant
-       Accent 1 = structural/primary accent
-       Accent 2 = secondary/editorial accent
+       Each palette sets four CSS vars:
+         --accent     structural accent (section labels, links)
+         --accent-2   editorial accent  (kicker, dates)
+         --mc-border  border / entry divider
+         --mc-text2   muted section-label number color
+       Shared rules below consume these vars — no per-element overrides needed.
     ══════════════════════════════════════════════════ */
 
-    /* ── 1. Financial Times ── */
-    /* Prussian Blue #0F5499 + Salmon Red #CC4B37 */
-    .p-ft-dark {
-      background: #0D1A2E;
-      color: #F0EDE8;
-    }
-    .p-ft-dark .palette-header  { border-color: #1A3050; }
-    .p-ft-dark .palette-name    { color: #90B4D8; }
-    .p-ft-dark .sim-kicker      { color: #CC4B37; }
-    .p-ft-dark .sim-section-label { color: #90B4D8; border-color: #1A3050; }
-    .p-ft-dark .sim-section-label span { color: #4A6888; font-weight: 400; }
-    .p-ft-dark .sim-entry       { border-color: #1A3050; }
-    .p-ft-dark .sim-role span   { color: #CC4B37; }
-    .p-ft-dark .sim-company     { color: #F0EDE8; }
+    /* ── Shared structural rules (var-driven) ── */
+    .palette .palette-header         { border-color: var(--mc-border); }
+    .palette .palette-name           { color: var(--accent); }
+    .palette .sim-kicker             { color: var(--accent-2); }
+    .palette .sim-section-label      { color: var(--accent); border-color: var(--mc-border); }
+    .palette .sim-section-label span { color: var(--mc-text2); font-weight: 400; }
+    .palette .sim-entry              { border-color: var(--mc-border); }
+    .palette .sim-role span          { color: var(--accent-2); }
 
-    .p-ft-light {
-      background: #FDF6EE;
-      color: #0D1A2E;
-    }
-    .p-ft-light .palette-header  { border-color: #D8C8B8; }
-    .p-ft-light .palette-name    { color: #0F5499; }
-    .p-ft-light .sim-kicker      { color: #CC4B37; }
-    .p-ft-light .sim-section-label { color: #0F5499; border-color: #D8C8B8; }
-    .p-ft-light .sim-section-label span { color: #8A7868; font-weight: 400; }
-    .p-ft-light .sim-entry       { border-color: #D8C8B8; }
-    .p-ft-light .sim-role span   { color: #CC4B37; }
+    /* ── 1. Financial Times — Prussian Blue + Salmon Red ── */
+    .p-ft-dark  { background:#0D1A2E; color:#F0EDE8; --accent:#90B4D8; --accent-2:#CC4B37; --mc-border:#1A3050; --mc-text2:#4A6888; }
+    .p-ft-light { background:#FDF6EE; color:#0D1A2E; --accent:#0F5499; --accent-2:#CC4B37; --mc-border:#D8C8B8; --mc-text2:#8A7868; }
 
-    /* ── 2. Kinfolk ── */
-    /* Sage #5A7A5E + Terracotta #B85C3A */
-    .p-kinfolk-dark {
-      background: #141A14;
-      color: #EAE8E0;
-    }
-    .p-kinfolk-dark .palette-header  { border-color: #243824; }
-    .p-kinfolk-dark .palette-name    { color: #8AAE8E; }
-    .p-kinfolk-dark .sim-kicker      { color: #D4806A; }
-    .p-kinfolk-dark .sim-section-label { color: #8AAE8E; border-color: #243824; }
-    .p-kinfolk-dark .sim-section-label span { color: #4A6A4E; font-weight: 400; }
-    .p-kinfolk-dark .sim-entry       { border-color: #243824; }
-    .p-kinfolk-dark .sim-role span   { color: #D4806A; }
+    /* ── 2. Kinfolk — Sage + Terracotta ── */
+    .p-kinfolk-dark  { background:#141A14; color:#EAE8E0; --accent:#8AAE8E; --accent-2:#D4806A; --mc-border:#243824; --mc-text2:#4A6A4E; }
+    .p-kinfolk-light { background:#F4F0E8; color:#1A1410; --accent:#5A7A5E; --accent-2:#B85C3A; --mc-border:#CCC4B0; --mc-text2:#8A7A68; }
 
-    .p-kinfolk-light {
-      background: #F4F0E8;
-      color: #1A1410;
-    }
-    .p-kinfolk-light .palette-header  { border-color: #CCC4B0; }
-    .p-kinfolk-light .palette-name    { color: #5A7A5E; }
-    .p-kinfolk-light .sim-kicker      { color: #B85C3A; }
-    .p-kinfolk-light .sim-section-label { color: #5A7A5E; border-color: #CCC4B0; }
-    .p-kinfolk-light .sim-section-label span { color: #8A7A68; font-weight: 400; }
-    .p-kinfolk-light .sim-entry       { border-color: #CCC4B0; }
-    .p-kinfolk-light .sim-role span   { color: #B85C3A; }
+    /* ── 3. Bloomberg Terminal — Terminal Green + Amber Alert ── */
+    .p-terminal-dark  { background:#050D07; color:#C8E8D0; --accent:#3AB85A; --accent-2:#C8860A; --mc-border:#0E2814; --mc-text2:#2A5838; }
+    .p-terminal-light { background:#F0F8F2; color:#061008; --accent:#1A6B35; --accent-2:#C8860A; --mc-border:#B8D8C0; --mc-text2:#5A8068; }
 
-    /* ── 3. Bloomberg Terminal ── */
-    /* Terminal Green #1A6B35 + Amber Alert #C8860A */
-    .p-terminal-dark {
-      background: #050D07;
-      color: #C8E8D0;
-    }
-    .p-terminal-dark .palette-header  { border-color: #0E2814; }
-    .p-terminal-dark .palette-name    { color: #3AB85A; }
-    .p-terminal-dark .sim-kicker      { color: #C8860A; }
-    .p-terminal-dark .sim-section-label { color: #3AB85A; border-color: #0E2814; }
-    .p-terminal-dark .sim-section-label span { color: #2A5838; font-weight: 400; }
-    .p-terminal-dark .sim-entry       { border-color: #0E2814; }
-    .p-terminal-dark .sim-role span   { color: #C8860A; }
-    .p-terminal-dark .sim-company     { color: #C8E8D0; }
+    /* ── 4. Cereal — Charcoal Blue + Dusty Rose ── */
+    .p-cereal-dark  { background:#0A1018; color:#E4E8EE; --accent:#7A9AB8; --accent-2:#C89898; --mc-border:#162030; --mc-text2:#3A5870; }
+    .p-cereal-light { background:#F2F4F8; color:#0E1820; --accent:#2E4A5E; --accent-2:#B07878; --mc-border:#C0C8D4; --mc-text2:#6A7A8A; }
 
-    .p-terminal-light {
-      background: #F0F8F2;
-      color: #061008;
-    }
-    .p-terminal-light .palette-header  { border-color: #B8D8C0; }
-    .p-terminal-light .palette-name    { color: #1A6B35; }
-    .p-terminal-light .sim-kicker      { color: #C8860A; }
-    .p-terminal-light .sim-section-label { color: #1A6B35; border-color: #B8D8C0; }
-    .p-terminal-light .sim-section-label span { color: #5A8068; font-weight: 400; }
-    .p-terminal-light .sim-entry       { border-color: #B8D8C0; }
-    .p-terminal-light .sim-role span   { color: #C8860A; }
+    /* ── 5. Monocle — Deep Navy + Marigold ── */
+    .p-monocle-dark  { background:#08101E; color:#EAECF4; --accent:#7A9AD4; --accent-2:#D4940A; --mc-border:#142040; --mc-text2:#3A5888; }
+    .p-monocle-light { background:#F0F2F8; color:#060E1E; --accent:#1A2850; --accent-2:#D4940A; --mc-border:#BCC4D8; --mc-text2:#5A6A88; }
 
-    /* ── 4. Cereal ── */
-    /* Charcoal Blue #2E4A5E + Dusty Rose #B07878 */
-    .p-cereal-dark {
-      background: #0A1018;
-      color: #E4E8EE;
-    }
-    .p-cereal-dark .palette-header  { border-color: #162030; }
-    .p-cereal-dark .palette-name    { color: #7A9AB8; }
-    .p-cereal-dark .sim-kicker      { color: #C89898; }
-    .p-cereal-dark .sim-section-label { color: #7A9AB8; border-color: #162030; }
-    .p-cereal-dark .sim-section-label span { color: #3A5870; font-weight: 400; }
-    .p-cereal-dark .sim-entry       { border-color: #162030; }
-    .p-cereal-dark .sim-role span   { color: #C89898; }
+    /* ── 6. Aesop — Olive + Burnt Sienna ── */
+    .p-aesop-dark  { background:#0E100A; color:#E8E4D8; --accent:#8A9A58; --accent-2:#C87848; --mc-border:#202810; --mc-text2:#4A5A28; }
+    .p-aesop-light { background:#F5F2E8; color:#100E08; --accent:#4A5A28; --accent-2:#8A4A28; --mc-border:#CCC4A8; --mc-text2:#7A7058; }
 
-    .p-cereal-light {
-      background: #F2F4F8;
-      color: #0E1820;
-    }
-    .p-cereal-light .palette-header  { border-color: #C0C8D4; }
-    .p-cereal-light .palette-name    { color: #2E4A5E; }
-    .p-cereal-light .sim-kicker      { color: #B07878; }
-    .p-cereal-light .sim-section-label { color: #2E4A5E; border-color: #C0C8D4; }
-    .p-cereal-light .sim-section-label span { color: #6A7A8A; font-weight: 400; }
-    .p-cereal-light .sim-entry       { border-color: #C0C8D4; }
-    .p-cereal-light .sim-role span   { color: #B07878; }
+    /* ── 7. Wallpaper* — Teal + Tobacco ── */
+    .p-wall-dark  { background:#070C0C; color:#D8F0EE; --accent:#3AA898; --accent-2:#C4840A; --mc-border:#122424; --mc-text2:#1E5A50; }
+    .p-wall-light { background:#EEF7F6; color:#0A1A18; --accent:#1A5C54; --accent-2:#8A5C08; --mc-border:#B0D8D4; --mc-text2:#5A8C88; }
 
-    /* ── 5. Monocle ── */
-    /* Deep Navy #1A2850 + Marigold #D4940A */
-    .p-monocle-dark {
-      background: #08101E;
-      color: #EAECf4;
-    }
-    .p-monocle-dark .palette-header  { border-color: #142040; }
-    .p-monocle-dark .palette-name    { color: #7A9AD4; }
-    .p-monocle-dark .sim-kicker      { color: #D4940A; }
-    .p-monocle-dark .sim-section-label { color: #7A9AD4; border-color: #142040; }
-    .p-monocle-dark .sim-section-label span { color: #3A5888; font-weight: 400; }
-    .p-monocle-dark .sim-entry       { border-color: #142040; }
-    .p-monocle-dark .sim-role span   { color: #D4940A; }
+    /* ── 8. National Geographic — Ocean Blue + Golden ── */
+    .p-natgeo-dark  { background:#050A14; color:#D8E4F0; --accent:#4888B8; --accent-2:#D4A808; --mc-border:#0E1E30; --mc-text2:#1E4870; }
+    .p-natgeo-light { background:#EDF3FB; color:#06101E; --accent:#0E3A6E; --accent-2:#A87808; --mc-border:#B8CCDE; --mc-text2:#5A7898; }
 
-    .p-monocle-light {
-      background: #F0F2F8;
-      color: #060E1E;
-    }
-    .p-monocle-light .palette-header  { border-color: #BCC4D8; }
-    .p-monocle-light .palette-name    { color: #1A2850; }
-    .p-monocle-light .sim-kicker      { color: #D4940A; }
-    .p-monocle-light .sim-section-label { color: #1A2850; border-color: #BCC4D8; }
-    .p-monocle-light .sim-section-label span { color: #5A6A88; font-weight: 400; }
-    .p-monocle-light .sim-entry       { border-color: #BCC4D8; }
-    .p-monocle-light .sim-role span   { color: #D4940A; }
+    /* ── 9. Orion — Viridian + Warm Red ── */
+    .p-orion-dark  { background:#071210; color:#D0EAE2; --accent:#3A9878; --accent-2:#D4684C; --mc-border:#102820; --mc-text2:#1A5040; }
+    .p-orion-light { background:#EAF7F3; color:#081A14; --accent:#1A6250; --accent-2:#AA4434; --mc-border:#A8D8C8; --mc-text2:#508870; }
 
-    /* ── 6. Aesop ── */
-    /* Olive #4A5A28 + Burnt Sienna #8A4A28 */
-    .p-aesop-dark {
-      background: #0E100A;
-      color: #E8E4D8;
-    }
-    .p-aesop-dark .palette-header  { border-color: #202810; }
-    .p-aesop-dark .palette-name    { color: #8A9A58; }
-    .p-aesop-dark .sim-kicker      { color: #C87848; }
-    .p-aesop-dark .sim-section-label { color: #8A9A58; border-color: #202810; }
-    .p-aesop-dark .sim-section-label span { color: #4A5A28; font-weight: 400; }
-    .p-aesop-dark .sim-entry       { border-color: #202810; }
-    .p-aesop-dark .sim-role span   { color: #C87848; }
+    /* ── 10. A24 — Prussian Blue + Bronze ── */
+    .p-a24-dark  { background:#05080E; color:#D0D8E8; --accent:#4880B0; --accent-2:#C07830; --mc-border:#0C1828; --mc-text2:#1A3C68; }
+    .p-a24-light { background:#EEF2FA; color:#060C18; --accent:#0E3460; --accent-2:#8A5018; --mc-border:#B4C4D8; --mc-text2:#506888; }
 
-    .p-aesop-light {
-      background: #F5F2E8;
-      color: #100E08;
-    }
-    .p-aesop-light .palette-header  { border-color: #CCC4A8; }
-    .p-aesop-light .palette-name    { color: #4A5A28; }
-    .p-aesop-light .sim-kicker      { color: #8A4A28; }
-    .p-aesop-light .sim-section-label { color: #4A5A28; border-color: #CCC4A8; }
-    .p-aesop-light .sim-section-label span { color: #7A7058; font-weight: 400; }
-    .p-aesop-light .sim-entry       { border-color: #CCC4A8; }
-    .p-aesop-light .sim-role span   { color: #8A4A28; }
+    /* ── 11. New Yorker — Navy + Gold ── */
+    .p-ny-dark  { background:#06091A; color:#E8E8DC; --accent:#4A72C0; --accent-2:#C89808; --mc-border:#0C1030; --mc-text2:#1E3870; }
+    .p-ny-light { background:#F0EEE4; color:#080C18; --accent:#1B2D45; --accent-2:#A07800; --mc-border:#C8C4B4; --mc-text2:#4A6080; }
 
-    /* ── 7. Wallpaper* ── */
-    /* Teal #1A5C54 + Tobacco #C4840A */
-    .p-wall-dark {
-      background: #070C0C;
-      color: #D8F0EE;
-    }
-    .p-wall-dark .palette-header  { border-color: #122424; }
-    .p-wall-dark .palette-name    { color: #3AA898; }
-    .p-wall-dark .sim-kicker      { color: #C4840A; }
-    .p-wall-dark .sim-section-label { color: #3AA898; border-color: #122424; }
-    .p-wall-dark .sim-section-label span { color: #1E5A50; font-weight: 400; }
-    .p-wall-dark .sim-entry       { border-color: #122424; }
-    .p-wall-dark .sim-role span   { color: #C4840A; }
-    .p-wall-dark .sim-company     { color: #D8F0EE; }
+    /* ── 12. Heritage — Forest + Oxide ── */
+    .p-heritage-dark  { background:#080C08; color:#E0E8DC; --accent:#5A8A68; --accent-2:#C05A38; --mc-border:#101810; --mc-text2:#1E3A28; }
+    .p-heritage-light { background:#F0EFE8; color:#080A06; --accent:#2D4A3E; --accent-2:#8B3A2A; --mc-border:#C8C8BC; --mc-text2:#5A7A68; }
 
-    .p-wall-light {
-      background: #EEF7F6;
-      color: #0A1A18;
-    }
-    .p-wall-light .palette-header  { border-color: #B0D8D4; }
-    .p-wall-light .palette-name    { color: #1A5C54; }
-    .p-wall-light .sim-kicker      { color: #8A5C08; }
-    .p-wall-light .sim-section-label { color: #1A5C54; border-color: #B0D8D4; }
-    .p-wall-light .sim-section-label span { color: #5A8C88; font-weight: 400; }
-    .p-wall-light .sim-entry       { border-color: #B0D8D4; }
-    .p-wall-light .sim-role span   { color: #8A5C08; }
+    /* ── 13. Nocturne — Indigo + Bronze ── */
+    .p-nocturne-dark  { background:#080818; color:#E4E4F0; --accent:#7070C8; --accent-2:#C08830; --mc-border:#0E0E2A; --mc-text2:#202060; }
+    .p-nocturne-light { background:#F0EFF6; color:#08080E; --accent:#2A2870; --accent-2:#7A4A18; --mc-border:#C8C8D8; --mc-text2:#5858A0; }
 
-    /* ── 8. National Geographic ── */
-    /* Ocean Blue #0E3A6E + Golden #D4A808 */
-    .p-natgeo-dark {
-      background: #050A14;
-      color: #D8E4F0;
-    }
-    .p-natgeo-dark .palette-header  { border-color: #0E1E30; }
-    .p-natgeo-dark .palette-name    { color: #4888B8; }
-    .p-natgeo-dark .sim-kicker      { color: #D4A808; }
-    .p-natgeo-dark .sim-section-label { color: #4888B8; border-color: #0E1E30; }
-    .p-natgeo-dark .sim-section-label span { color: #1E4870; font-weight: 400; }
-    .p-natgeo-dark .sim-entry       { border-color: #0E1E30; }
-    .p-natgeo-dark .sim-role span   { color: #D4A808; }
-    .p-natgeo-dark .sim-company     { color: #D8E4F0; }
+    /* ── 14. Storm — Slate + Plum ── */
+    .p-storm-dark  { background:#0A0C14; color:#E4E8F2; --accent:#6A8AB0; --accent-2:#9A4880; --mc-border:#101420; --mc-text2:#1E3050; }
+    .p-storm-light { background:#F2F4F8; color:#0A0C18; --accent:#3A506A; --accent-2:#5A2A4A; --mc-border:#C4C8D4; --mc-text2:#7890A8; }
 
-    .p-natgeo-light {
-      background: #EDF3FB;
-      color: #06101E;
-    }
-    .p-natgeo-light .palette-header  { border-color: #B8CCDE; }
-    .p-natgeo-light .palette-name    { color: #0E3A6E; }
-    .p-natgeo-light .sim-kicker      { color: #A87808; }
-    .p-natgeo-light .sim-section-label { color: #0E3A6E; border-color: #B8CCDE; }
-    .p-natgeo-light .sim-section-label span { color: #5A7898; font-weight: 400; }
-    .p-natgeo-light .sim-entry       { border-color: #B8CCDE; }
-    .p-natgeo-light .sim-role span   { color: #A87808; }
-
-    /* ── 9. Orion ── */
-    /* Viridian #1A6250 + Warm Red #D4684C */
-    .p-orion-dark {
-      background: #071210;
-      color: #D0EAE2;
-    }
-    .p-orion-dark .palette-header  { border-color: #102820; }
-    .p-orion-dark .palette-name    { color: #3A9878; }
-    .p-orion-dark .sim-kicker      { color: #D4684C; }
-    .p-orion-dark .sim-section-label { color: #3A9878; border-color: #102820; }
-    .p-orion-dark .sim-section-label span { color: #1A5040; font-weight: 400; }
-    .p-orion-dark .sim-entry       { border-color: #102820; }
-    .p-orion-dark .sim-role span   { color: #D4684C; }
-    .p-orion-dark .sim-company     { color: #D0EAE2; }
-
-    .p-orion-light {
-      background: #EAF7F3;
-      color: #081A14;
-    }
-    .p-orion-light .palette-header  { border-color: #A8D8C8; }
-    .p-orion-light .palette-name    { color: #1A6250; }
-    .p-orion-light .sim-kicker      { color: #AA4434; }
-    .p-orion-light .sim-section-label { color: #1A6250; border-color: #A8D8C8; }
-    .p-orion-light .sim-section-label span { color: #508870; font-weight: 400; }
-    .p-orion-light .sim-entry       { border-color: #A8D8C8; }
-    .p-orion-light .sim-role span   { color: #AA4434; }
-
-    /* ── 10. A24 ── */
-    /* Prussian Blue #0E3460 + Bronze #C07830 */
-    .p-a24-dark {
-      background: #05080E;
-      color: #D0D8E8;
-    }
-    .p-a24-dark .palette-header  { border-color: #0C1828; }
-    .p-a24-dark .palette-name    { color: #4880B0; }
-    .p-a24-dark .sim-kicker      { color: #C07830; }
-    .p-a24-dark .sim-section-label { color: #4880B0; border-color: #0C1828; }
-    .p-a24-dark .sim-section-label span { color: #1A3C68; font-weight: 400; }
-    .p-a24-dark .sim-entry       { border-color: #0C1828; }
-    .p-a24-dark .sim-role span   { color: #C07830; }
-    .p-a24-dark .sim-company     { color: #D0D8E8; }
-
-    .p-a24-light {
-      background: #EEF2FA;
-      color: #060C18;
-    }
-    .p-a24-light .palette-header  { border-color: #B4C4D8; }
-    .p-a24-light .palette-name    { color: #0E3460; }
-    .p-a24-light .sim-kicker      { color: #8A5018; }
-    .p-a24-light .sim-section-label { color: #0E3460; border-color: #B4C4D8; }
-    .p-a24-light .sim-section-label span { color: #506888; font-weight: 400; }
-    .p-a24-light .sim-entry       { border-color: #B4C4D8; }
-    .p-a24-light .sim-role span   { color: #8A5018; }
-
-    /* ── 11. New Yorker: Navy + Gold ── */
-    .p-ny-dark { background: #06091A; color: #E8E8DC; }
-    .p-ny-dark .palette-header  { border-color: #0C1030; }
-    .p-ny-dark .palette-name    { color: #4A72C0; }
-    .p-ny-dark .sim-kicker      { color: #C89808; }
-    .p-ny-dark .sim-section-label { color: #4A72C0; border-color: #0C1030; }
-    .p-ny-dark .sim-section-label span { color: #1E3870; font-weight: 400; }
-    .p-ny-dark .sim-entry       { border-color: #0C1030; }
-    .p-ny-dark .sim-role span   { color: #C89808; }
-    .p-ny-dark .sim-company     { color: #D8DCF0; }
-
-    .p-ny-light { background: #F0EEE4; color: #080C18; }
-    .p-ny-light .palette-header  { border-color: #C8C4B4; }
-    .p-ny-light .palette-name    { color: #1B2D45; }
-    .p-ny-light .sim-kicker      { color: #A07800; }
-    .p-ny-light .sim-section-label { color: #1B2D45; border-color: #C8C4B4; }
-    .p-ny-light .sim-section-label span { color: #4A6080; font-weight: 400; }
-    .p-ny-light .sim-entry       { border-color: #C8C4B4; }
-    .p-ny-light .sim-role span   { color: #A07800; }
-
-    /* ── 12. Heritage: Forest + Oxide ── */
-    .p-heritage-dark { background: #080C08; color: #E0E8DC; }
-    .p-heritage-dark .palette-header  { border-color: #101810; }
-    .p-heritage-dark .palette-name    { color: #5A8A68; }
-    .p-heritage-dark .sim-kicker      { color: #C05A38; }
-    .p-heritage-dark .sim-section-label { color: #5A8A68; border-color: #101810; }
-    .p-heritage-dark .sim-section-label span { color: #1E3A28; font-weight: 400; }
-    .p-heritage-dark .sim-entry       { border-color: #101810; }
-    .p-heritage-dark .sim-role span   { color: #C05A38; }
-    .p-heritage-dark .sim-company     { color: #D0E0D4; }
-
-    .p-heritage-light { background: #F0EFE8; color: #080A06; }
-    .p-heritage-light .palette-header  { border-color: #C8C8BC; }
-    .p-heritage-light .palette-name    { color: #2D4A3E; }
-    .p-heritage-light .sim-kicker      { color: #8B3A2A; }
-    .p-heritage-light .sim-section-label { color: #2D4A3E; border-color: #C8C8BC; }
-    .p-heritage-light .sim-section-label span { color: #5A7A68; font-weight: 400; }
-    .p-heritage-light .sim-entry       { border-color: #C8C8BC; }
-    .p-heritage-light .sim-role span   { color: #8B3A2A; }
-
-    /* ── 13. Nocturne: Indigo + Bronze ── */
-    .p-nocturne-dark { background: #080818; color: #E4E4F0; }
-    .p-nocturne-dark .palette-header  { border-color: #0E0E2A; }
-    .p-nocturne-dark .palette-name    { color: #7070C8; }
-    .p-nocturne-dark .sim-kicker      { color: #C08830; }
-    .p-nocturne-dark .sim-section-label { color: #7070C8; border-color: #0E0E2A; }
-    .p-nocturne-dark .sim-section-label span { color: #202060; font-weight: 400; }
-    .p-nocturne-dark .sim-entry       { border-color: #0E0E2A; }
-    .p-nocturne-dark .sim-role span   { color: #C08830; }
-    .p-nocturne-dark .sim-company     { color: #D0D0E8; }
-
-    .p-nocturne-light { background: #F0EFF6; color: #08080E; }
-    .p-nocturne-light .palette-header  { border-color: #C8C8D8; }
-    .p-nocturne-light .palette-name    { color: #2A2870; }
-    .p-nocturne-light .sim-kicker      { color: #7A4A18; }
-    .p-nocturne-light .sim-section-label { color: #2A2870; border-color: #C8C8D8; }
-    .p-nocturne-light .sim-section-label span { color: #5858A0; font-weight: 400; }
-    .p-nocturne-light .sim-entry       { border-color: #C8C8D8; }
-    .p-nocturne-light .sim-role span   { color: #7A4A18; }
-
-    /* ── 14. Storm: Slate + Plum ── */
-    .p-storm-dark { background: #0A0C14; color: #E4E8F2; }
-    .p-storm-dark .palette-header  { border-color: #101420; }
-    .p-storm-dark .palette-name    { color: #6A8AB0; }
-    .p-storm-dark .sim-kicker      { color: #9A4880; }
-    .p-storm-dark .sim-section-label { color: #6A8AB0; border-color: #101420; }
-    .p-storm-dark .sim-section-label span { color: #1E3050; font-weight: 400; }
-    .p-storm-dark .sim-entry       { border-color: #101420; }
-    .p-storm-dark .sim-role span   { color: #9A4880; }
-    .p-storm-dark .sim-company     { color: #D4D8E8; }
-
-    .p-storm-light { background: #F2F4F8; color: #0A0C18; }
-    .p-storm-light .palette-header  { border-color: #C4C8D4; }
-    .p-storm-light .palette-name    { color: #3A506A; }
-    .p-storm-light .sim-kicker      { color: #5A2A4A; }
-    .p-storm-light .sim-section-label { color: #3A506A; border-color: #C4C8D4; }
-    .p-storm-light .sim-section-label span { color: #7890A8; font-weight: 400; }
-    .p-storm-light .sim-entry       { border-color: #C4C8D4; }
-    .p-storm-light .sim-role span   { color: #5A2A4A; }
+    /* ── sim-company exceptions (where text deviates from base palette color) ── */
+    .p-ny-dark .sim-company       { color: #D8DCF0; }
+    .p-heritage-dark .sim-company { color: #D0E0D4; }
+    .p-nocturne-dark .sim-company { color: #D0D0E8; }
+    .p-storm-dark .sim-company    { color: #D4D8E8; }
 
     /* ── Light / dark view filter ── */
     body[data-view="light"] .palette[class*="-dark"] { display: none; }

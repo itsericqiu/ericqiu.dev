@@ -61,7 +61,7 @@ export const GET: APIRoute = async () => {
                       fontFamily: "Space Mono",
                       fontSize: "24px",
                       fontWeight: 400,
-                      color: light.accent,
+                      color: light.accentSecondary,
                       letterSpacing: "0.06em",
                       textTransform: "uppercase",
                       marginBottom: "32px",

@@ -264,7 +264,7 @@
       font-size: 0.8125rem;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: var(--accent);
+      color: var(--accent-2);
       margin-bottom: 0.875rem;
       transition: color 0.4s;
     }
@@ -323,7 +323,7 @@
       font-family: var(--font-mono); font-size: 0.8125rem;
       color: var(--text-secondary); margin-bottom: 14px; transition: color 0.4s;
     }
-    .sim-role span { color: var(--accent); transition: color 0.4s; }
+    .sim-role span { color: var(--accent-2); transition: color 0.4s; }
     .sim-desc {
       font-size: 1rem; line-height: 1.75; color: var(--text-secondary);
       max-width: 640px; transition: color 0.4s;
@@ -673,7 +673,11 @@
     el.style.setProperty('--text-secondary', p.text2);
     el.style.setProperty('--text-muted',     p.muted);
     el.style.setProperty('--accent',         p.accent);
-    el.style.setProperty('--accent-light',   p.accentL);
+    el.style.setProperty('--accent-light',   p.accentLight);
+    el.style.setProperty('--accent-dark',    p.accentDark);
+    el.style.setProperty('--accent-2',       p.accent2);
+    el.style.setProperty('--accent-2-light', p.accent2Light);
+    el.style.setProperty('--accent-2-dark',  p.accent2Dark);
     el.style.setProperty('--border',         p.border);
     el.style.setProperty('--border-strong',  p.borderS);
     el.style.setProperty('--bg-nav',         p.nav);
@@ -725,6 +729,7 @@
       var p = P[states[entry.target.dataset.section]];
       if (!p) return;
       page.style.setProperty('--accent',      p.accent);
+      page.style.setProperty('--accent-2',    p.accent2);
       page.style.setProperty('--bg-nav',      p.nav);
       page.style.setProperty('--bg-primary',  p.bg);
       page.style.setProperty('--text-primary',p.text);
