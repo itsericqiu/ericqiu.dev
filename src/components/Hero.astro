@@ -158,7 +158,7 @@ import { accentCycle } from "../palette";
 
   var el = document.querySelector('#top .hero-line');
 
-  function isDark()   { return document.documentElement.dataset.theme === 'dark'; }
+  function isDark()   { var t = document.documentElement.getAttribute('data-theme'); if (t === 'dark' || t === 'light') return t === 'dark'; return window.matchMedia('(prefers-color-scheme: dark)').matches; }
   function palette()  { return COLORS[isDark() ? 'dark' : 'light']; }
 
   /* Set the initial color immediately */
