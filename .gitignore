@@ -1,7 +1,8 @@
 node_modules/
 dist/
 .astro/
-.claude/
+.claude/settings.local.json
+.claude/launch.json
 dev.sh
 .DS_Store
 public/icon-palette/

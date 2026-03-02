@@ -100,10 +100,15 @@ When changing the palette accent or icon colors:
 ## Design Lab Tooling
 All lab pages open directly in browser (not via Astro dev server). Index at `public/_lab.html`.
 
-**`palette-preview.html`** — palette explorer with design-element toggle (Flat/Letter-Seg/Scroll-Morph):
+**Shared lab assets** (extracted Mar 2026 — all lab pages depend on these):
+- `_lab.css` — shared chrome: nav-strip, px-toggle, sim-* components, section divider, mobile rules
+- `_lab.js` — shared collapsible nav behaviour (`initLabNav`, auto-init on load)
+- `_lab-palettes.js` — single source of truth for all 36 palette tokens, `paletteOptions` (for `<select>` menus), and named presets
+
+**`palette-preview.html`** — palette explorer with design-element toggle:
 - 6 standard palettes (light + dark): Amber, Forest, Ink Blue, Clay, Slate, Burgundy
 - 8 bold color-as-background palettes: Bottle, Ultra, Teal, Amber Wash, Terra, Olive, Burg, Cobalt
-- 6 additive signature-color palettes (amber base + signature accent): Verdigris, Navy, Steel, Oxide, Indigo, Crimson + Hunter, Sage, Malachite, Fern, Cobalt, Mauve
+- 16 additive signature-colour palettes (Verdigris, Forest, Navy, Oxide, Steel + greens + others)
 - Icons for each variant in `public/icon-palette/` (run `npx tsx scripts/gen-icon-palette.ts` to regenerate)
 
 **`palette-multicolour.html`** — 14 dual-accent editorial palettes, dark + light each (28 total):
@@ -111,12 +116,13 @@ FT, Kinfolk, Terminal, Cereal, Monocle, Aesop, Wallpaper*, Nat Geo, Orion, A24, 
 
 **`palette-sections.html`** — full simulated site layout with per-section palette selects:
 - 7 section selectors (hero/work/edu/skills/cta/photo/footer), each independently set
+- Full palette coverage: Light / Dark / Signature / Greens / Others / Bold Dark optgroups
 - Preset buttons: Uniform / Signature / Gradient / Editorial
-- Independent Letter-Seg and Scroll-Morph toggles
+- Mobile: 2-column collapsible section palette grid
 
 **`hero-anim.html`** — hero name animation prototype:
-- Three modes: Fade (current production), Diagonal Scan (`@property --scan-pos` + `background-clip: text`), Type-based (per-letter stagger)
-- Speed (4s/1.5s/Manual), Dark mode, Next button
+- Three modes: Fade, Diagonal Scan (`@property --scan-pos` + `background-clip: text`), Type-based
+- Speed (4s/1.5s/Manual), Dark mode, Next button; mobile-scrollable control bar
 
 ## Google Analytics
 GA4 property `G-40921B4C5L`, deferred via `window.load` event in `Base.astro`.
@@ -124,9 +130,21 @@ GA4 property `G-40921B4C5L`, deferred via `window.load` event in `Base.astro`.
 ---
 
 ## Documentation Maintenance (for Claude)
-**After any session where changes are made, update:**
-1. **This file (`CLAUDE.md`)** — if file structure, conventions, or architectural decisions changed
-2. **`~/.claude/projects/.../memory/MEMORY.md`** — if decisions, preferences, or project state changed
-3. **`~/.claude/projects/.../memory/work-tracking.md`** — mark completed items, add new backlog items, update in-progress
 
-Keep these in sync so future sessions start with accurate context rather than stale information.
+**These rules apply to every Claude instance working on this project, on any machine.**
+
+After any session where changes are made, update the relevant files before closing:
+
+1. **`CLAUDE.md`** (this file) — if file structure, conventions, or architectural decisions changed
+2. **`.claude/memory/work-tracking.md`** — mark items completed, add new backlog items
+3. **`.claude/memory/palette-notes.md`** — if palette decisions, colour choices, or lab structure changed
+4. **`.claude/memory/editorial-redesign-notes.md`** — if copy, content, or brand decisions changed
+
+**Rules:**
+- Never leave completed work unmarked in `work-tracking.md`
+- Never describe the state of things as they were — update to reflect how they are now
+- If you add a new lab page or public tooling file, document it in both CLAUDE.md and `palette-notes.md`
+- If a backlog item is decided and acted on, move it to Completed — don't leave stale open items
+- Commit documentation updates in the same session as the code changes they describe
+
+**These files live in the repo** (`.claude/memory/`) so they travel with the codebase and are always current, regardless of which machine or Claude instance is working on the project.
