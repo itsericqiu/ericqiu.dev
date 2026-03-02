@@ -13,10 +13,12 @@
 - [x] Photography callout strip before footer; copy "There's a photo side too." (avoids repeating hero)
 - [x] Footer: profile photo, bio, social links (rel="me"), obfuscated email
 - [x] OG image: light mode — cream bg `#F5F0E8`, dark text, amber stripe; Fraunces name + Space Mono kicker/domain
-- [x] Favicon/icons: EQ lettermark, **navy** `#1B2D45` bg / `#F0EBE0` cream text
-  - Sizes: favicon.png (256), icon-512.png, apple-touch-icon.png (180), icon-192.png
+- [x] Favicon/icons: EQ lettermark, **amber** `#5A3E14` bg / `#F0EBE0` cream text (changed to navy, then back to amber)
+  - Sizes: favicon.svg (vector, served first), favicon.png (256px fallback), icon-1024.png, icon-512.png, icon-192.png, apple-touch-icon.png (180)
   - Legacy iOS paths: apple-touch-icon-precomposed.png, apple-touch-icon-120x120.png, apple-touch-icon-120x120-precomposed.png
-- [x] PWA manifest from palette + site tokens
+  - `favicon.svg` added (crisp vector for modern browsers); PNG fallbacks with `?v=2` cache-bust
+  - `_headers`: icon TTL reduced 86400→3600s; all icon variants + SVG covered
+- [x] PWA manifest from palette + site tokens; 1024×1024 entry added; maskable promoted
 - [x] JSON-LD Person schema with description + image
 - [x] Scroll progress bar (forced reflow fixed — rAF-deferred, cached docHeight)
 - [x] Scroll reveal on experience entries + tech stack groups
@@ -38,6 +40,17 @@
   - Dark: `['#D4A574', '#A3BC85', '#8A9FC2', '#C4896A', '#B89FD4', '#7DBFB0']` (6 warm hues)
   - Cycle length dynamic: `palette().length`; theme-switch clamps index
 - [x] Kicker pulse animation removed; kicker static after entry
+
+### Dual-Accent Structural Refactor (Mar 2026)
+- [x] `src/palette.ts`: expanded `PaletteMode` with `accentLight`, `accentSecondary`, `accentSecondaryLight`, `accentSecondaryDark`; added `CycleColors` interface and `accentCycle` export (no value changes)
+- [x] `src/layouts/Base.astro`: emit `--accent-light`, `--accent-2`, `--accent-2-light`, `--accent-2-dark` in all 3 CSS blocks (`:root`, `prefers-color-scheme: dark`, `[data-theme="dark"]`)
+- [x] Hero kicker (`.kicker-line`), index entry dates (`.entry-dates`), EducationCard dates (`.dates`): switched from `var(--accent)` to `var(--accent-2)` — semantic split: structural vs editorial
+- [x] `Hero.astro`: cycle colors derived from `accentCycle` export via `define:vars` — no more hardcoded COLORS array
+- [x] `og-image.png.ts`: kicker uses `light.accentSecondary` instead of `light.accent`
+- [x] `public/_lab-palettes.js`: renamed `accentL`→`accentLight`; added `accentDark`, `accent2`, `accent2Light`, `accent2Dark` to all 34 original entries; added 28 new editorial palette entries (14 palettes × 2 variants: ft, kinfolk, terminal, cereal, monocle, aesop, wall, natgeo, orion, a24, ny, heritage, nocturne, storm); total 62 entries in `paletteOptions`
+- [x] `public/palette-sections.html`: inject all new accent vars in `applySection()` + scroll-morph; `.sim-kicker` and `.sim-role span` use `var(--accent-2)`
+- [x] `public/palette-preview.html`: added `--accent-2: var(--a)` default to `.palette` block
+- [x] `public/palette-multicolour.html`: replaced ~350 per-element CSS overrides with 7 shared structural rules + compact 2-line per-palette variable declarations (28 palette classes refactored)
 
 ### Palette & Animation Lab (Mar 2026)
 - [x] `palette-preview.html` — 6 standard + 8 bold + 16 additive signature variants

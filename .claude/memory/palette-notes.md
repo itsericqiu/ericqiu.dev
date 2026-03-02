@@ -1,14 +1,15 @@
 # Palette Exploration Notes — ericqiu.dev
 
 ## Status
-Palette exploration in-progress / paused. No changes to `src/palette.ts` accent colours.
+Palette exploration in-progress / paused.
 Current live palette: **Amber/Cream** — still the favourite for site content.
-Icon/favicon: **Navy** `#1B2D45` bg / `#F0EBE0` text (changed from amber, Mar 2026).
+Icon/favicon: **Amber** `#5A3E14` bg / `#F0EBE0` text (was navy `#1B2D45` briefly, reverted Mar 2026).
+Dual-accent token structure now wired in production — `--accent-2` live in CSS, ready for adoption.
 
 ## The Core Problem
 Amber is a warm neutral — elegant for reading but not a distinctive signature colour for
 the icon/brand mark. In a browser tab or bookmark, the EQ. icon in amber doesn't pop.
-Navy was chosen as the icon colour — authoritative, editorial, high contrast.
+Navy was tried as the icon colour (authoritative, editorial, high contrast) then reverted to amber.
 
 ---
 
@@ -25,7 +26,7 @@ This is the FT model — salmon is the brand, but editorial accents use differen
 |------|---------|-------|
 | Verdigris | `#2A6B5E` | Top pick — pops in tab, connects to coffee/photography/Fujifilm |
 | Forest Green | `#2D4A3E` | More understated, same logic as verdigris |
-| **Ink Navy** | `#1B2D45` | **Chosen for icon.** Authoritative, editorial |
+| **Ink Navy** | `#1B2D45` | Tried for icon, then reverted. Authoritative, editorial |
 | Warm Oxide Red | `#8B3A2A` | Analog/darkroom feel, warm but risks blending with amber |
 | Muted Steel Blue | `#4A6580` | Engineering precision, warm-cool tension |
 
@@ -73,13 +74,40 @@ Shared assets extracted: `_lab.css`, `_lab.js`, `_lab-palettes.js`
 - `hero-anim.html` — hero name animation lab (Fade / Scan / Type)
 - `font-preview.html` — body typeface comparison
 
+---
+
+## Dual-Accent Token Structure (added Mar 2026)
+Production CSS vars now include both structural and editorial accent tokens.
+
+**Semantic split:**
+- `--accent` / `--accent-light` / `--accent-dark` — structural: section labels, hover stripes, links, focus rings
+- `--accent-2` / `--accent-2-light` / `--accent-2-dark` — editorial: kicker, entry dates, education dates
+
+**`src/palette.ts` fields:**
+- `accentLight` — lighter/accessible variant (the dark-mode value of accent, e.g. `#D4A574` in light mode)
+- `accentDark` — darker hover shade (e.g. `#6A5020`)
+- `accentSecondary` / `accentSecondaryLight` / `accentSecondaryDark` — maps to `--accent-2` family
+- `accentCycle: CycleColors` — `{ light: string[], dark: string[] }` — Hero letter-seg hues; light 4, dark 6
+
+For current amber palette `accentSecondary === accent` — zero visual change. Ready for distinct value when adopting Approach 1.
+
+**Lab data — `_lab-palettes.js`:**
+- Renamed `accentL` → `accentLight` (was ambiguous)
+- Added `accentDark`, `accent2`, `accent2Light`, `accent2Dark` to all 34 original entries
+- Added 28 editorial palette entries (14 palettes × dark/light): ft, kinfolk, terminal, cereal, monocle, aesop, wall, natgeo, orion, a24, ny, heritage, nocturne, storm
+- Total: 62 palette entries in `paletteOptions`
+
+---
+
 ## Decisions Made
 - Amber/cream stays as site palette until a clear better option emerges
-- Navy chosen for icon/favicon (overrides amber icon)
+- Icon/favicon: currently amber `#5A3E14` (navy `#1B2D45` was tried and reverted)
 - All exploration stays in lab HTML files (never `palette.ts`) until decided
 - Hero dark cycling colours calibrated to amber dark theme (warm, cohesive)
+- Dual-accent structural wiring complete — `--accent-2` live, kicker/dates use it
 
 ## Decisions Pending
 - Which palette approach to adopt for the full site (additive, replace, section-by-section)?
-- Whether to apply navy/verdigris to OG stripe, scroll bar, kicker (Approach 1)?
+- Whether to apply navy/verdigris to OG stripe, scroll bar, or set distinct `accentSecondary` (Approach 1)?
 - Whether to implement scroll-colour-morph or other dynamic section effects?
+- Finalize icon/favicon color: stay amber `#5A3E14`, or revisit navy `#1B2D45`?
