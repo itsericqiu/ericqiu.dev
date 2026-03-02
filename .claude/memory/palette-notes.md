@@ -68,11 +68,20 @@ All files in `public/`, open directly in browser (not Astro dev server).
 Shared assets extracted: `_lab.css`, `_lab.js`, `_lab-palettes.js`
 
 - `_lab.html` — internal directory
-- `palette-preview.html` — 6 standard + 8 bold + 16 additive variants
+- `palette-preview.html` — 6 standard + 8 bold + 18 sig light + 12 sig dark variants; sig sections data-driven from `_lab-palettes.js` IIFE
 - `palette-multicolour.html` — 14 dual-accent systems × 2 (28 total)
-- `palette-sections.html` — full simulated layout, per-section selects, all palette options
+- `palette-sections.html` — full simulated layout, per-section selects, all palette options; scroll-morph uses `tickMorph()` for full `applySection()` per scroll event
 - `hero-anim.html` — hero name animation lab (Fade / Scan / Type)
 - `font-preview.html` — body typeface comparison
+
+### `_lab-palettes.js` palette count (Mar 2026 after curation pass)
+Standard light: amber, forest, ink, clay, slate, burgundy, newsprint, lithograph, celadon, folio, duotone (11)
+Standard dark: same 11 names with -dark suffix (11)
+Sig light: verdigris, forest, navy, oxide, steel, prussian, slate-teal, plum, indigo, hunter, sage, malachite, cobalt, mauve, patina, amaranth, dusk, vermilion (18)
+Sig dark: verdigris, forest, navy, oxide, prussian, slate-teal, plum, indigo, hunter, malachite, cobalt, mauve (12 — no steel/sage/patina/amaranth/dusk/vermilion dark)
+Bold: bottle, bottle-light, teal, teal-light, amber-wash, amber-wash-light, terra-wash, terra-wash-light, ultra, ultra-light, cobalt, cobalt-light, olive, olive-light, burg-wash, burg-wash-light (16)
+Editorial: ft, kinfolk, terminal, cereal, monocle, aesop, wall, natgeo, orion, a24, ny, heritage, nocturne, storm × 2 (28)
+Total: ~96 entries
 
 ---
 

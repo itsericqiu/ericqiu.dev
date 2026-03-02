@@ -64,6 +64,12 @@
   - `_lab.js` — shared collapsible nav behaviour (`initLabNav`)
 - [x] All lab pages: mobile layout fixed — fixed full-width bottom bar, overflow-x scrollable control bars, 2-column section palette grid on mobile
 
+### Lab Curation Pass (Mar 2026)
+- [x] `_lab-palettes.js`: added 5 new standard pairs (newsprint, lithograph, celadon, folio, duotone light+dark); added new sig variants (patina, amaranth, dusk, vermilion light; 12 sig-dark variants); removed sig-bronze and sig-fern; fixed ink-dark accent values; total ~80 entries
+- [x] `palette-preview.html`: sig CSS/HTML (18 light + 12 dark cards) replaced with data-driven generation from `LAB.palettes` via inline IIFE — eliminates ~900 lines of static CSS+HTML; fixed dark-view toggle to include 5 new standard palette names; fixed Verdigris nav anchor
+- [x] `palette-multicolour.html`: hex refinements across FT-light bg, Cereal/Aesop/Natgeo/A24/NY/Storm accent-2, Heritage-dark border, Nocturne-light bg; swatch updated for FT-light
+- [x] `palette-sections.html`: replaced IntersectionObserver scroll-morph with `tickMorph()` scroll listener for full `applySection()` morph; CSS transition on sim-page; Paper + Patina preset buttons added
+
 ---
 
 ## Backlog / Ideas

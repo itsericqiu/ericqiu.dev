@@ -223,6 +223,7 @@
       color: var(--text-primary, #111);
       font-family: var(--font-sans);
       -webkit-font-smoothing: antialiased;
+      transition: background-color 0.4s ease, color 0.2s ease;
     }
 
     /* ── Nav ── */
@@ -472,6 +473,8 @@
       <button class="ctrl-btn" data-preset="signature">Signature</button>
       <button class="ctrl-btn" data-preset="gradient">Gradient</button>
       <button class="ctrl-btn" data-preset="editorial">Editorial</button>
+      <button class="ctrl-btn" data-preset="paper">Paper</button>
+      <button class="ctrl-btn" data-preset="patina">Patina</button>
     </div>
   </div>
 
@@ -721,21 +724,20 @@
     ctrlRowSels.addEventListener('transitionend', syncNavTop);
   }
 
-  /* ── Scroll-Morph: update nav/page accent as sections scroll into view ── */
-  var smObserver = new IntersectionObserver(function (entries) {
+  /* ── Scroll-Morph: full palette morph to closest section ── */
+  function tickMorph() {
     if (!smActive) return;
-    entries.forEach(function (entry) {
-      if (!entry.isIntersecting) return;
-      var p = P[states[entry.target.dataset.section]];
-      if (!p) return;
-      page.style.setProperty('--accent',      p.accent);
-      page.style.setProperty('--accent-2',    p.accent2);
-      page.style.setProperty('--bg-nav',      p.nav);
-      page.style.setProperty('--bg-primary',  p.bg);
-      page.style.setProperty('--text-primary',p.text);
+    var viewCenter = window.scrollY + window.innerHeight / 2;
+    var closest = null, minDist = Infinity;
+    Object.values(sectionEls).forEach(function (el) {
+      var rect = el.getBoundingClientRect();
+      var elCenter = window.scrollY + rect.top + rect.height / 2;
+      var dist = Math.abs(elCenter - viewCenter);
+      if (dist < minDist) { minDist = dist; closest = el; }
     });
-  }, { threshold: 0.35, rootMargin: '-70px 0px 0px 0px' });
-  Object.values(sectionEls).forEach(function (el) { smObserver.observe(el); });
+    if (closest) applySection(page, states[closest.dataset.section]);
+  }
+  window.addEventListener('scroll', tickMorph, { passive: true });
 
   /* ── Select change handlers ── */
   document.querySelectorAll('.ctrl-sel[data-section]').forEach(function (sel) {
@@ -777,7 +779,11 @@
       } else if (btn.dataset.toggle === 'scroll-morph') {
         smActive = !smActive;
         btn.classList.toggle('active', smActive);
-        if (!smActive) syncPage(); /* Reset nav to hero palette */
+        if (smActive) {
+          tickMorph(); /* Immediately apply closest section on enable */
+        } else {
+          applyAll(); /* Restore all sections' individual palettes */
+        }
       }
     });
   });
