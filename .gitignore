@@ -5,4 +5,3 @@ dist/
 .claude/launch.json
 dev.sh
 .DS_Store
-public/icon-palette/
