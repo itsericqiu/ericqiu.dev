@@ -38,7 +38,7 @@ const links = [
     function getEffectiveTheme() {
       var explicit = document.documentElement.getAttribute('data-theme');
       if (explicit === 'dark' || explicit === 'light') return explicit;
-      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      return 'light'; // default; OS preference intentionally ignored
     }
 
     function updateIcons() {
@@ -55,9 +55,6 @@ const links = [
       updateIcons();
     });
 
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function() {
-      updateIcons();
-    });
   })();
 </script>
 
