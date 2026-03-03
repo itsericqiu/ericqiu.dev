@@ -1955,24 +1955,25 @@
         '.'+cls+' { background:'+p.bg+'; color:'+p.text+'; }\n' +
         '.'+cls+' .palette-header { border-color:'+p.border+'; }\n' +
         '.'+cls+' .palette-name   { color:'+p.accent+'; }\n' +
-        '.'+cls+' .sim-kicker     { color:'+p.accent+'; }\n' +
+        '.'+cls+' .sim-kicker     { color:'+p.accent2+'; }\n' +
         '.'+cls+' .sim-section-label { color:'+p.accent+'; }\n' +
         '.'+cls+' .sim-section-label span { color:'+p.accent+'; border-color:'+p.accent+'; }\n' +
         '.'+cls+' .sim-entry      { border-color:'+p.border+'; }\n' +
-        '.'+cls+' .sim-role span  { color:rgba(240,235,224,0.38); }\n' +
-        '.'+cls+' { --a:'+p.accent+'; --t:'+p.text+'; }\n';
+        '.'+cls+' .sim-role span  { color:'+p.accent2+'; opacity:0.55; }\n' +
+        '.'+cls+' { --a:'+p.accent+'; --a2:'+p.accent2+'; --t:'+p.text+'; }\n';
 
       darkHTML +=
         '<section class="palette '+cls+'" id="additive-'+key.replace("sig-","")+'">\n' +
         '  <div class="palette-header">\n' +
         '    <span class="palette-name">\n' +
         '      <span class="sig-icon" style="background:'+p.accent+';color:'+p.bg+'">EQ.</span>\n' +
-        '      '+label+'&nbsp;&middot;&nbsp; <em style="font-style:normal;opacity:0.55">'+p.accent+' on '+p.bg+'</em>\n' +
+        '      '+label+'&nbsp;&middot;&nbsp; <em style="font-style:normal;opacity:0.55">'+p.accent+' / '+p.accent2+'</em>\n' +
         '    </span>\n' +
         '    <div class="palette-swatches">\n' +
-        '      <div class="swatch" style="background:'+p.bg+'"></div>\n' +
-        '      <div class="swatch" style="background:'+p.accent+'"></div>\n' +
-        '      <div class="swatch" style="background:'+p.text+'"></div>\n' +
+        '      <div class="swatch" title="bg" style="background:'+p.bg+'"></div>\n' +
+        '      <div class="swatch" title="accent (structural)" style="background:'+p.accent+'"></div>\n' +
+        '      <div class="swatch" title="accent2 (editorial — kicker, dates)" style="background:'+p.accent2+'"></div>\n' +
+        '      <div class="swatch" title="text" style="background:'+p.text+'"></div>\n' +
         '    </div>\n' +
         '  </div>\n' +
         '  <div class="palette-inner">\n' +
