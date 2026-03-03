@@ -110,6 +110,20 @@ const palettes: Array<{ name: string; bg: string; text: string }> = [
   { name: "sig-cobalt-dark",      bg: "#F5F0E8", text: "#6890E0" },
   { name: "sig-mauve-dark",       bg: "#F5F0E8", text: "#C888B4" },
 
+  // ── Signature Dark – Amber Base (amber-dark bg + luminous accent) ──
+  { name: "sig-verdigris-dark-a",  bg: "#0D0D0B", text: "#5EC4A8" },
+  { name: "sig-forest-dark-a",     bg: "#0D0D0B", text: "#58B87A" },
+  { name: "sig-navy-dark-a",       bg: "#0D0D0B", text: "#6090C8" },
+  { name: "sig-oxide-dark-a",      bg: "#0D0D0B", text: "#D07858" },
+  { name: "sig-prussian-dark-a",   bg: "#0D0D0B", text: "#5898D0" },
+  { name: "sig-slate-teal-dark-a", bg: "#0D0D0B", text: "#5AB8C0" },
+  { name: "sig-plum-dark-a",       bg: "#0D0D0B", text: "#C070A8" },
+  { name: "sig-indigo-dark-a",     bg: "#0D0D0B", text: "#7878D8" },
+  { name: "sig-hunter-dark-a",     bg: "#0D0D0B", text: "#4CA862" },
+  { name: "sig-malachite-dark-a",  bg: "#0D0D0B", text: "#38B088" },
+  { name: "sig-cobalt-dark-a",     bg: "#0D0D0B", text: "#6890E0" },
+  { name: "sig-mauve-dark-a",      bg: "#0D0D0B", text: "#C888B4" },
+
   // ── Editorial palettes ──
   // Dark: dark bg + cream text
   { name: "ft-dark",          bg: "#0D1A2E", text: "#F0EDE8" },

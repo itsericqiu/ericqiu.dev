@@ -103,6 +103,20 @@ LAB.palettes = {
   'sig-cobalt-dark':     { bg:'#09122C', bg2:'#101C3C', text:'#F0EBE0', text2:'#9098C8', muted:'#485080', accent:'#6890E0', accentLight:'#90B0EC', accentDark:'#4868C0', accent2:'#6890E0', accent2Light:'#90B0EC', accent2Dark:'#4868C0', border:'#182048', borderS:'#283060', nav:'rgba(9,18,44,0.92)'   },
   'sig-mauve-dark':      { bg:'#1C0C18', bg2:'#281422', text:'#F0EBE0', text2:'#B888B0', muted:'#705068', accent:'#C888B4', accentLight:'#DCA8CC', accentDark:'#A06898', accent2:'#C888B4', accent2Light:'#DCA8CC', accent2Dark:'#A06898', border:'#301A2A', borderS:'#482840', nav:'rgba(28,12,24,0.92)'  },
 
+  /* ── Signature Dark – Amber Base (amber-dark bg + luminous signature accent) ── */
+  'sig-verdigris-dark-a':  { bg:'#0D0D0B', bg2:'#141410', text:'#F0EBE0', text2:'#C8C0B8', muted:'#828078', accent:'#5EC4A8', accentLight:'#88D8C0', accentDark:'#3A9880', accent2:'#5EC4A8', accent2Light:'#88D8C0', accent2Dark:'#3A9880', border:'#2A2820', borderS:'#5C5650', nav:'rgba(13,13,11,0.92)' },
+  'sig-forest-dark-a':     { bg:'#0D0D0B', bg2:'#141410', text:'#F0EBE0', text2:'#C8C0B8', muted:'#828078', accent:'#58B87A', accentLight:'#80C898', accentDark:'#389860', accent2:'#58B87A', accent2Light:'#80C898', accent2Dark:'#389860', border:'#2A2820', borderS:'#5C5650', nav:'rgba(13,13,11,0.92)' },
+  'sig-navy-dark-a':       { bg:'#0D0D0B', bg2:'#141410', text:'#F0EBE0', text2:'#C8C0B8', muted:'#828078', accent:'#6090C8', accentLight:'#88B0DC', accentDark:'#3E70A8', accent2:'#6090C8', accent2Light:'#88B0DC', accent2Dark:'#3E70A8', border:'#2A2820', borderS:'#5C5650', nav:'rgba(13,13,11,0.92)' },
+  'sig-oxide-dark-a':      { bg:'#0D0D0B', bg2:'#141410', text:'#F0EBE0', text2:'#C8C0B8', muted:'#828078', accent:'#D07858', accentLight:'#E09A7A', accentDark:'#A85840', accent2:'#D07858', accent2Light:'#E09A7A', accent2Dark:'#A85840', border:'#2A2820', borderS:'#5C5650', nav:'rgba(13,13,11,0.92)' },
+  'sig-prussian-dark-a':   { bg:'#0D0D0B', bg2:'#141410', text:'#F0EBE0', text2:'#C8C0B8', muted:'#828078', accent:'#5898D0', accentLight:'#80B8E4', accentDark:'#3870A8', accent2:'#5898D0', accent2Light:'#80B8E4', accent2Dark:'#3870A8', border:'#2A2820', borderS:'#5C5650', nav:'rgba(13,13,11,0.92)' },
+  'sig-slate-teal-dark-a': { bg:'#0D0D0B', bg2:'#141410', text:'#F0EBE0', text2:'#C8C0B8', muted:'#828078', accent:'#5AB8C0', accentLight:'#80CED4', accentDark:'#389098', accent2:'#5AB8C0', accent2Light:'#80CED4', accent2Dark:'#389098', border:'#2A2820', borderS:'#5C5650', nav:'rgba(13,13,11,0.92)' },
+  'sig-plum-dark-a':       { bg:'#0D0D0B', bg2:'#141410', text:'#F0EBE0', text2:'#C8C0B8', muted:'#828078', accent:'#C070A8', accentLight:'#D890C0', accentDark:'#9A5088', accent2:'#C070A8', accent2Light:'#D890C0', accent2Dark:'#9A5088', border:'#2A2820', borderS:'#5C5650', nav:'rgba(13,13,11,0.92)' },
+  'sig-indigo-dark-a':     { bg:'#0D0D0B', bg2:'#141410', text:'#F0EBE0', text2:'#C8C0B8', muted:'#828078', accent:'#7878D8', accentLight:'#9898E4', accentDark:'#5858B8', accent2:'#7878D8', accent2Light:'#9898E4', accent2Dark:'#5858B8', border:'#2A2820', borderS:'#5C5650', nav:'rgba(13,13,11,0.92)' },
+  'sig-hunter-dark-a':     { bg:'#0D0D0B', bg2:'#141410', text:'#F0EBE0', text2:'#C8C0B8', muted:'#828078', accent:'#4CA862', accentLight:'#78C882', accentDark:'#2A8848', accent2:'#4CA862', accent2Light:'#78C882', accent2Dark:'#2A8848', border:'#2A2820', borderS:'#5C5650', nav:'rgba(13,13,11,0.92)' },
+  'sig-malachite-dark-a':  { bg:'#0D0D0B', bg2:'#141410', text:'#F0EBE0', text2:'#C8C0B8', muted:'#828078', accent:'#38B088', accentLight:'#68C8A8', accentDark:'#209878', accent2:'#38B088', accent2Light:'#68C8A8', accent2Dark:'#209878', border:'#2A2820', borderS:'#5C5650', nav:'rgba(13,13,11,0.92)' },
+  'sig-cobalt-dark-a':     { bg:'#0D0D0B', bg2:'#141410', text:'#F0EBE0', text2:'#C8C0B8', muted:'#828078', accent:'#6890E0', accentLight:'#90B0EC', accentDark:'#4868C0', accent2:'#6890E0', accent2Light:'#90B0EC', accent2Dark:'#4868C0', border:'#2A2820', borderS:'#5C5650', nav:'rgba(13,13,11,0.92)' },
+  'sig-mauve-dark-a':      { bg:'#0D0D0B', bg2:'#141410', text:'#F0EBE0', text2:'#C8C0B8', muted:'#828078', accent:'#C888B4', accentLight:'#DCA8CC', accentDark:'#A06898', accent2:'#C888B4', accent2Light:'#DCA8CC', accent2Dark:'#A06898', border:'#2A2820', borderS:'#5C5650', nav:'rgba(13,13,11,0.92)' },
+
   /* ── Signature Vermilion ── */
   'sig-vermilion':  { bg:'#F5F0E8', bg2:'#EDE8DC', text:'#111111', text2:'#4A4642', muted:'#828078', accent:'#BE2A20', accentLight:'#D96055', accentDark:'#8C1A12', accent2:'#BE2A20', accent2Light:'#D96055', accent2Dark:'#8C1A12', border:'#D8D4CC', borderS:'#B0AA9E', nav:'rgba(245,240,232,0.92)' },
 
@@ -234,7 +248,7 @@ LAB.paletteOptions = [
   { v:'sig-amaranth',    label:'+ Amaranth',      group:'Others'     },
   { v:'sig-dusk',        label:'+ Dusk',          group:'Others'     },
   { v:'sig-vermilion',   label:'+ Vermilion',     group:'Others'     },
-  /* Signature Dark */
+  /* Signature Dark (tinted bg) */
   { v:'sig-verdigris-dark',  label:'Verdigris Dark',  group:'Sig Dark' },
   { v:'sig-forest-dark',     label:'Forest Dark',     group:'Sig Dark' },
   { v:'sig-navy-dark',       label:'Navy Dark',       group:'Sig Dark' },
@@ -247,6 +261,19 @@ LAB.paletteOptions = [
   { v:'sig-malachite-dark',  label:'Malachite Dark',  group:'Sig Dark' },
   { v:'sig-cobalt-dark',     label:'Cobalt Dark',     group:'Sig Dark' },
   { v:'sig-mauve-dark',      label:'Mauve Dark',      group:'Sig Dark' },
+  /* Signature Dark – Amber Base */
+  { v:'sig-verdigris-dark-a',  label:'Verdigris',  group:'Sig Dark Amber' },
+  { v:'sig-forest-dark-a',     label:'Forest',     group:'Sig Dark Amber' },
+  { v:'sig-navy-dark-a',       label:'Navy',       group:'Sig Dark Amber' },
+  { v:'sig-oxide-dark-a',      label:'Oxide',      group:'Sig Dark Amber' },
+  { v:'sig-prussian-dark-a',   label:'Prussian',   group:'Sig Dark Amber' },
+  { v:'sig-slate-teal-dark-a', label:'Slate Teal', group:'Sig Dark Amber' },
+  { v:'sig-plum-dark-a',       label:'Plum',       group:'Sig Dark Amber' },
+  { v:'sig-indigo-dark-a',     label:'Indigo',     group:'Sig Dark Amber' },
+  { v:'sig-hunter-dark-a',     label:'Hunter',     group:'Sig Dark Amber' },
+  { v:'sig-malachite-dark-a',  label:'Malachite',  group:'Sig Dark Amber' },
+  { v:'sig-cobalt-dark-a',     label:'Cobalt',     group:'Sig Dark Amber' },
+  { v:'sig-mauve-dark-a',      label:'Mauve',      group:'Sig Dark Amber' },
   /* Bold Dark */
   { v:'bold-bottle',     label:'Bottle',          group:'Bold Dark'  },
   { v:'bold-ultra',      label:'Ultramarine',     group:'Bold Dark'  },
