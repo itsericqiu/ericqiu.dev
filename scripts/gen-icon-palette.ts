@@ -96,19 +96,19 @@ const palettes: Array<{ name: string; bg: string; text: string }> = [
   { name: "sig-dusk",        bg: "#5A4870", text: "#F5F0E8" },
   { name: "sig-vermilion",   bg: "#BE2A20", text: "#F5F0E8" },
 
-  // ── Signature Dark (tinted dark bg + luminous accent text) ──
-  { name: "sig-verdigris-dark",   bg: "#091E1A", text: "#F0EBE0" },
-  { name: "sig-forest-dark",      bg: "#0B1812", text: "#F0EBE0" },
-  { name: "sig-navy-dark",        bg: "#0A1520", text: "#F0EBE0" },
-  { name: "sig-oxide-dark",       bg: "#1E0C08", text: "#F0EBE0" },
-  { name: "sig-prussian-dark",    bg: "#071220", text: "#F0EBE0" },
-  { name: "sig-slate-teal-dark",  bg: "#0A1C20", text: "#F0EBE0" },
-  { name: "sig-plum-dark",        bg: "#180A14", text: "#F0EBE0" },
-  { name: "sig-indigo-dark",      bg: "#0C0B24", text: "#F0EBE0" },
-  { name: "sig-hunter-dark",      bg: "#0C1A10", text: "#F0EBE0" },
-  { name: "sig-malachite-dark",   bg: "#071E16", text: "#F0EBE0" },
-  { name: "sig-cobalt-dark",      bg: "#09122C", text: "#F0EBE0" },
-  { name: "sig-mauve-dark",       bg: "#1C0C18", text: "#F0EBE0" },
+  // ── Signature Dark (cream base + luminous accent — mirrors sig-light concept) ──
+  { name: "sig-verdigris-dark",   bg: "#F5F0E8", text: "#5EC4A8" },
+  { name: "sig-forest-dark",      bg: "#F5F0E8", text: "#58B87A" },
+  { name: "sig-navy-dark",        bg: "#F5F0E8", text: "#6090C8" },
+  { name: "sig-oxide-dark",       bg: "#F5F0E8", text: "#D07858" },
+  { name: "sig-prussian-dark",    bg: "#F5F0E8", text: "#5898D0" },
+  { name: "sig-slate-teal-dark",  bg: "#F5F0E8", text: "#5AB8C0" },
+  { name: "sig-plum-dark",        bg: "#F5F0E8", text: "#C070A8" },
+  { name: "sig-indigo-dark",      bg: "#F5F0E8", text: "#7878D8" },
+  { name: "sig-hunter-dark",      bg: "#F5F0E8", text: "#4CA862" },
+  { name: "sig-malachite-dark",   bg: "#F5F0E8", text: "#38B088" },
+  { name: "sig-cobalt-dark",      bg: "#F5F0E8", text: "#6890E0" },
+  { name: "sig-mauve-dark",       bg: "#F5F0E8", text: "#C888B4" },
 
   // ── Editorial palettes ──
   // Dark: dark bg + cream text
