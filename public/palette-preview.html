@@ -731,6 +731,18 @@
     <a href="#additive-malachite-dark">Malachite ◆</a>
     <a href="#additive-cobalt-dark">Cobalt ◆</a>
     <a href="#additive-mauve-dark">Mauve ◆</a>
+    <a href="#additive-verdigris-dark-a">Verdigris ◇</a>
+    <a href="#additive-forest-dark-a">Forest ◇</a>
+    <a href="#additive-navy-dark-a">Navy ◇</a>
+    <a href="#additive-oxide-dark-a">Oxide ◇</a>
+    <a href="#additive-prussian-dark-a">Prussian ◇</a>
+    <a href="#additive-slate-teal-dark-a">Slate Teal ◇</a>
+    <a href="#additive-plum-dark-a">Plum ◇</a>
+    <a href="#additive-indigo-dark-a">Indigo ◇</a>
+    <a href="#additive-hunter-dark-a">Hunter ◇</a>
+    <a href="#additive-malachite-dark-a">Malachite ◇</a>
+    <a href="#additive-cobalt-dark-a">Cobalt ◇</a>
+    <a href="#additive-mauve-dark-a">Mauve ◇</a>
     <span class="nav-group-label">Bold</span>
     <a href="#bottle">Bottle</a>
     <a href="#ultra">Ultramarine</a>
@@ -1309,6 +1321,16 @@
 <!-- ═══════════════════════════════════════════════ -->
 
 <div id="additive-sig-dark-palettes"></div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- SIGNATURE DARK – AMBER BASE -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="palette-divider additive-divider">
+  <h2>Signature Dark — Amber Base</h2>
+  <p>Same 12 signature colours on the standard amber-dark background (#0D0D0B) rather than a tinted dark base. Structural labels and links use the luminous signature accent (◆); kicker and dates use amber gold #D4A574 (◇). Compare directly with the tinted variants above.</p>
+</div>
+
+<div id="additive-sig-dark-a-palettes"></div>
 
 <!-- ═══════════════════════════════════════════════ -->
 <!-- BOLD: COLOR AS BACKGROUND -->
@@ -1896,6 +1918,7 @@
   var cssRules = '';
   var lightHTML = '';
   var darkHTML  = '';
+  var darkAHTML = '';
 
   Object.keys(LAB.palettes).forEach(function(key) {
     var p = LAB.palettes[key];
@@ -1944,8 +1967,55 @@
         '</section>\n\n';
     }
 
-    // ── Sig dark ───────────────────────────────────────────────────────────
-    if (key.endsWith('-dark')) {
+    // ── Sig dark – amber base ──────────────────────────────────────────────
+    if (key.endsWith('-dark-a')) {
+      var lightKey = key.replace('-dark-a', '');
+      var lightMeta = SIG_META[lightKey];
+      if (!lightMeta) return;
+      var label = lightMeta.display.replace('Amber + ', '') + ' — Amber Base';
+      var cls = 'p-' + key;
+      cssRules +=
+        '.'+cls+' { background:'+p.bg+'; color:'+p.text+'; }\n' +
+        '.'+cls+' .palette-header { border-color:'+p.border+'; }\n' +
+        '.'+cls+' .palette-name   { color:'+p.accent+'; }\n' +
+        '.'+cls+' .sim-kicker     { color:'+p.accent2+'; }\n' +
+        '.'+cls+' .sim-section-label { color:'+p.accent+'; }\n' +
+        '.'+cls+' .sim-section-label span { color:'+p.accent+'; border-color:'+p.accent+'; }\n' +
+        '.'+cls+' .sim-entry      { border-color:'+p.border+'; }\n' +
+        '.'+cls+' .sim-role span  { color:'+p.accent2+'; opacity:0.55; }\n' +
+        '.'+cls+' { --a:'+p.accent+'; --a2:'+p.accent2+'; --t:'+p.text+'; }\n';
+
+      darkAHTML +=
+        '<section class="palette '+cls+'" id="additive-'+key.replace("sig-","")+'">\n' +
+        '  <div class="palette-header">\n' +
+        '    <span class="palette-name">\n' +
+        '      <span class="sig-icon" style="background:'+p.accent+';color:'+p.bg+'">EQ.</span>\n' +
+        '      '+label+'&nbsp;&middot;&nbsp; <em style="font-style:normal;opacity:0.55">'+p.accent+' ◆ / '+p.accent2+' ◇</em>\n' +
+        '    </span>\n' +
+        '    <div class="palette-swatches">\n' +
+        '      <div class="swatch" title="bg (#0D0D0B)" style="background:'+p.bg+'"></div>\n' +
+        '      <div class="swatch" title="accent — structural" style="background:'+p.accent+'"></div>\n' +
+        '      <div class="swatch" title="accent2 — editorial (kicker, dates)" style="background:'+p.accent2+'"></div>\n' +
+        '      <div class="swatch" title="text" style="background:'+p.text+'"></div>\n' +
+        '    </div>\n' +
+        '  </div>\n' +
+        '  <div class="palette-inner">\n' +
+        '    <p class="sim-kicker">Software Engineer // Coffee Addict // New York City</p>\n' +
+        '    <h1 class="sim-name"><span>Eric</span><em>Qiu.</em></h1>\n' +
+        '    <p class="sim-bio">I build distributed systems and cloud infrastructure at Bloomberg. University of Waterloo CS. Previously at Addepar, Postmates, and BMO Capital Markets.</p>\n' +
+        '    <p class="sim-bio-aside">Outside work: pour over coffee, a Fujifilm X100VI, and whatever book is currently face-down on my desk.</p>\n' +
+        '    <p class="sim-section-label"><span>01</span>&nbsp;&nbsp;Work</p>\n' +
+        '    <div class="sim-entry">\n' +
+        '      <p class="sim-company">Bloomberg LP</p>\n' +
+        '      <p class="sim-role">Senior Software Engineer &nbsp;<span>Jun 2021 – Present</span></p>\n' +
+        '      <p class="sim-desc">Working in Software Infrastructure to architect and develop managed multi-tenant distributed services in use by over 300 teams across all businesses and powering mission-critical applications.</p>\n' +
+        '    </div>\n' +
+        '  </div>\n' +
+        '</section>\n\n';
+    }
+
+    // ── Sig dark – tinted bg ───────────────────────────────────────────────
+    if (key.endsWith('-dark') && !key.endsWith('-dark-a')) {
       var lightKey = key.replace('-dark', '');
       var lightMeta = SIG_META[lightKey];
       if (!lightMeta) return;
@@ -2002,6 +2072,8 @@
   if (lightContainer) lightContainer.innerHTML = lightHTML;
   var darkContainer = document.getElementById('additive-sig-dark-palettes');
   if (darkContainer) darkContainer.innerHTML = darkHTML;
+  var darkAContainer = document.getElementById('additive-sig-dark-a-palettes');
+  if (darkAContainer) darkAContainer.innerHTML = darkAHTML;
 })();
 </script>
 </body>
