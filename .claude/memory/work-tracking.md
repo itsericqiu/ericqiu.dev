@@ -36,8 +36,8 @@
   - `@property --scan-pos` (`<percentage>`) + `@keyframes scan-wipe` at 55°, `background-clip: text`
   - Animation driven via `el.style.animation` inline — NOT CSS class (prevents `line-reveal` cascade replay)
   - `line-reveal` frozen via `animationend` listener after page-load entry
-  - Light: `['#7E5F28', '#2A6B5E', '#1B2D45', '#8B3A2A']` (4 hues)
-  - Dark: `['#D4A574', '#A3BC85', '#8A9FC2', '#C4896A', '#B89FD4', '#7DBFB0']` (6 warm hues)
+  - Light: `['#7E5F28', '#2A6B5E', '#1B2D45', '#5A2A4A', '#8B3A2A', '#207A50']` (6 hues — amber · verdigris · prussian · plum · oxide · malachite)
+  - Dark: `['#D4A574', '#5AB4A0', '#6088B8', '#A87898', '#C87860', '#52A878']` (6 hues — paired families, mid-sat mid-bright, not neon)
   - Cycle length dynamic: `palette().length`; theme-switch clamps index
 - [x] Kicker pulse animation removed; kicker static after entry
 
