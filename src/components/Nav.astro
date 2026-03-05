@@ -59,6 +59,31 @@ const links = [
   })();
 </script>
 
+<script is:inline>
+  (function () {
+    var NAV_H = 60;
+    var IDS = ['work', 'education', 'skills', 'contact'];
+    var links = document.querySelectorAll('.nav-link');
+
+    function update() {
+      var active = null;
+      for (var i = IDS.length - 1; i >= 0; i--) {
+        var el = document.getElementById(IDS[i]);
+        if (el && el.getBoundingClientRect().top <= NAV_H + 1) {
+          active = IDS[i];
+          break;
+        }
+      }
+      links.forEach(function (link) {
+        link.classList.toggle('is-active', link.getAttribute('href') === '#' + active);
+      });
+    }
+
+    window.addEventListener('scroll', update, { passive: true });
+    update();
+  })();
+</script>
+
 <style>
   nav {
     position: fixed;
@@ -152,6 +177,11 @@ const links = [
     outline: 2px solid var(--accent);
     outline-offset: 4px;
     border-radius: 2px;
+  }
+
+  .nav-link.is-active {
+    color: var(--text-primary);
+    background-size: 100% 1px;
   }
 
   .theme-toggle {
