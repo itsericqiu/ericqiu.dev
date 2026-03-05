@@ -77,8 +77,12 @@ export const icon = {
   text: "#F0EBE0",
 };
 
-/** Cycle palette for the hero letter-seg name animation */
+/** Cycle palette for the hero letter-seg name animation.
+ *  Six hue families, paired light/dark — dark values calibrated for
+ *  near-black bg (mid saturation, mid-bright — not neon, not pastel).
+ *  amber · verdigris · prussian · plum · oxide · malachite
+ */
 export const accentCycle: CycleColors = {
-  light: ["#7E5F28", "#2A6B5E", "#1B2D45", "#8B3A2A"],
-  dark:  ["#D4A574", "#A3BC85", "#8A9FC2", "#C4896A", "#B89FD4", "#7DBFB0"],
+  light: ["#7E5F28", "#2A6B5E", "#1B2D45", "#5A2A4A", "#8B3A2A", "#207A50"],
+  dark:  ["#D4A574", "#5AB4A0", "#6088B8", "#A87898", "#C87860", "#52A878"],
 };

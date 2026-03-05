@@ -1,8 +1,9 @@
 ---
 const links = [
-  { label: "Github", href: "https://github.com/itsericqiu" },
-  { label: "LinkedIn", href: "https://linkedin.com/in/eric-qiu" },
-  { label: "Instagram", href: "https://instagram.com/itsericqiu" },
+  { label: "Work",      href: "#work"      },
+  { label: "Education", href: "#education" },
+  { label: "Skills",    href: "#skills"    },
+  { label: "Contact",   href: "#contact"   },
 ];
 ---
 
@@ -17,7 +18,7 @@ const links = [
     <div class="nav-right">
       <div class="nav-links">
         {links.map((link) => (
-          <a href={link.href} target="_blank" rel="noopener noreferrer" class="nav-link">
+          <a href={link.href} class="nav-link">
             {link.label}
           </a>
         ))}
@@ -55,6 +56,31 @@ const links = [
       updateIcons();
     });
 
+  })();
+</script>
+
+<script is:inline>
+  (function () {
+    var NAV_H = 60;
+    var IDS = ['work', 'education', 'skills', 'contact'];
+    var links = document.querySelectorAll('.nav-link');
+
+    function update() {
+      var active = null;
+      for (var i = IDS.length - 1; i >= 0; i--) {
+        var el = document.getElementById(IDS[i]);
+        if (el && el.getBoundingClientRect().top <= NAV_H + 1) {
+          active = IDS[i];
+          break;
+        }
+      }
+      links.forEach(function (link) {
+        link.classList.toggle('is-active', link.getAttribute('href') === '#' + active);
+      });
+    }
+
+    window.addEventListener('scroll', update, { passive: true });
+    update();
   })();
 </script>
 
@@ -130,10 +156,10 @@ const links = [
   }
 
   .nav-link {
-    font-family: var(--font-sans);
-    font-size: 0.875rem;
-    font-weight: 500;
-    letter-spacing: 0.02em;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    font-weight: 400;
+    letter-spacing: 0.04em;
     color: var(--text-secondary);
     background-image: linear-gradient(var(--text-primary), var(--text-primary));
     background-repeat: no-repeat;
@@ -151,6 +177,11 @@ const links = [
     outline: 2px solid var(--accent);
     outline-offset: 4px;
     border-radius: 2px;
+  }
+
+  .nav-link.is-active {
+    color: var(--text-primary);
+    background-size: 100% 1px;
   }
 
   .theme-toggle {
@@ -192,7 +223,7 @@ const links = [
     }
 
     .nav-link {
-      font-size: 0.8125rem;
+      font-size: 0.75rem;
     }
 
     /* Swap: hide full name, show compact mark */

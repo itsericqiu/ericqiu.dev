@@ -36,8 +36,8 @@
   - `@property --scan-pos` (`<percentage>`) + `@keyframes scan-wipe` at 55°, `background-clip: text`
   - Animation driven via `el.style.animation` inline — NOT CSS class (prevents `line-reveal` cascade replay)
   - `line-reveal` frozen via `animationend` listener after page-load entry
-  - Light: `['#7E5F28', '#2A6B5E', '#1B2D45', '#8B3A2A']` (4 hues)
-  - Dark: `['#D4A574', '#A3BC85', '#8A9FC2', '#C4896A', '#B89FD4', '#7DBFB0']` (6 warm hues)
+  - Light: `['#7E5F28', '#2A6B5E', '#1B2D45', '#5A2A4A', '#8B3A2A', '#207A50']` (6 hues — amber · verdigris · prussian · plum · oxide · malachite)
+  - Dark: `['#D4A574', '#5AB4A0', '#6088B8', '#A87898', '#C87860', '#52A878']` (6 hues — paired families, mid-sat mid-bright, not neon)
   - Cycle length dynamic: `palette().length`; theme-switch clamps index
 - [x] Kicker pulse animation removed; kicker static after entry
 
@@ -86,6 +86,30 @@
 - [ ] Consider whether to keep `ExperienceCard.astro` (currently unused)
 - [ ] Open-source contributions / projects section (currently nothing)
 - [ ] Decide on palette direction: amber/cream stays, or additive signature colour, or section-by-section moments?
+
+### Design Review — Mar 2026 (deferred items)
+Candidates from design review session. Implement once palette direction is decided.
+
+**Colour / Dark Mode (pick one direction):**
+- [ ] #1 — Replace dark mode bg with tinted dark (e.g. prussian `#071220`, verdigris `#091E1A`, plum `#180A14`) — keeps amber accent system
+- [ ] #2 — Adopt a signature colour carrying through both modes: light keeps cream bg + signature on identity touchpoints; dark bg tints with that hue + luminous version (sig-* palette structure already built in lab)
+- [ ] #3 — Replace amber entirely with a more distinctive base (Prussian, Verdigris, Nocturne, Plum as candidates)
+- [ ] #4 — Keep amber light mode exactly; fix dark mode bg depth/character only
+
+**Experience Section:**
+- [ ] #7 — Collapse two Bloomberg LP entries into one (data model already supports `roles: []`)
+- [ ] #8 — Visually differentiate co-op entries from full-time (lighter/smaller treatment)
+
+**Section Labels:**
+- [ ] #9 — Rename "What I Do" → "Skills" (section ID is already `#skills`)
+- [ ] #10 — Rename "Get in touch" → "Contact"
+
+**Skills Section:**
+- [ ] #11 — Cut tech stack keyword rows; let the one-liner stand alone
+- [ ] #12 — Or: expand with 2–3 sentences on approach/philosophy instead of keyword rows
+
+**Copy:**
+- [ ] #13 — Rewrite photo callout copy — replace "There's a photo side too." with something direct (e.g. "I also shoot." or "I shoot with a Fujifilm X100VI.")
 
 ### Technical
 - [ ] Decide on nav active-state highlighting (currently no active link in nav)
