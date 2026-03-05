@@ -1,8 +1,9 @@
 ---
 const links = [
-  { label: "Github", href: "https://github.com/itsericqiu" },
-  { label: "LinkedIn", href: "https://linkedin.com/in/eric-qiu" },
-  { label: "Instagram", href: "https://instagram.com/itsericqiu" },
+  { label: "Work",      href: "#work"      },
+  { label: "Education", href: "#education" },
+  { label: "Skills",    href: "#skills"    },
+  { label: "Contact",   href: "#contact"   },
 ];
 ---
 
@@ -17,7 +18,7 @@ const links = [
     <div class="nav-right">
       <div class="nav-links">
         {links.map((link) => (
-          <a href={link.href} target="_blank" rel="noopener noreferrer" class="nav-link">
+          <a href={link.href} class="nav-link">
             {link.label}
           </a>
         ))}
@@ -130,10 +131,10 @@ const links = [
   }
 
   .nav-link {
-    font-family: var(--font-sans);
-    font-size: 0.875rem;
-    font-weight: 500;
-    letter-spacing: 0.02em;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    font-weight: 400;
+    letter-spacing: 0.04em;
     color: var(--text-secondary);
     background-image: linear-gradient(var(--text-primary), var(--text-primary));
     background-repeat: no-repeat;
@@ -192,7 +193,7 @@ const links = [
     }
 
     .nav-link {
-      font-size: 0.8125rem;
+      font-size: 0.75rem;
     }
 
     /* Swap: hide full name, show compact mark */
