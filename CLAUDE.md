@@ -10,9 +10,15 @@ Astro-based personal portfolio site. Deploys to Cloudflare Pages via `wrangler.j
 **Editorial typographic concept** — Fraunces display serif, Instrument Sans body, Space Mono mono, amber/cream palette. Not the original Typedream replica; this is the redesigned version.
 
 ## Typography
-- `--font-display`: Fraunces (variable, Google Fonts) — headings, company names, hero name, italic Qiu.
-- `--font-sans`: Instrument Sans (Google Fonts) — body text, descriptions
-- `--font-mono`: Space Mono (Google Fonts) — nav, section labels, kicker, dates, code
+- `--font-display`: Fraunces (self-hosted WOFF2) — headings, company names, hero name, italic Qiu.
+- `--font-sans`: Instrument Sans (self-hosted WOFF2) — body text, descriptions
+- `--font-mono`: Space Mono (self-hosted WOFF2) — nav, section labels, kicker, dates, code
+- Webfonts in `public/fonts/` (latin subsets):
+  - `fraunces-latin-300-900.woff2`
+  - `fraunces-latin-italic-300-900.woff2`
+  - `instrument-sans-latin-400-600.woff2`
+  - `space-mono-latin-400.woff2`
+  - `space-mono-latin-700.woff2`
 - Static TTFs in `src/assets/` — used **only** by satori for server-side image generation:
   - `fraunces-800.ttf`, `fraunces-800-italic.ttf` (generated from variable font via fonttools)
   - `space-mono-400.ttf`, `inter-bold.ttf` (inter-bold kept but unused in satori)
@@ -69,7 +75,7 @@ src/
     EducationCard.astro    — education rows; supports optional secondProgram/secondDates for dual degrees
     Footer.astro           — profile photo, bio, social links, email (obfuscated)
   layouts/
-    Base.astro             — CSS vars from palette.ts, Google Fonts, scroll reveal JS,
+    Base.astro             — CSS vars from palette.ts, self-hosted fonts, scroll reveal JS,
                              JSON-LD, OG tags, GA4, scroll progress bar
   pages/
     index.astro            — main page: experience entries inline (no ExperienceCard)
@@ -136,7 +142,7 @@ FT, Kinfolk, Terminal, Cereal, Monocle, Aesop, Wallpaper*, Nat Geo, Orion, A24, 
 - Speed (4s/1.5s/Manual), Dark mode, Next button; mobile-scrollable control bar
 
 ## Google Analytics
-GA4 property `G-40921B4C5L`, deferred via `window.load` event in `Base.astro`.
+GA4 property `G-40921B4C5L`, loaded lazily in `Base.astro` (on first interaction or during idle time after `window.load`, whichever comes first).
 
 ---
 

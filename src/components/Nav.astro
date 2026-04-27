@@ -64,6 +64,7 @@ const links = [
     var NAV_H = 60;
     var IDS = ['work', 'education', 'skills', 'contact'];
     var links = document.querySelectorAll('.nav-link');
+    var ticking = false;
 
     function update() {
       var active = null;
@@ -79,7 +80,16 @@ const links = [
       });
     }
 
-    window.addEventListener('scroll', update, { passive: true });
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function () {
+        update();
+        ticking = false;
+      });
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
     update();
   })();
 </script>

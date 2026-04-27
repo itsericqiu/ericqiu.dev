@@ -138,21 +138,10 @@ const cssVars = `
     <!-- CSS Variables (generated from palette.ts) -->
     <Fragment set:html={`<style>${cssVars}</style>`} />
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Instrument+Sans:wght@400;500;600&family=Space+Mono:wght@400;700&display=optional"
-      rel="stylesheet"
-      media="print"
-      onload="this.media='all'"
-    />
-    <noscript>
-      <link
-        href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Instrument+Sans:wght@400;500;600&family=Space+Mono:wght@400;700&display=optional"
-        rel="stylesheet"
-      />
-    </noscript>
+    <!-- Fonts (self-hosted) -->
+    <link rel="preload" href="/fonts/fraunces-latin-300-900.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/fraunces-latin-italic-300-900.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/instrument-sans-latin-400-600.woff2" as="font" type="font/woff2" crossorigin />
 
     <!-- DNS Prefetch for deferred external domains -->
     <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
@@ -187,16 +176,36 @@ const cssVars = `
 
     <!-- Google Analytics (deferred) -->
     <script is:inline>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-40921B4C5L');
-      window.addEventListener('load', function() {
-        var s = document.createElement('script');
-        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-40921B4C5L';
-        s.async = true;
-        document.head.appendChild(s);
-      });
+      (function () {
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = window.gtag || function () { dataLayer.push(arguments); };
+        gtag('js', new Date());
+        gtag('config', 'G-40921B4C5L');
+
+        var loaded = false;
+        function loadGA() {
+          if (loaded) return;
+          loaded = true;
+          var s = document.createElement('script');
+          s.src = 'https://www.googletagmanager.com/gtag/js?id=G-40921B4C5L';
+          s.async = true;
+          document.head.appendChild(s);
+        }
+
+        function scheduleGA() {
+          if ('requestIdleCallback' in window) {
+            requestIdleCallback(loadGA, { timeout: 4000 });
+          } else {
+            setTimeout(loadGA, 2500);
+          }
+        }
+
+        window.addEventListener('load', scheduleGA, { once: true });
+        window.addEventListener('pointerdown', loadGA, { once: true, passive: true });
+        window.addEventListener('touchstart', loadGA, { once: true, passive: true });
+        window.addEventListener('scroll', loadGA, { once: true, passive: true });
+        window.addEventListener('keydown', loadGA, { once: true });
+      })();
     </script>
   </head>
   <body>
@@ -207,6 +216,7 @@ const cssVars = `
       (function () {
         var bar = document.getElementById('scroll-progress');
         var docHeight = 0;
+        var ticking = false;
         function cacheDocHeight() {
           docHeight = document.documentElement.scrollHeight - window.innerHeight;
         }
@@ -214,7 +224,15 @@ const cssVars = `
           // Only window.scrollY in the hot scroll path — no layout reads
           bar.style.width = (docHeight > 0 ? (window.scrollY / docHeight) * 100 : 0) + '%';
         }
-        window.addEventListener('scroll', updateProgress, { passive: true });
+        function onScroll() {
+          if (ticking) return;
+          ticking = true;
+          requestAnimationFrame(function () {
+            updateProgress();
+            ticking = false;
+          });
+        }
+        window.addEventListener('scroll', onScroll, { passive: true });
         window.addEventListener('resize', function () { cacheDocHeight(); updateProgress(); });
         // Defer initial computation to next frame so layout is fully stable
         requestAnimationFrame(function () { cacheDocHeight(); updateProgress(); });
@@ -249,6 +267,46 @@ const cssVars = `
 </html>
 
 <style is:global>
+  @font-face {
+    font-family: "Fraunces";
+    src: url("/fonts/fraunces-latin-300-900.woff2") format("woff2");
+    font-style: normal;
+    font-weight: 300 900;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Fraunces";
+    src: url("/fonts/fraunces-latin-italic-300-900.woff2") format("woff2");
+    font-style: italic;
+    font-weight: 300 900;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Instrument Sans";
+    src: url("/fonts/instrument-sans-latin-400-600.woff2") format("woff2");
+    font-style: normal;
+    font-weight: 400 600;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Space Mono";
+    src: url("/fonts/space-mono-latin-400.woff2") format("woff2");
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Space Mono";
+    src: url("/fonts/space-mono-latin-700.woff2") format("woff2");
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+  }
+
   *,
   *::before,
   *::after {

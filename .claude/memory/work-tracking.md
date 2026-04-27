@@ -25,7 +25,7 @@
 - [x] Hero padding: `120px` desktop / `115px` mobile, `min-height: auto`, `align-items: flex-start`
 - [x] Logo sizing: 180px column desktop, opacity hover; logo srcset widths added
 - [x] Logo assets converted to `.webp`, glob-imported in `index.astro`
-- [x] GA4 deferred, Google Fonts `display=optional` non-blocking; GTM → dns-prefetch only
+- [x] GA4 deferred and GTM preconnect hints minimized to dns-prefetch-only
 - [x] `public/_headers` — 1-day Cache-Control on icon paths
 - [x] Nav: "Eric Qiu." (Fraunces italic) desktop, "EQ." compact on mobile ≤480px; Instrument Sans nav links
 - [x] `EducationCard.astro` — `secondProgram`/`secondDates` props; UWaterloo shows BCS + BSE
@@ -70,6 +70,12 @@
 - [x] `palette-multicolour.html`: hex refinements across FT-light bg, Cereal/Aesop/Natgeo/A24/NY/Storm accent-2, Heritage-dark border, Nocturne-light bg; swatch updated for FT-light
 - [x] `palette-sections.html`: replaced IntersectionObserver scroll-morph with `tickMorph()` scroll listener for full `applySection()` morph; CSS transition on sim-page; Paper + Patina preset buttons added
 
+### Performance Tuning (Apr 2026)
+- [x] `Hero.astro`: mobile quick-render pass — removed staged entry animation delays on `.hero-kicker`, `.hero-line`, `.hero-bio`, `.hero-cta` for `max-width: 640px` to reduce perceived first-load delay on iPhone
+- [x] `Base.astro`: GA loader changed from `window.load` only to lazy strategy (first interaction or idle callback after load), with one-shot guard
+- [x] `Base.astro` + `Nav.astro`: scroll handlers wrapped in `requestAnimationFrame` scheduling to reduce hot-path work on mobile
+- [x] `Base.astro`: switched from Google Fonts stylesheet loading to self-hosted latin WOFF2 (`public/fonts/`) with critical font preloads and local `@font-face`
+
 ---
 
 ## Backlog / Ideas
@@ -112,5 +118,4 @@ Candidates from design review session. Implement once palette direction is decid
 - [ ] #13 — Rewrite photo callout copy — replace "There's a photo side too." with something direct (e.g. "I also shoot." or "I shoot with a Fujifilm X100VI.")
 
 ### Technical
-- [ ] Decide on nav active-state highlighting (currently no active link in nav)
 - [ ] Consider image optimization for `profile.jpg` (currently unoptimized)
