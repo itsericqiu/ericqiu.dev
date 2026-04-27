@@ -6,6 +6,12 @@ Astro-based personal portfolio site. Deploys to Cloudflare Pages via `wrangler.j
 - Build: `npm run build` → `dist/`
 - Preview (local): `npm run preview`
 
+## Deployment Workflow
+- Production deploys are triggered by pushing to GitHub (`main` branch).
+- Cloudflare Pages pulls from GitHub and builds/deploys automatically.
+- This repo does not rely on running `wrangler deploy` manually for normal production releases.
+- `wrangler.json` remains the deployment/runtime config source used by Cloudflare.
+
 ## Current Design
 **Editorial typographic concept** — Fraunces display serif, Instrument Sans body, Space Mono mono, amber/cream palette. Not the original Typedream replica; this is the redesigned version.
 

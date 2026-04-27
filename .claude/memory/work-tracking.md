@@ -75,6 +75,7 @@
 - [x] `Base.astro`: GA loader changed from `window.load` only to lazy strategy (first interaction or idle callback after load), with one-shot guard
 - [x] `Base.astro` + `Nav.astro`: scroll handlers wrapped in `requestAnimationFrame` scheduling to reduce hot-path work on mobile
 - [x] `Base.astro`: switched from Google Fonts stylesheet loading to self-hosted latin WOFF2 (`public/fonts/`) with critical font preloads and local `@font-face`
+- [x] `CLAUDE.md`: deployment workflow clarified (GitHub push to `main` triggers Cloudflare Pages build/deploy; no routine manual `wrangler deploy`)
 
 ---
 
