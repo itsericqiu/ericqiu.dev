@@ -77,22 +77,29 @@
 - [x] `Base.astro`: switched from Google Fonts stylesheet loading to self-hosted latin WOFF2 (`public/fonts/`) with critical font preloads and local `@font-face`
 - [x] `CLAUDE.md`: deployment workflow clarified (GitHub push to `main` triggers Cloudflare Pages build/deploy; no routine manual `wrangler deploy`)
 
+### Site Audit & Improvement Plan (Sep 2026)
+- [x] Full multi-lens audit (performance, accessibility, SEO/metadata, content strategy, visual design, engineering/security, hiring-manager) — plan in `.claude/memory/audit-2026-09/plan.md`, per-lane reports in `.claude/memory/audit-2026-09/reports/`
+- [x] Baseline measured: Lighthouse 98 mobile / 100 desktop; 1 axe violation (`light.textMuted` 3.49:1); Work section blank in print/no-JS; OS dark mode unreachable (`<html data-theme="light">` hard-coded); ~2 MB unreferenced files deployed; no CSP/HSTS; soft-404 site-wide; Cloudflare-managed robots blocks AI crawlers
+- [x] Verdict: craft is not the bottleneck — content, contact, and identity are. Backlog below is superseded by the audit roadmap (plan §5); items kept here for continuity and mapped to plan IDs
+
 ---
 
 ## Backlog / Ideas
 
+> **Sep 2026:** the authoritative, prioritised roadmap is now `audit-2026-09/plan.md` §5 (Phase 0 → 4) with decision list in §6. Items below are retained and tagged with their plan IDs.
+
 ### Content
-- [ ] Rewrite BMO Capital Markets experience description (leads with "Prototyped POC" — weak)
-- [ ] Rewrite Bloomberg 2018 experience description (two unrelated projects crammed together)
-- [ ] Decide on photography integration: keep both hero mention + callout, or callout only?
-- [ ] Skills section audit: remove "DR-1 Compliance" (regulatory classification), deduplicate HCI
-- [ ] Add résumé PDF link to footer once available
+- [ ] Rewrite BMO Capital Markets experience description (leads with "Prototyped POC" — weak) — *plan C4, drafts in reports/report-content.md §2*
+- [ ] Rewrite Bloomberg 2018 experience description (two unrelated projects crammed together) — *plan C2*
+- [ ] Decide on photography integration: keep both hero mention + callout, or callout only? — *plan C7 / decision §6.9: recommendation is one treatment*
+- [ ] Skills section audit: remove "DR-1 Compliance" (regulatory classification), deduplicate HCI — *plan C10: recommendation is to cut the section*
+- [ ] Add résumé PDF link to footer once available — *plan Phase 3.2*
 
 ### Design / UX
 - [ ] Add EQ favicon icon to each section in `palette-preview.html`
-- [ ] Consider whether to keep `ExperienceCard.astro` (currently unused)
-- [ ] Open-source contributions / projects section (currently nothing)
-- [ ] Decide on palette direction: amber/cream stays, or additive signature colour, or section-by-section moments?
+- [ ] Consider whether to keep `ExperienceCard.astro` (currently unused) — *plan E6: delete*
+- [ ] Open-source contributions / projects section (currently nothing) — *plan Phase 3.1: photo site, uscis-caselens, home-stack, token pipeline*
+- [ ] Decide on palette direction: amber/cream stays, or additive signature colour, or section-by-section moments? — *plan D3: recommendation is Approach 1, verdigris in three places*
 
 ### Design Review — Mar 2026 (deferred items)
 Candidates from design review session. Implement once palette direction is decided.
@@ -104,19 +111,22 @@ Candidates from design review session. Implement once palette direction is decid
 - [ ] #4 — Keep amber light mode exactly; fix dark mode bg depth/character only
 
 **Experience Section:**
-- [ ] #7 — Collapse two Bloomberg LP entries into one (data model already supports `roles: []`)
-- [ ] #8 — Visually differentiate co-op entries from full-time (lighter/smaller treatment)
+- [ ] #7 — Collapse two Bloomberg LP entries into one (data model already supports `roles: []`) — *plan C2*
+- [ ] #8 — Visually differentiate co-op entries from full-time (lighter/smaller treatment) — *plan C2: compact mono "Earlier" list*
 
 **Section Labels:**
-- [ ] #9 — Rename "What I Do" → "Skills" (section ID is already `#skills`)
-- [ ] #10 — Rename "Get in touch" → "Contact"
+- [ ] #9 — Rename "What I Do" → "Skills" (section ID is already `#skills`) — *plan C10: cut instead*
+- [ ] #10 — Rename "Get in touch" → "Contact" — *plan Phase 1.5*
 
 **Skills Section:**
 - [ ] #11 — Cut tech stack keyword rows; let the one-liner stand alone
 - [ ] #12 — Or: expand with 2–3 sentences on approach/philosophy instead of keyword rows
 
 **Copy:**
-- [ ] #13 — Rewrite photo callout copy — replace "There's a photo side too." with something direct (e.g. "I also shoot." or "I shoot with a Fujifilm X100VI.")
+- [ ] #13 — Rewrite photo callout copy — replace "There's a photo side too." with something direct (e.g. "I also shoot." or "I shoot with a Fujifilm X100VI.") — *plan C7: place-list treatment recommended*
 
 ### Technical
-- [ ] Consider image optimization for `profile.jpg` (currently unoptimized)
+- [ ] Consider image optimization for `profile.jpg` (currently unoptimized) — *plan E9: 391 KB → ~5 KB via astro:assets*
+- [ ] **Phase 0 defects from audit (all S):** repo exposure (B1), dead "Chat with me" CTA (B2), `light.textMuted` contrast (B5), fold reveal threshold (B6), print/no-JS blank Work section (B4), reduced-motion + visibility guard on hero cycle (B7), nav ≤390px overlap (B8), stale `public/og-image.png` (B9), soft-404 / `404.astro` (B10), Cloudflare AI-crawler robots block (B11), lab pages + dead assets shipped (B12), security headers + immutable cache (B13/B14), LCP entrance delay (B15), JSON-LD/OG metadata (B16), `Footer` not reading `site.footerBio` (B17), a11y semantics (B18), `astro.config` cleanup (B19), Fraunces satori TTFs instanced at opsz=9 (B20)
+- [ ] **Theme system (Phase 2.1):** respect OS + toggle + persist; single dark CSS block; `color-scheme: dark`; warm dark ground
+- [ ] **CI:** GitHub Actions (`astro check`, build, icon-drift), Dependabot, `npm audit fix`, bump astro 5.18

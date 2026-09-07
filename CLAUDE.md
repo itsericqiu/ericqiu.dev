@@ -10,7 +10,7 @@ Astro-based personal portfolio site. Deploys to Cloudflare Pages via `wrangler.j
 - Production deploys are triggered by pushing to GitHub (`main` branch).
 - Cloudflare Pages pulls from GitHub and builds/deploys automatically.
 - This repo does not rely on running `wrangler deploy` manually for normal production releases.
-- `wrangler.json` remains the deployment/runtime config source used by Cloudflare.
+- `wrangler.json` remains the deployment/runtime config source used by Cloudflare. Note: it is a **Workers static-assets** config (no `main`), while `astro.config.mjs` keys off `CF_PAGES_*` env vars — the two disagree; see audit B19.
 
 ## Current Design
 **Editorial typographic concept** — Fraunces display serif, Instrument Sans body, Space Mono mono, amber/cream palette. Not the original Typedream replica; this is the redesigned version.
@@ -60,7 +60,7 @@ All hero text and OG image content pulls from here.
 
 ## Key Conventions
 - **Email**: always `hello[at]ericqiu[dot]io` — never a mailto link (anti-scraping)
-- **Theme toggle**: dark mode from OS preference; no persistence; `data-theme` attr on `<html>`; Nav.astro handles toggle
+- **Theme toggle**: **light by default** — `<html data-theme="light">` is hard-coded in `Base.astro`, so the `prefers-color-scheme: dark` CSS blocks never apply on first load (OS dark preference is effectively ignored; known defect, see audit plan B3). Toggle sets `data-theme`; no persistence; Nav.astro handles toggle
 - **Logo inversion**: `.invert-on-dark` class + global CSS in `Base.astro`; `invertOnDark: true` prop on each entry
 - **Company names**: "Bloomberg LP" (not "Bloomberg Engineering"), "BMO Capital Markets" (not "BMO")
 
@@ -102,10 +102,13 @@ public/
                              — refactored to CSS-var-driven palette classes (no per-element overrides)
   palette-sections.html    — full simulated layout with per-section palette selects + effect toggles
   hero-anim.html           — hero name animation prototype: Fade / Diagonal Scan / Type-based
-  icon-palette/            — gitignored; gen-icon-palette.ts output
+  icon-palette/            — gen-icon-palette.ts output (~100 PNGs, 1.4MB) — currently COMMITTED and deployed, not gitignored (audit B12: re-gitignore + remove)
+  font-preview.html        — body typeface comparison (lab)
+  coffee-3d.png, logos/    — legacy Typedream-era assets, unreferenced (audit B12: delete)
+  og-image.png             — stale static OG card, shadowed by src/pages/og-image.png.ts (audit B9: delete)
 scripts/
   gen-icons.ts             — generates favicon.svg, favicon.png, icon-1024.png, icon-512.png, icon-192.png, and all apple-touch-icon variants from palette.ts icon colors
-  gen-icon-palette.ts      — generates 28 EQ icons across all palette variants (for preview)
+  gen-icon-palette.ts      — generates ~100 EQ icons across all palette variants (for preview)
 ```
 
 ## Icon / Favicon Workflow
@@ -115,7 +118,8 @@ When changing the palette accent or icon colors:
 
 ## OG Image
 `/og-image.png` served dynamically at build time:
-- 1200×630, dark card (`#0D0D0B`), 12px amber left stripe (`light.accent` = `#7E5F28`)
+- 1200×630, **cream card** (`light.bgPrimary` = `#F5F0E8`), dark text, 12px amber left stripe (`light.accent` = `#7E5F28`)
+- ⚠️ `public/og-image.png` is a stale 2023 Typedream card that the dynamic route silently overrides at build time — slated for deletion (audit B9)
 - Fraunces 800 name (two lines: "Eric" / italic "Qiu."), Space Mono kicker + domain
 - Kicker uses `light.accentSecondary` (currently same as `light.accent` for amber palette)
 - Content pulled from `src/site.ts` and `src/palette.ts`
@@ -162,6 +166,7 @@ After any session where changes are made, update the relevant files before closi
 2. **`.claude/memory/work-tracking.md`** — mark items completed, add new backlog items
 3. **`.claude/memory/palette-notes.md`** — if palette decisions, colour choices, or lab structure changed
 4. **`.claude/memory/editorial-redesign-notes.md`** — if copy, content, or brand decisions changed
+5. **`.claude/memory/audit-2026-09/plan.md`** — the Sep 2026 audit roadmap (Phases 0–4, decisions §6). When a plan item ships, mark it there *and* in `work-tracking.md`; per-lane evidence lives in `audit-2026-09/reports/`
 
 **Rules:**
 - Never leave completed work unmarked in `work-tracking.md`
